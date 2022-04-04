@@ -1,0 +1,64 @@
+inferred: output sum[string] of int;
+notinferred: output sum[string] of int;
+
+kind: stack of string;
+
+# TODO:
+# Loops
+
+visit(input, visitor {
+    before node: CodeRepository -> {
+        snapshot := getsnapshot(node, "SOURCE_KOTLIN_1_");
+        foreach (i: int; def(snapshot[i]))
+            visit(snapshot[i]);
+        stop;
+    }
+    before node: Namespace -> push(kind, "module");
+    after node: Namespace -> pop(kind);
+    before node: Declaration -> {
+        # TODO: Dataclasses?
+        foreach(i: int; def(node.methods[i]))
+            visit(node.methods[i]);
+        foreach(i: int; def(node.nested_declarations[i]))
+            visit(node.nested_declarations[i]);
+        stop;
+    }
+    before node: Method -> {
+        if (def(node.expression)) {
+            if (def(node.return_type)) {
+                notinferred["return"] << 1;
+            } else {
+                inferred["return"] << 1;
+            }
+        }
+        push(kind, "body");
+        if (def(node.expression)) visit(node.expression);
+        foreach(i: int; def(node.statements[i]))
+            visit(node.statements[i]);
+        pop(kind);
+        stop;
+    }
+    before node: Expression -> {
+        if (node.kind == ExpressionKind.LAMBDA) {
+            push(kind, "lambda_arg");
+            foreach(i: int; def(node.variable_decls[i])) {
+                visit(node.variable_decls[i]);
+            }
+            pop(kind);
+        }
+        push(kind, "body");
+        foreach(i: int; def(node.expressions[i]))
+            visit(node.expressions[i]);
+        foreach(i: int; def(node.statements[i]))
+            visit(node.statements[i]);
+        pop(kind);
+        stop;
+    }
+    before node: Variable -> {
+        if (def(node.variable_type)) {
+            notinferred[peek(kind)] << 1;
+        } else {
+            inferred[peek(kind)] << 1;
+        }
+    }
+});
