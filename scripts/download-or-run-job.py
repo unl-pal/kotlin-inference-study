@@ -110,7 +110,7 @@ def prepare_query(target):
                 replacement = fh.read()
             fh.close()
         query_substitutions.append((target, replacement))
-    query = expand_replacement(replacements, query)
+    query = expand_replacements(query_substitutions, query)
     return query, query_dataset
 
 def run_query(target):
