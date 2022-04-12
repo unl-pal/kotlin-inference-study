@@ -1,10 +1,5 @@
 o: output sum[project: string][file: string][location: string][isinferred: bool] of int; # Count
 
-is_inferred := function(the_type: Type): bool {
-    if (def(the_type)) return false;
-    return true;
-};
-
 escape := function(s: string): string {
     return strreplace(s, "\\n", "\\\\n", true);
 };
@@ -29,9 +24,10 @@ visit(input, visitor {
     }
     before node: Method -> {
         file := current(ChangedFile).name;
-        place := peek(location);
-        isinferred := is_inferred(node.return_type);
-        o[input.id][file][place][isinferred] << 1;
+	if (def(node.return_type))
+            o[input.id][file]["return"][false] << 1;
+	else
+	    o[input.id][file]["return"][true] << 1;
         push(location, "body");
         if (def(node.expression)) visit(node.expression);
         foreach(i: int; def(node.statements[i]))
@@ -40,10 +36,10 @@ visit(input, visitor {
         stop;
     }
     before node: Statement -> {
-        if (node.kind == StatementKind.FOR) {
+        if (node.kind == StatementKind.FOREACH) {
             push(location, "loop_variable");
-            if (def(node.variable_declaration))
-                visit(node.variable_declaration);
+            foreach(i: int; def(node.variable_declarations[i]))
+	        visit(node.variable_declarations[i]);
             pop(location);
             foreach(i: int; def(node.expressions[i]))
                 visit(node.expressions[i]);
@@ -71,7 +67,9 @@ visit(input, visitor {
     before node: Variable -> {
         file := current(ChangedFile).name;
         place := peek(location);
-        isinferred := is_inferred(node.variable_type);
-        o[input.id][file][place][isinferred] << 1;
+	if (def(node.variable_type))
+            o[input.id][file][place][false] << 1;
+	else
+	    o[input.id][file][place][true] << 1;
     }
 });
