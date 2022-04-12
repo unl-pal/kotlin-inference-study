@@ -1,0 +1,12 @@
+{
+    'substitutions': [],
+    'datasets': {
+        'kotlin': '2021 Aug/Kotlin'
+    },
+    'queries': {
+        'data-raw/kotlin/basic-usage.txt': {
+            'query': 'boa-queries/common/detect-inference.boa',
+            'substitutions': []
+        }
+    }
+}
