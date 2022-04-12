@@ -58,7 +58,7 @@ def get_query_data():
     if job_data is None:
         if osp.exists("jobs.json"):
             with open("jobs.json", "r") as fh:
-                query_data = json.load("jobs.json")
+                query_data = json.load(fh)
                 fh.close()
             return query_data
         else:
@@ -138,9 +138,9 @@ if __name__ == '__main__':
     parser = ArgumentParser()
     parser.add_argument('target')
     parser.add_argument('--force-rerun', '-force-rerun', '-f')
-    arguments = parser.parse_args()
+    args = parser.parse_args()
 
-    target = arguments.target
+    target = args.target
 
     if osp.exists(target):
         print(f"Target file {target} exists.  To re-run query delete the file and pass '--force-rerun'")
