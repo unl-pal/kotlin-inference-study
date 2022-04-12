@@ -111,10 +111,10 @@ def prepare_query(target):
             fh.close()
         query_substitutions.append((target, replacement))
     query = expand_replacements(query_substitutions, query)
-    return query, query_dataset
+    return query, query_dataset, query_info['make_public']
 
 def run_query(target):
-    query, query_dataset = prepare_query(target)
+    query, query_dataset, make_public = prepare_query(target)
     client = get_client()
     job = client.query(query, client.get_dataset(query_dataset))
     while job.is_running():
@@ -122,6 +122,16 @@ def run_query(target):
         print(f"Running job {job.id}.", flush = True)
         time.sleep(10)
     print(f"Job {job.id} is complete.", flush = True)
+    if job.compiler_status is CompilerStatus.ERROR:
+        print(f"Job {job.id} had a compilation error.", flush = True)
+        print(job.get_compiler_errors(), flush = True)
+        exit()
+    if job.exec_status is ExecutionStatus.ERROR:
+        print(f"Job {job.id} had an execution error.", flush = True)
+        print(f"See url: {job.get_url()}")
+        exit()
+    if make_public:
+        job.set_public(True)
     update_query_data(target, job.id)
 
 def download_query(target):
