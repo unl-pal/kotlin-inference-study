@@ -80,19 +80,20 @@ def query_is_run(target):
     return target in  job_data.keys()
 
 def expand_replacements(replacements, query):
-    has_replaced = True
-    while has_replaced:
-        has_replaced = False
-        for (before, after) in replacements:
-            replaced = re.sub(before, after, text)
-            if query != replaced:
-                has_replaced = True
-            query = replaced
+    if len(replacements) > 0:
+        has_replaced = True
+        while has_replaced:
+            has_replaced = False
+            for (before, after) in replacements:
+                replaced = re.sub(before, after, text)
+                if query != replaced:
+                    has_replaced = True
+                query = replaced
     return query
 
 def prepare_query(target):
     config = get_query_config()
-    query_info = config[target]
+    query_info = config['queries'][target]
     query_subs = config['substitutions'] + query_info['substitutions']
     query_dataset = config['datasets'][query_info['dataset']]
     query_file = query_info['query']
