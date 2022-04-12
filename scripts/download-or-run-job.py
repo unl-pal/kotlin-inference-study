@@ -121,7 +121,7 @@ def run_query(target):
         print(f"Running job {job.id}.", flush = True)
         time.sleep(10)
     print(f"Job {job.id} is complete.", flush = True)
-    update_query_data()
+    update_query_data(target, job.id)
 
 def download_query(target):
     job_data = get_query_data()
