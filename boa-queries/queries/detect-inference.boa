@@ -1,10 +1,15 @@
-inferred: output sum[string] of int;
-notinferred: output sum[string] of int;
+o: output sum[project: string][file: string][location: string][isinferred: bool] of int; # Count
 
-kind: stack of string;
+is_inferred := function(the_type: Type): bool {
+    if (def(the_type)) return false;
+    return true;
+};
 
-# TODO:
-# Loops
+escape := function(s: string): string {
+    return strreplace(s, "\\n", "\\\\n", true);
+};
+
+location: stack of string;
 
 visit(input, visitor {
     before node: CodeRepository -> {
@@ -13,10 +18,9 @@ visit(input, visitor {
             visit(snapshot[i]);
         stop;
     }
-    before node: Namespace -> push(kind, "module");
-    after node: Namespace -> pop(kind);
+    before node: Namespace -> push(location, "module");
+    after node: Namespace -> pop(location);
     before node: Declaration -> {
-        # TODO: Dataclasses?
         foreach(i: int; def(node.methods[i]))
             visit(node.methods[i]);
         foreach(i: int; def(node.nested_declarations[i]))
@@ -24,41 +28,50 @@ visit(input, visitor {
         stop;
     }
     before node: Method -> {
-        if (def(node.expression)) {
-            if (def(node.return_type)) {
-                notinferred["return"] << 1;
-            } else {
-                inferred["return"] << 1;
-            }
-        }
-        push(kind, "body");
+        file := current(ChangedFile).name;
+        place := peek(location);
+        isinferred := is_inferred(node.return_type);
+        o[input.id][file][place][isinferred] << 1;
+        push(location, "body");
         if (def(node.expression)) visit(node.expression);
         foreach(i: int; def(node.statements[i]))
             visit(node.statements[i]);
-        pop(kind);
+        pop(location);
         stop;
+    }
+    before node: Statement -> {
+        if (node.kind == StatementKind.FOR) {
+            push(location, "loop_variable");
+            if (def(node.variable_declaration))
+                visit(node.variable_declaration);
+            pop(location);
+            foreach(i: int; def(node.expressions[i]))
+                visit(node.expressions[i]);
+            foreach(i: int; def(node.statements[i]))
+                visit(node.statements[i]);
+            stop;
+        }
     }
     before node: Expression -> {
         if (node.kind == ExpressionKind.LAMBDA) {
-            push(kind, "lambda_arg");
+            push(location, "lambda_arg");
             foreach(i: int; def(node.variable_decls[i])) {
                 visit(node.variable_decls[i]);
             }
-            pop(kind);
+            pop(location);
         }
-        push(kind, "body");
+        push(location, "body");
         foreach(i: int; def(node.expressions[i]))
             visit(node.expressions[i]);
         foreach(i: int; def(node.statements[i]))
             visit(node.statements[i]);
-        pop(kind);
+        pop(location);
         stop;
     }
     before node: Variable -> {
-        if (def(node.variable_type)) {
-            notinferred[peek(kind)] << 1;
-        } else {
-            inferred[peek(kind)] << 1;
-        }
+        file := current(ChangedFile).name;
+        place := peek(location);
+        isinferred := is_inferred(node.variable_type);
+        o[input.id][file][place][isinferred] << 1;
     }
 });
