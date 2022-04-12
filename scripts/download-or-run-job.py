@@ -38,10 +38,14 @@ config = None
 def get_query_config():
     global config
     if config is None:
-        with open("job-config.json", "r") as fh:
-            query_config = json.load(fh)
-            fh.close()
-        return query_config
+        if osp.exists('job-config.json'):
+            with open("job-config.json", "r") as fh:
+                query_config = json.load(fh)
+                fh.close()
+            return query_config
+        else:
+            print("Job configuration file 'job-config.json' does not exist")
+            exit()
     else:
         return config
 
@@ -63,21 +67,61 @@ def get_query_data():
         return job_data
 
 def update_query_data(target, job_id):
-    job_data = get_query_data()
-    job_data[target] = job_id
+    l_job_data = get_query_data()
+    l_job_data[target] = job_id
+    global job_data
+    job_data = l_job_data
     with open("jobs.json", "w") as fh:
-        json.dump(job_data, fh, indent = 1)
+        json.dump(l_job_data, fh, indent = 1)
         fh.close()
 
 def query_is_run(target):
     job_data = get_query_data()
     return target in  job_data.keys()
 
+def expand_replacements(replacements, query):
+    has_replaced = True
+    while has_replaced:
+        has_replaced = False
+        for (before, after) in replacements:
+            replaced = re.sub(before, after, text)
+            if query != replaced:
+                has_replaced = True
+            query = replaced
+    return query
+
 def prepare_query(target):
-    pass
+    config = get_query_config()
+    query_info = config[target]
+    query_subs = config['substitutions'] + query_info['substitutions']
+    query_dataset = config['datasets'][query_info['dataset']]
+    query_file = query_info['query']
+    with open(query_file, 'r') as fh:
+        query = fh.read()
+    fh.close()
+    query_substitutions = []
+    for query_sub in query_subs:
+        target = query_sub['target']
+        if query_sub['kind'] == 'text':
+            replacement = query_sub['replacement']
+        else:
+            with open(query_sub['replacement'], 'r') as fh:
+                replacement = fh.read()
+            fh.close()
+        query_substitutions.append((target, replacement))
+    query = expand_replacement(replacements, query)
+    return query, query_dataset
 
 def run_query(target):
-    pass
+    query, query_dataset = prepare_query(target)
+    client = get_client()
+    job = client.query(query, client.get_dataset(query_dataset))
+    while job.is_running():
+        job.refresh()
+        print(f"Running job {job.id}.", flush = True)
+        time.sleep(10)
+    print(f"Job {job.id} is complete.", flush = True)
+    update_query_data()
 
 def download_query(target):
     job_data = get_query_data()
