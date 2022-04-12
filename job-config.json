@@ -1,12 +1,13 @@
 {
-    'substitutions': [],
-    'datasets': {
-        'kotlin': '2021 Aug/Kotlin'
+    "substitutions": [],
+    "datasets": {
+        "kotlin": "2021 Aug/Kotlin"
     },
-    'queries': {
-        'data-raw/kotlin/basic-usage.txt': {
-            'query': 'boa-queries/common/detect-inference.boa',
-            'substitutions': []
+    "queries": {
+        "data-raw/kotlin/basic-usage.txt": {
+            "query": "boa-queries/queries/detect-inference.boa",
+            "substitutions": [],
+	    "dataset": "kotlin"
         }
     }
 }
