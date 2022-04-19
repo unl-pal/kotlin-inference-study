@@ -16,9 +16,12 @@ def query_is_run(target):
     return target in  job_data.keys()
 
 def run_query(target):
-    query, query_dataset, make_public = prepare_query(target)
+    config = get_query_config()
+    dataset = get_dataset(target)
+    make_public = get_make_public(target)
+    query = prepare_query(target)
     client = get_client()
-    job = client.query(query, client.get_dataset(query_dataset))
+    job = client.query(query, dataset)
     while job.is_running():
         job.refresh()
         print(f"Running job {job.id}.", flush = True)

@@ -104,14 +104,27 @@ def build_replacements(global_replacements, local_replacements, only_files=False
                 repls.append((target, replacements[target]))
     return repls
 
+def get_make_public(target):
+    config = get_query_config()
+    return config['queries'][target]['make_public']
+
+def get_dataset(target):
+    config = get_query_config()
+    client = get_client()
+    dataset_name = config['queries'][target]['dataset']
+    if dataset_name in config['datasets'].keys():
+        return client.get_dataset(config['datasets'][dataset_name])
+    else:
+        print(f"Dataset named '{dataset_name}' is not known.", flush = True)
+        exit(1)
+
 def prepare_query(target):
     config = get_query_config()
     query_info = config['queries'][target]
-    query_dataset = config['datasets'][query_info['dataset']]
     query_file = query_info['query']
     with open(query_file, 'r') as fh:
         query = fh.read()
     fh.close()
     query_substitutions = build_replacements(config['substitutions'], query_info['substitutions'])
     query = expand_replacements(query_substitutions, query)
-    return query, query_dataset, query_info['make_public']
+    return query
