@@ -5,6 +5,8 @@ import os.path as osp
 import re
 import json
 
+from hashlib import sha256
+
 
 def get_credentials():
     with open("boa-credentials.txt", "r") as fh:
@@ -62,9 +64,10 @@ def get_query_data():
     else:
         return job_data
 
-def update_query_data(target, job_id):
+def update_query_data(target, job_id, sha256):
     l_job_data = get_query_data()
-    l_job_data[target] = job_id
+    l_job_data[target] = {'job': job_id,
+                          'sha256': sha256}
     global job_data
     job_data = l_job_data
     with open("jobs.json", "w") as fh:
@@ -127,4 +130,16 @@ def prepare_query(target):
     fh.close()
     query_substitutions = build_replacements(config['substitutions'], query_info['substitutions'])
     query = expand_replacements(query_substitutions, query)
-    return query
+    return query, sha256(query).hexdigest()
+
+def is_run_needed(target):
+    if not osp.exists(target):
+        return True
+    else:
+        query_data = get_query_data()
+        if target not in query_data.keys():
+            return True
+        else:
+            hash256 = query_data[target]['sha256']
+            _, new256 = prepare_query(target)
+            return hash256 != new256

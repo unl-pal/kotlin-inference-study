@@ -11,21 +11,15 @@ from utilities import *
 
 from boaapi.status import CompilerStatus, ExecutionStatus
 
-def query_is_run(target):
-    job_data = get_query_data()
-    return target in  job_data.keys()
-
 def run_query(target):
     config = get_query_config()
     dataset = get_dataset(target)
     make_public = get_make_public(target)
-    query = prepare_query(target)
+    query, sha256 = prepare_query(target)
     client = get_client()
     job = client.query(query, dataset)
-    while job.is_running():
-        job.refresh()
-        print(f"Running job {job.id}.", flush = True)
-        time.sleep(10)
+    print(f"Job {job.id} is running.", flush = True)
+    job.wait()
     print(f"Job {job.id} is complete.", flush = True)
     if job.compiler_status is CompilerStatus.ERROR:
         print(f"Job {job.id} had a compilation error.", flush = True)
@@ -37,11 +31,11 @@ def run_query(target):
         exit()
     if make_public:
         job.set_public(True)
-    update_query_data(target, job.id)
+    update_query_data(target, job.id, sha256)
 
 def download_query(target):
     job_data = get_query_data()
-    target_job_id = job_data[target]
+    target_job_id = job_data[target]['job']
     client = get_client()
     job = client.get_job(target_job_id)
     with open(target, "w") as fh:
@@ -57,11 +51,7 @@ if __name__ == '__main__':
 
     target = args.target
 
-    if osp.exists(target):
-        print(f"Target file {target} exists.  To re-run query delete the file and pass '--force-rerun'")
-        exit()
-
-    if not query_is_run(target) or args.force_rerun:
+    if is_run_needed(target):
         run_query(target)
 
     download_query(target)
