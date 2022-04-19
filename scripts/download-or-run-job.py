@@ -91,25 +91,36 @@ def expand_replacements(replacements, query):
                 query = replaced
     return query
 
+def build_replacements(global_replacements, local_replacements, only_files=False):
+    replacements = {}
+    repls = []
+    for replacements_list in [local_replacements, global_replacements]:
+        for repl in replacements_list:
+            target = repl['target']
+            if target not in replacements.keys():
+                if repl['kind'] == 'text':
+                    if not only_files:
+                        replacements[target] = repl['replacement']
+                else:
+                    if only_files:
+                        replacements[target] = repl['replacement']
+                    else:
+                        with open(repl['replacement'], 'r') as fh:
+                            replacement = fh.read()
+                            fh.close()
+                        replacements[target] = replacement
+                repls.append((target, replacements[target]))
+    return repls
+
 def prepare_query(target):
     config = get_query_config()
     query_info = config['queries'][target]
-    query_subs = config['substitutions'] + query_info['substitutions']
     query_dataset = config['datasets'][query_info['dataset']]
     query_file = query_info['query']
     with open(query_file, 'r') as fh:
         query = fh.read()
     fh.close()
-    query_substitutions = []
-    for query_sub in query_subs:
-        target = query_sub['target']
-        if query_sub['kind'] == 'text':
-            replacement = query_sub['replacement']
-        else:
-            with open(query_sub['replacement'], 'r') as fh:
-                replacement = fh.read()
-            fh.close()
-        query_substitutions.append((target, replacement))
+    query_substitutions = build_replacements(config['substitutions'], query_info['substitutions'])
     query = expand_replacements(query_substitutions, query)
     return query, query_dataset, query_info['make_public']
 
