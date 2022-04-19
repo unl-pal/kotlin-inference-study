@@ -20,7 +20,7 @@ for target in configuration['queries']:
         string = f"{new_target}: {target}\n\tpython3 scripts/boa-to-csv.py"
         if 'tests' in csv_info.keys():
             for test in csv_info['tests']:
-                string += f" -t {test}"
+                string += f" -t \"{test}\""
         if 'drop' in csv_info.keys():
             string += f" -d {csv_info['drop']}"
         if 'header' in csv_info.keys():
