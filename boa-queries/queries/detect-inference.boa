@@ -26,7 +26,7 @@ visit(input, visitor {
         file := current(ChangedFile).name;
         if (def(node.expression)) {
             isinferred := ! def(node.return_type);
-            o[input.id][file][place]["return_val"] << 1;
+            o[input.id][file]["return_val"][isinferred] << 1;
         }
         push(location, "body");
         if (def(node.expression)) visit(node.expression);
@@ -67,7 +67,7 @@ visit(input, visitor {
     before node: Variable -> {
         file := current(ChangedFile).name;
         place := peek(location);
-        isinferred := !def(node.type);
+        isinferred := !def(node.variable_type);
         o[input.id][file][place][isinferred] << 1;
     }
 });
