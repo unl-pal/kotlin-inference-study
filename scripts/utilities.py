@@ -130,7 +130,7 @@ def prepare_query(target):
     fh.close()
     query_substitutions = build_replacements(config['substitutions'], query_info['substitutions'])
     query = expand_replacements(query_substitutions, query)
-    return query, sha256(query).hexdigest()
+    return query, sha256(str.encode(query)).hexdigest()
 
 def is_run_needed(target):
     if not osp.exists(target):
