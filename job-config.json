@@ -8,7 +8,15 @@
             "query": "boa-queries/queries/detect-inference.boa",
             "substitutions": [],
 	    "dataset": "kotlin",
-            "make_public": true
+            "make_public": true,
+            "make_csv": true,
+            "csv_info": {
+                "output": "data-csv/kotlin/basic-usage.csv",
+                "tests": [
+                    "2,.(kt|kts|java)"
+                ],
+                "header": "type,project,file,location,isinferred,count"
+            }
         }
     }
 }
