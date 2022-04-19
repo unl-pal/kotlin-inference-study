@@ -17,7 +17,7 @@ for target in configuration['queries']:
     if query_info['make_csv']:
         csv_info = query_info['csv_info']
         new_target = csv_info['output']
-        string = f"{new_target}: {target}\n\tpython3 scripts boa-to-csv.py"
+        string = f"{new_target}: {target}\n\tpython3 scripts/boa-to-csv.py"
         if 'tests' in csv_info.keys():
             for test in csv_info['tests']:
                 string += f" -t {test}"
