@@ -1,5 +1,8 @@
 .PHONY: raws
 raws: data-raw/kotlin/basic-usage.txt
 
-data-raw/%:
-	python3 scripts/download-or-run-job.py $@
+Makefile.jobs: job-config.json
+	python3 scripts/build-makefile.py > $@
+
+data-raw/%: Makefile.jobs
+	make -f $^ $@
