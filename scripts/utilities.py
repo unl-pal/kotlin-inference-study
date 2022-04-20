@@ -7,6 +7,9 @@ import json
 
 from hashlib import sha256
 
+import logging
+
+logger = logging.getLogger('boa.logger')
 
 def get_credentials():
     with open("boa-credentials.txt", "r") as fh:
@@ -42,8 +45,8 @@ def get_query_config():
                 fh.close()
             return query_config
         else:
-            print("Job configuration file 'job-config.json' does not exist")
-            exit()
+            logger.critical("Job configuration file 'job-config.json' does not exist")
+            exit(1)
     else:
         return config
 
@@ -118,7 +121,7 @@ def get_dataset(target):
     if dataset_name in config['datasets'].keys():
         return client.get_dataset(config['datasets'][dataset_name])
     else:
-        print(f"Dataset named '{dataset_name}' is not known.", flush = True)
+        logger.critical(f"Dataset named '{dataset_name}' is not known.")
         exit(1)
 
 def prepare_query(target):

@@ -18,16 +18,16 @@ def run_query(target):
     query, sha256 = prepare_query(target)
     client = get_client()
     job = client.query(query, dataset)
-    print(f"Job {job.id} is running.", flush = True)
+    logger.info(f"Job {job.id} is running.")
     job.wait()
-    print(f"Job {job.id} is complete.", flush = True)
+    logger.info(f"Job {job.id} is complete.")
     if job.compiler_status is CompilerStatus.ERROR:
-        print(f"Job {job.id} had a compilation error.", flush = True)
-        print(job.get_compiler_errors(), flush = True)
-        exit()
+        logger.error(f"Job {job.id} had a compilation error.")
+        logger.error(job.get_compiler_errors(), flush = True)
+        exit(1)
     if job.exec_status is ExecutionStatus.ERROR:
-        print(f"Job {job.id} had an execution error.", flush = True)
-        print(f"See url: {job.get_url()}")
+        logger.error(f"Job {job.id} had an execution error.")
+        logger.error(f"See url: {job.get_url()}")
         exit()
     if make_public:
         job.set_public(True)
@@ -47,7 +47,12 @@ if __name__ == '__main__':
     parser = ArgumentParser()
     parser.add_argument('target')
     parser.add_argument('--force-rerun', '-force-rerun', '-f')
+    parser.add_argument('--verbose', '-v', action='count', default = 0)
     args = parser.parse_args()
+
+    verbosity = max(5 - args.verbose, 1) * 10
+    logger.setLevel(verbosity)
+    logger.info("Setting verbosity to {verbosity}")
 
     target = args.target
 
