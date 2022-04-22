@@ -14,5 +14,5 @@ summarized['percent'] = summarized.apply(lambda x: x['count'] / x.total, axis = 
 summarized['isinferred'] = summarized.apply(lambda x: 'Inferred' if x.isinferred else 'Not Inferred', axis = 1)
 plt.figure()
 fig, ax = plt.subplots(1,1)
-sns.violinplot(x='location', y='percent', hue='isinferred', data=summarized, ax = ax, split = True)
+sns.boxplot(x='location', y='percent', hue='isinferred', data=summarized, ax = ax)
 save_figure(fig, "figures/rq1-usage.pdf", 7, 4)
