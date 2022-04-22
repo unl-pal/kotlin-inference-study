@@ -31,7 +31,8 @@ visit(input, visitor {
         file := current(ChangedFile).name;
         place := peek(location);
         isinferred := is_inferred(node.return_type);
-        o[input.id][file][place][isinferred] << 1;
+        # expKind := string(node.initializer.kind);
+        o[input.id][file][place][isinferred]["NA"] << 1;
         push(location, "body");
         if (def(node.expression)) visit(node.expression);
         foreach(i: int; def(node.statements[i]))
@@ -72,6 +73,15 @@ visit(input, visitor {
         file := current(ChangedFile).name;
         place := peek(location);
         isinferred := is_inferred(node.variable_type);
-        o[input.id][file][place][isinferred] << 1;
+        expKind: string; 
+
+        # call visitor inside???????????????????????????????????
+        if (string(node.initializer.kind) == "Methodcall")
+            expKind = string(node.initializer.kind);
+
+        else
+            expKind = "NA";
+
+        o[input.id][file][place][isinferred][expKind] << 1;
     }
 });
