@@ -39,7 +39,7 @@ real-clean: clean clean-raws
 
 .PHONY: clean
 clean: clean-csvs clean-tables clean-figures
-	$(rm) results.tbz2
+	$(RM) results.tbz2
 
 .PHONY: clean-raws
 clean-raws:
