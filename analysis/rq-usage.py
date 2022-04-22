@@ -15,4 +15,4 @@ summarized['isinferred'] = summarized.apply(lambda x: 'Inferred' if x.isinferred
 plt.figure()
 fig, ax = plt.subplots(1,1)
 sns.boxplot(x='location', y='percent', hue='isinferred', data=summarized, ax = ax)
-save_figure(fig, "figures/rq1-usage.pdf", 7, 4)
+save_figure(fig, "figures/rq-usage-summary.pdf", 7, 4)
