@@ -2,13 +2,16 @@ RAWS:=data-raw/kotlin/basic-usage.txt
 CSVS:=$(patsubst %.txt,%.csv,$(subst raw,csv,$(RAWS)))
 
 .PHONY: wanted
-wanted: rq-usage
+wanted: rq-usage results.tbz2
 
 .PHONY: rq-usage
 rq-usage: data-csv/kotlin/basic-usage.csv
 
 figures/rq-usage-summary.pdf: data-csv/kotlin/basic-usage.csv
 	python3 analysis/rq-usage.py
+
+results.tbz2:
+	tar cjvf $@ figures/ tables/
 
 .PHONY: raws
 raws: $(RAWS)
