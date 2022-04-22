@@ -68,8 +68,8 @@ visit(input, visitor {
         file := current(ChangedFile).name;
         place := peek(location);
         isval := false;
-        exists(i: int; (def(node.modifiers[i]) && node.modifiers.kind == ModifierKind.FINAL))
-            isval := true;
+        exists(i: int; (def(node.modifiers[i]) && node.modifiers[i].kind == ModifierKind.FINAL))
+            isval = true;
         isinferred := !def(node.variable_type);
         o[input.id][file][place][isval][isinferred] << 1;
     }
