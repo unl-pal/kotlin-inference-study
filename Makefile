@@ -1,18 +1,23 @@
+# What raw files/csvs?
 RAWS:=data-raw/kotlin/basic-usage.txt
 CSVS:=$(patsubst %.txt,%.csv,$(subst raw,csv,$(RAWS)))
 
+# What analyses are wanted?
 .PHONY: wanted
 wanted: rq-usage results.tbz2
 
+# Analysis for RQ for usage
 .PHONY: rq-usage
 rq-usage: data-csv/kotlin/basic-usage.csv
 
 figures/rq-usage-summary.pdf: data-csv/kotlin/basic-usage.csv
 	python3 analysis/rq-usage.py
 
+# Package results
 results.tbz2:
 	tar cjvf $@ figures/ tables/
 
+# Build raws/csvs
 .PHONY: raws
 raws: $(RAWS)
 
@@ -28,7 +33,7 @@ data-raw/%: Makefile.jobs
 data-csv/%: Makefile.jobs
 	make -f $^ $@
 
-
+# Clean things up
 .PHONY: real-clean
 real-clean: clean clean-raws
 
