@@ -15,7 +15,7 @@
                 "tests": [
                     "2,.(kt|kts|java)"
                 ],
-                "header": "type,project,file,location,isinferred,count"
+                "header": "type,project,file,location,isval,isinferred,count"
             }
         }
     }
