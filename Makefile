@@ -1,6 +1,9 @@
 RAWS:=data-raw/kotlin/basic-usage.txt
 CSVS:=$(patsubst %.txt,%.csv,$(subst raw,csv,$(RAWS)))
 
+.PHONY: wanted
+wanted: rq-usage
+
 .PHONY: rq-usage
 rq-usage: data-csv/kotlin/basic-usage.csv
 
@@ -21,6 +24,7 @@ data-raw/%: Makefile.jobs
 
 data-csv/%: Makefile.jobs
 	make -f $^ $@
+
 
 .PHONY: real-clean
 real-clean: clean clean-raws
