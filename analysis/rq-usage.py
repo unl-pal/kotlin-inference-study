@@ -20,4 +20,5 @@ sns.boxplot(x='location', y='percent', hue='isinferred', data=summarized, ax = a
 ax.yaxis.set_major_formatter(PercentFormatter(100))
 ax.set_ylabel("Percent per Project")
 ax.set_xlabel("")
+plt.gca().legend().set_title()
 save_figure(fig, "figures/rq-usage-summary.pdf", 7, 4)
