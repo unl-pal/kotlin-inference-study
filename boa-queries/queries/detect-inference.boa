@@ -8,6 +8,30 @@ location: stack of string;
 
 visit(input, visitor {
     before node: CodeRepository -> {
+        # Output 0s as necessary
+        o[input.id]["DUMMYDUMMYDUMMY.kt"]["return_val"][false][false] << 0;
+        o[input.id]["DUMMYDUMMYDUMMY.kt"]["return_val"][false][true] << 0;
+        o[input.id]["DUMMYDUMMYDUMMY.kt"]["module"][true][false] << 0;
+        o[input.id]["DUMMYDUMMYDUMMY.kt"]["module"][true][true] << 0;
+        o[input.id]["DUMMYDUMMYDUMMY.kt"]["module"][false][false] << 0;
+        o[input.id]["DUMMYDUMMYDUMMY.kt"]["module"][false][true] << 0;
+        o[input.id]["DUMMYDUMMYDUMMY.kt"]["body"][true][false] << 0;
+        o[input.id]["DUMMYDUMMYDUMMY.kt"]["body"][true][true] << 0;
+        o[input.id]["DUMMYDUMMYDUMMY.kt"]["body"][false][false] << 0;
+        o[input.id]["DUMMYDUMMYDUMMY.kt"]["body"][false][true] << 0;
+        o[input.id]["DUMMYDUMMYDUMMY.kt"]["loop_variable"][true][false] << 0;
+        o[input.id]["DUMMYDUMMYDUMMY.kt"]["loop_variable"][true][true] << 0;
+        o[input.id]["DUMMYDUMMYDUMMY.kt"]["loop_variable"][false][false] << 0;
+        o[input.id]["DUMMYDUMMYDUMMY.kt"]["loop_variable"][false][true] << 0;
+        o[input.id]["DUMMYDUMMYDUMMY.kt"]["lambda_arg"][true][false] << 0;
+        o[input.id]["DUMMYDUMMYDUMMY.kt"]["lambda_arg"][true][true] << 0;
+        o[input.id]["DUMMYDUMMYDUMMY.kt"]["lambda_arg"][false][false] << 0;
+        o[input.id]["DUMMYDUMMYDUMMY.kt"]["lambda_arg"][false][true] << 0;
+        o[input.id]["DUMMYDUMMYDUMMY.kt"]["module"][true][false] << 0;
+        o[input.id]["DUMMYDUMMYDUMMY.kt"]["module"][true][true] << 0;
+        o[input.id]["DUMMYDUMMYDUMMY.kt"]["module"][false][false] << 0;
+        o[input.id]["DUMMYDUMMYDUMMY.kt"]["module"][false][true] << 0;
+
         snapshot := getsnapshot(node, "SOURCE_KOTLIN_1_");
         foreach (i: int; def(snapshot[i]))
             visit(snapshot[i]);
