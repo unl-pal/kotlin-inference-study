@@ -13,7 +13,7 @@ counted = df.groupby(['project', 'location', 'isinferred'], as_index = False).su
 summarized = counted.merge(total_counts, on=['project', 'location'], how='left')
 summarized['percent'] = summarized.apply(lambda x: (x['count'] / x.total) * 100, axis = 1)
 summarized['isinferred'] = summarized.apply(lambda x: 'Inferred' if x.isinferred else 'Not Inferred', axis = 1)
-summarized['location'] = summarized.apply(lambda x: {'return_val': "Return Value", 'body': "Body", 'module': "Module", 'lambda_arg': "Lambda Argument"}[x.location], axis = 1)
+summarized['location'] = summarized.apply(lambda x: {'return_val': "Return Value", 'body': "Body", 'module': "Top-Level Variables", 'lambda_arg': "Arguments List in Lambda"}[x.location], axis = 1)
 plt.figure()
 fig, ax = plt.subplots(1,1)
 sns.boxplot(x='location', y='percent', hue='isinferred', data=summarized, ax = ax, showfliers = False)
