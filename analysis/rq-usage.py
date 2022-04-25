@@ -11,7 +11,7 @@ df = load_data_csv("kotlin", "basic-usage.csv")
 total_counts = df.groupby(['project', 'location'], as_index = False).sum()[['project', 'location', 'count']].rename(columns = {'count': 'total'})
 counted = df.groupby(['project', 'location', 'isinferred'], as_index = False).sum()[['project', 'location', 'isinferred', 'count']]
 summarized = counted.merge(total_counts, on=['project', 'location'], how='left')
-summarized['percent'] = summarized.apply(lambda x: (x['count'] / x.total) * 100, axis = 1)
+summarized['percent'] = summarized.apply(lambda x: 0 if x.total == 0 else (x['count'] / x.total) * 100, axis = 1)
 summarized['isinferred'] = summarized.apply(lambda x: 'Inferred' if x.isinferred else 'Not Inferred', axis = 1)
 summarized['location'] = summarized.apply(lambda x: {'return_val': "Return Value", 'body': "Body", 'module': "Top-Level Variables", 'lambda_arg': "Arguments List in Lambda"}[x.location], axis = 1)
 plt.figure()
