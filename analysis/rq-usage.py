@@ -16,7 +16,7 @@ summarized['isinferred'] = summarized.apply(lambda x: 'Inferred' if x.isinferred
 summarized['location'] = summarized.apply(lambda x: {'return_val': "Return Value", 'body': "Body", 'module': "Module", 'lambda_arg': "Lambda Argument"}[x.location], axis = 1)
 plt.figure()
 fig, ax = plt.subplots(1,1)
-sns.boxplot(x='location', y='percent', hue='isinferred', data=summarized, ax = ax)
+sns.boxplot(x='location', y='percent', hue='isinferred', data=summarized, ax = ax, showfliers = False)
 ax.yaxis.set_major_formatter(PercentFormatter(100))
 ax.set_ylabel("Percent per Project")
 ax.set_xlabel("")
