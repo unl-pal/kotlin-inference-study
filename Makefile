@@ -4,7 +4,7 @@ CSVS:=$(patsubst %.txt,%.csv,$(subst raw,csv,$(RAWS)))
 
 # What analyses are wanted?
 .PHONY: wanted
-wanted: rq-usage results.tbz2
+wanted: rq-usage rq-mutability results.tbz2
 
 # Analysis for RQ for usage
 .PHONY: rq-usage
@@ -12,6 +12,13 @@ rq-usage: figures/rq-usage-summary.pdf tables/rq-usage-summary.tex
 
 figures/rq-usage-summary.pdf tables/rq-usage-summary.tex: data-csv/kotlin/basic-usage.csv
 	python3 analysis/rq-usage.py
+
+# Analysis for RQ for mutability
+.PHONY: rq-mutability
+rq-mutability: figures/rq-mutability-summary.pdf tables/rq-mutability-summary.tex
+
+figures/rq-mutability-summary.pdf tables/rq-mutability-summary.tex: data-csv/kotlin/basic-usage.csv
+	python3 analysis/rq-mutability.py
 
 # Package results
 results.tbz2:
