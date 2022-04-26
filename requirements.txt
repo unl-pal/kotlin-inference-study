@@ -3,3 +3,4 @@ pandas>=1.4.2
 pyarrow>=7.0.0
 seaborn
 jinja2
+tqdm
