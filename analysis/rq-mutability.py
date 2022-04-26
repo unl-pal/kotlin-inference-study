@@ -20,13 +20,15 @@ summarized['location'] = summarized.apply(lambda x: {'return_val': "Return Value
 summarized = summarized[summarized['location'] != 'Return Value']
 
 plt.figure()
-fix, ax = plt.subplots(1, 1)
-sns.catplot(x = 'location', y = 'percent', hue = 'isinferred', col = 'isval', data = summarized,
-            showfliers = False, ax = ax, kind = 'box')
-ax.yaxis.set_major_formatter(PercentFormatter(100))
-ax.set_ylabel("Percent per Project")
-axs.set_xlabel("")
-plt.gca().legend().set_title("")
-save_figure(fig, "figures/rq-mutability-summary.pdf", 7, 4)
+# fig, ax = plt.subplots(1, 1)
+figure = sns.catplot(x = 'location', y = 'percent', hue = 'isinferred', col = 'isval', data = summarized,
+                     sharey = True,
+                     showfliers = False, kind = 'box')
+figure.set_ylabels("Percent per Project")
+figure.set_xlabels("")
+figure.legend.set_title("")
+for ax in figure.axes.flat:
+    ax.yaxis.set_major_formatter(PercentFormatter(100))
+save_figure(figure, "figures/rq-mutability-summary.pdf", 7, 4)
 
 save_table(summarized[['location', 'isinferred', 'isval', 'percent']].groupby(['location', 'isinferred', 'isval']).describe(), "tables/rq-mutability-summary.tex")
