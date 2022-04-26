@@ -6,7 +6,7 @@ from matplotlib.ticker import PercentFormatter
 
 set_style()
 
-summarized = load_pre_summarized('kotlin', ['project', 'location', 'is_inferred'])
+summarized = load_pre_summarized('kotlin', ['project', 'location', 'isinferred'])
 
 # df = load_usage_data("kotlin")
 # total_counts = load_total_counts("kotlin")
