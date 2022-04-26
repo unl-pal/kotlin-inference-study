@@ -4,6 +4,8 @@
 from utils import *
 from matplotlib.ticker import PercentFormatter
 
+from scipy.stats import shapiro
+
 set_style()
 
 summarized = load_pre_summarized('kotlin', ['project', 'location', 'isval', 'isinferred'])
@@ -22,3 +24,18 @@ for ax in figure.axes.flat:
 save_figure(figure.figure, "figures/rq-mutability-summary.pdf", 7, 4)
 
 save_table(summarized[['location', 'isinferred', 'isval', 'percent']].groupby(['location', 'isinferred', 'isval']).describe(), "tables/rq-mutability-summary.tex")
+
+rows = []
+
+for location in summarized['location'].unique():
+    for isinferred in summarized['isinferred'].unique():
+        for isval in summarized['isval'].unique():
+            stat, p = shapiro(summarized[summarized['location'] == location and summarized['isinferred'] == isinferred and summarized['isval'] == isval]['percent'])
+            rows.append(pd.DataFrame({'Location': [location],
+                                      'Inference?': [isinferred],
+                                      'Var/Val?': [isval],
+                                      'W': [statistic],
+                                      'p': [p],
+                                      'Normal?': [ 'Yes' if p < 0.05 else 'No']}))
+
+save_table(pd.concat(rows), 'tables/rq-mutability-shapiro.tex')

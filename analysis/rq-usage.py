@@ -4,6 +4,8 @@
 from utils import *
 from matplotlib.ticker import PercentFormatter
 
+from scipy.stats import shapiro
+
 set_style()
 
 summarized = load_pre_summarized('kotlin', ['project', 'location', 'isinferred'])
@@ -18,3 +20,16 @@ plt.gca().legend().set_title("")
 save_figure(fig, "figures/rq-usage-summary.pdf", 7, 4)
 
 save_table(summarized[['location', 'isinferred', 'percent']].groupby(['location', 'isinferred']).describe(), "tables/rq-usage-summary.tex")
+
+rows = []
+
+for location in summarized['location'].unique():
+    for isinferred in summarized['isinferred'].unique():
+        stat, p = shapiro(summarized[summarized['location'] == location and summarized['isinferred'] == isinferred]['percent'])
+        rows.append(pd.DataFrame({'Location': [location],
+                                  'Inference?': [isinferred],
+                                  'W': [statistic],
+                                  'p': [p],
+                                  'Normal?': [ 'Yes' if p < 0.05 else 'No']}))
+
+save_table(pd.concat(rows), 'tables/rq-usage-shapiro.tex')
