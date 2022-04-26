@@ -46,3 +46,20 @@ def save_table(df, filename, decimals=2, colsep=False, **kwargs):
 
 def load_data_csv(language, file, **kwargs):
     return pd.read_csv(f"data-csv/{language}/{file}", on_bad_lines='skip', **kwargs)
+
+def load_usage_data(language):
+    path = f"data-csv/cached/usage-{language}.parquet"
+    if osp.exists(path):
+        return pd.read_parquet(path)
+    df = load_data_csv(language, "basic-usage.csv")
+    df.to_parquet(path)
+    return df
+
+def load_total_counts(language):
+    path = f"data-csv/cached/counts-{language}.parquet"
+    if osp.exists(path):
+        return pd.read_parquet(path)
+    df = load_usage_data(language)
+    df_counts = df.groupby(['project', 'location'], as_index = False).sum()[['project', 'location', 'count']].rename(columns = {'count': 'total'})
+    df_counts.to_parquet(path)
+    return df
