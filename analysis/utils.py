@@ -61,6 +61,6 @@ def load_total_counts(language):
     if osp.exists(path):
         return pd.read_parquet(path)
     df = load_usage_data(language)
-    df_counts = df.groupby(['project', 'location'], as_index = False).sum()[['project', 'location', 'count']].rename(columns = {'count': 'total'})
+    df_counts = df.groupby(['project', 'location'], as_index = False).sum()[['project', 'location', 'count']].rename(columns = {'count': 'total'})[['project', 'location', 'total']]
     df_counts.to_parquet(path)
-    return df
+    return df_counts
