@@ -32,7 +32,7 @@ def save_table(df, filename, decimals=2, colsep=False, **kwargs):
     pd.options.display.float_format = ('{:,.' + str(decimals) + 'f}').format
 
     with pd.option_context("max_colwidth", 1000):
-        tab1 = df.style.format_index("\\textbf{{{0}}}", axis = 1).to_latex(**kwargs)
+        tab1 = df.style.applymap_index(lambda x: "font-weight: bold;", axis = "columns").to_latex(convert_css = True, **kwargs)
     # print(tab1)
     with open(filename,'w',encoding='utf-8') as f:
         f.write('% DO NOT EDIT\n')
