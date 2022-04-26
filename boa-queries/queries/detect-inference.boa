@@ -10,6 +10,11 @@ escape := function(s: string): string {
 };
 
 location: stack of string;
+namestack: stack of string;
+
+getfqn := function(): string {
+    return join(".", namestack);
+}
 
 visit(input, visitor {
     before node: CodeRepository -> {
@@ -18,16 +23,25 @@ visit(input, visitor {
             visit(snapshot[i]);
         stop;
     }
-    before node: Namespace -> push(location, "module");
-    after node: Namespace -> pop(location);
+    before node: Namespace -> {
+        push(location, "module");
+        push(namestack, node.name);
+    }
+    after node: Namespace -> {
+        pop(location);
+        pop(namestack);
+    }
     before node: Declaration -> {
+        push(namestack, node.name);
         foreach(i: int; def(node.methods[i]))
             visit(node.methods[i]);
         foreach(i: int; def(node.nested_declarations[i]))
             visit(node.nested_declarations[i]);
+        pop(namestack);
         stop;
     }
     before node: Method -> {
+        push(namestack, node.name);
         file := current(ChangedFile).name;
         place := peek(location);
         isinferred := is_inferred(node.return_type);
@@ -38,6 +52,7 @@ visit(input, visitor {
         foreach(i: int; def(node.statements[i]))
             visit(node.statements[i]);
         pop(location);
+        pop(namestack);
         stop;
     }
     before node: Statement -> {
