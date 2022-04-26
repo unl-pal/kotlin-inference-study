@@ -30,11 +30,11 @@ rows = []
 for location in summarized['location'].unique():
     for isinferred in summarized['isinferred'].unique():
         for isval in summarized['isval'].unique():
-            stat, p = shapiro(summarized[summarized['location'] == location and summarized['isinferred'] == isinferred and summarized['isval'] == isval]['percent'])
+            stat, p = shapiro(summarized[(summarized['location'] == location) & (summarized['isinferred'] == isinferred) & (summarized['isval'] == isval)]['percent'])
             rows.append(pd.DataFrame({'Location': [location],
                                       'Inference?': [isinferred],
                                       'Var/Val?': [isval],
-                                      'W': [statistic],
+                                      'W': [stat],
                                       'p': [p],
                                       'Normal?': [ 'Yes' if p < 0.05 else 'No']}))
 
