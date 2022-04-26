@@ -8,9 +8,9 @@ wanted: rq-usage results.tbz2
 
 # Analysis for RQ for usage
 .PHONY: rq-usage
-rq-usage: figures/rq-usage-summary.pdf
+rq-usage: figures/rq-usage-summary.pdf tables/rq-usage-summary.tex
 
-figures/rq-usage-summary.pdf: data-csv/kotlin/basic-usage.csv
+figures/rq-usage-summary.pdf tables/rq-usage-summary.tex: data-csv/kotlin/basic-usage.csv
 	python3 analysis/rq-usage.py
 
 # Package results

@@ -24,3 +24,5 @@ ax.set_ylabel("Percent per Project")
 ax.set_xlabel("")
 plt.gca().legend().set_title("")
 save_figure(fig, "figures/rq-usage-summary.pdf", 7, 4)
+
+save_table(summarized[['location', 'isinferred', 'percent']].groupby(['location', 'isinferred']).describe(), "tables/rq-usage-summary.tex", multicolumn = True, multicolumnformat = 'c')
