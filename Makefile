@@ -55,6 +55,7 @@ clean-raws:
 .PHONY: clean-csvs
 clean-csvs:
 	$(RM) $(CSVS)
+	$(RM) data-csv/cached/*.parquet
 
 .PHONY: clean-tables
 clean-tables:
