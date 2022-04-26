@@ -85,11 +85,11 @@ def load_pre_summarized(language, group_cols):
     return df_summarized
 
 def location_map(name):
-    return {'return_val': "Return Value",
+    return {'return_val': "Return Type",
             'body': "Body",
-            'module': "Top-Level Variables",
-            'lambda_arg': "Arguments List in Lambda",
-            'loop_variable': "Loop Variable"}[name]
+            'module': "Top Level",
+            'lambda_arg': "Lambda Args",
+            'loop_variable': "Loop Var"}[name]
 
 def inferred_name(isinferred):
     return 'Inferred' if isinferred else 'Not Inferred'

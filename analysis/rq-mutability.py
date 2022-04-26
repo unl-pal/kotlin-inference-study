@@ -7,7 +7,7 @@ from matplotlib.ticker import PercentFormatter
 set_style()
 
 summarized = load_pre_summarized('kotlin', ['project', 'location', 'isval', 'isinferred'])
-summarized = summarized[summarized['location'] != 'Return Value']
+summarized = summarized[summarized['location'] != 'Return Type']
 
 plt.figure()
 # fig, ax = plt.subplots(1, 1)
