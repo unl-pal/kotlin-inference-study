@@ -10,6 +10,8 @@ set_style()
 
 summarized = load_pre_summarized('kotlin', ['project', 'location', 'isval', 'isinferred'])
 summarized = summarized[summarized['location'] != 'Return Type']
+summarized = summarized[summarized['location'] != 'Lambda Args']
+summarized = summarized[summarized['location'] != 'Loop Var']
 
 plt.figure()
 # fig, ax = plt.subplots(1, 1)
