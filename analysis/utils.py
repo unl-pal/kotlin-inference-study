@@ -24,7 +24,7 @@ def save_figure(figure, filename, x=None, y=None):
     plt.close(fig)
 
 colsepname = ''
-def save_table(df, filename, decimals=2, colsep=False, **kwargs):
+def save_table(df, filename, decimals=2, colsep=False, multicol_align = "c", hrules = True, **kwargs):
     global colsepname
     if not colsep is False:
         colsepname = colsepname + 'A'
@@ -32,7 +32,14 @@ def save_table(df, filename, decimals=2, colsep=False, **kwargs):
     pd.options.display.float_format = ('{:,.' + str(decimals) + 'f}').format
 
     with pd.option_context("max_colwidth", 1000):
-        tab1 = df.style.applymap_index(lambda x: "textbf:--rwrap;", axis = "columns").format_index(lambda x: x, escape = 'latex', axis='columns').format(None, precision = decimals, thousands = ',', escape = 'latex').to_latex(hrules = True, **kwargs)
+        styled = df.style.applymap_index(lambda x: "textbf:--rwrap;", axis = 'columns')
+        styled = styled.format_index(None, escape = 'latex', axis='columns')
+        styled = styled.hide(names = True, axis = 'columns')
+        styled = styled.applymap_index(lambda x: "textbf:--rwrap;", axis = 'index')
+        styled = styled.format_index(None, escape = 'latex', axis='index')
+        styled = styled.hide(names = True, axis = 'index')
+        styled = styled.format(None, precision = decimals, thousands = ',', escape = 'latex')
+        tab1 = styled.to_latex(hrules = hrules, multicol_align = multicol_align, **kwargs)
     # print(tab1)
     with open(filename,'w',encoding='utf-8') as f:
         f.write('% DO NOT EDIT\n')
