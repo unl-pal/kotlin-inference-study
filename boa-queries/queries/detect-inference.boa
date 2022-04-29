@@ -1,4 +1,4 @@
-o: output sum[project: string][file: string][location: string][isinferred: bool][expKind: string][fqn: string] of int; # Count
+o: output sum[project: string][file: string][location: string][isinferred: bool][varType: string][expKind: string][fqn: string] of int; # Count
 
 is_inferred := function(the_type: Type): bool {
     if (def(the_type)) return false;
@@ -46,7 +46,7 @@ visit(input, visitor {
         place := peek(location);
         isinferred := is_inferred(node.return_type);
         # expKind := string(node.initializer.kind);
-        o[input.id][file][place][isinferred]["NA"]["NA"] << 1;
+        o[input.id][file][place][isinferred]["NA"]["NA"]["NA"] << 1;
         push(location, "body");
         if (def(node.expression)) visit(node.expression);
         foreach(i: int; def(node.statements[i]))
@@ -88,9 +88,19 @@ visit(input, visitor {
         file := current(ChangedFile).name;
         place := peek(location);
         isinferred := is_inferred(node.variable_type);
-        expKind := string(node.initializer.kind); 
+        expKind : string; 
+        varType : string;
         fqn := getfqn();
 
-        o[input.id][file][place][isinferred][expKind][fqn] << 1;
+        if (string(node.initializer.kind) == "Methodcall") {
+            expKind = string(node.initializer.kind);
+            varType = string(node.variable_type);
+
+        } else {
+            expKind = "NA";
+            varType = "None";
+        }
+
+        o[input.id][file][place][isinferred][expKind][varType][fqn] << 1;
     }
 });
