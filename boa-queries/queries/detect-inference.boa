@@ -14,7 +14,7 @@ namestack: stack of string;
 
 getfqn := function(): string {
     return join(".", namestack);
-}
+};
 
 visit(input, visitor {
     before node: CodeRepository -> {
