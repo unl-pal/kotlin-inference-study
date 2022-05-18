@@ -1,2 +1,7 @@
 boa-api>=0.1.9
 jsonschema>=3.2.0
+pandas>=1.4.2
+pyarrow>=7.0.0
+seaborn
+jinja2
+tqdm

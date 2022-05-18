@@ -1,0 +1,22 @@
+{
+    "substitutions": [],
+    "datasets": {
+        "kotlin": "2021 Aug/Kotlin"
+    },
+    "queries": {
+        "data-raw/kotlin/basic-usage.txt": {
+            "query": "boa-queries/queries/detect-inference.boa",
+            "substitutions": [],
+	    "dataset": "kotlin",
+            "make_public": true,
+            "make_csv": true,
+            "csv_info": {
+                "output": "data-csv/kotlin/basic-usage.csv",
+                "tests": [
+                    "2,.(kt|kts|java)"
+                ],
+                "header": "type,project,file,location,isval,isinferred,count"
+            }
+        }
+    }
+}
