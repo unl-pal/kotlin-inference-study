@@ -1,4 +1,5 @@
 # -*- mode: gitignore; -*-
+.*
 !.gitignore
 !.gitmodules
 !.gitkeep
@@ -30,6 +31,41 @@ tramp
 # macos Stuff
 .DS_Store
 
+# Org-mode
+.org-id-locations
+*_archive
+
+# flymake-mode
+*_flymake.*
+
+# eshell files
+/eshell/history
+/eshell/lastdir
+
+# elpa packages
+/elpa/
+
+# reftex files
+*.rel
+
+# AUCTeX auto folder
+/auto/
+*/auto/
+
+# cask packages
+.cask/
+dist/
+
+# Flycheck
+flycheck_*.el
+
+# server auth directory
+/server/
+
+# projectiles files
+.projectile
+>>>>>>> main
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -40,6 +76,7 @@ __pycache__/
 
 # Distribution / packaging
 .Python
+env/
 build/
 develop-eggs/
 dist/
@@ -58,6 +95,9 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+*.egg-info/
+.installed.cfg
+*.egg
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -82,6 +122,8 @@ coverage.xml
 *.py,cover
 .hypothesis/
 .pytest_cache/
+*,cover
+.hypothesis/
 
 # Translations
 *.mo
@@ -159,3 +201,24 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+# IPython Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# celery beat schedule file
+celerybeat-schedule
+
+# dotenv
+.env
+
+# virtualenv
+venv/
+ENV/
+
+# Spyder project settings
+.spyderproject
+
+# Rope project settings
+.ropeproject
