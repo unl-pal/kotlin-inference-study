@@ -14,11 +14,14 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
 import os
 from typing import Optional, Union
 import pandas as pd
 
-__all__ = ["get_df", "get_deduped_df", "save_table"]
+import seaborn as sns
+import os.path as osp
+
 
 def _get_dir(subdir: Optional[str]):
     if subdir is None:
@@ -93,8 +96,14 @@ def save_table(df: pd.DataFrame, filename: str, subdir: Optional[str]=None, deci
     pd.options.display.float_format = ('{:,.' + str(decimals) + 'f}').format
 
     with pd.option_context("max_colwidth", 1000):
-        tab1 = df.to_latex(**kwargs)
-        #tab1 = df.style.applymap_index(lambda x: "textbf:--rwrap;", axis="columns").format_index(lambda x: x, escape='latex', axis='columns').format(None, precision=decimals, thousands=',', escape='latex').to_latex(hrules=True, **kwargs)
+        styled = df.style.applymap_index(lambda x: "textbf:--rwrap;", axis = 'columns')
+        styled = styled.format_index(None, escape = 'latex', axis='columns')
+        styled = styled.hide(names = True, axis = 'columns')
+        styled = styled.applymap_index(lambda x: "textbf:--rwrap;", axis = 'index')
+        styled = styled.format_index(None, escape = 'latex', axis='index')
+        styled = styled.hide(names = True, axis = 'index')
+        styled = styled.format(None, precision = decimals, thousands = ',', escape = 'latex')
+        tab1 = styled.to_latex(hrules = hrules, multicol_align = multicol_align, **kwargs)
 
     os.makedirs(f'tables/{_get_dir(subdir)}', 0o755, True)
     with open(f'tables/{_get_dir(subdir)}{filename}', 'w', encoding='utf-8') as f:
@@ -106,3 +115,19 @@ def save_table(df: pd.DataFrame, filename: str, subdir: Optional[str]=None, deci
         f.write(tab1)
         if not colsep is False:
             f.write('\\renewcommand{\\tabcolsep}{\\oldtabcolsep' + _colsepname + '}\n')
+
+# Set default plot style
+def set_style():
+    sns.set_style('whitegrid')
+    sns.set_palette('colorblind')
+
+def save_figure(figure, filename, x=None, y=None):
+    '''Save a FIGURE to FILENAME with size of X, Y inches.'''
+    fig = figure.get_figure()
+    plt.tight_layout()
+    if x is not None:
+        fig.set(figwidth = x)
+    if y is not None:
+        fig.set(figheight = y)
+    fig.savefig(filename, dpi=600)
+    plt.close(fig)

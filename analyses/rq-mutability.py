@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-from utils import *
+from common import *
 from matplotlib.ticker import PercentFormatter
 
 from scipy.stats import shapiro
