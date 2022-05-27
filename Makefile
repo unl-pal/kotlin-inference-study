@@ -15,25 +15,14 @@
 
 PYTHON:=python3
 
-.PHONY: data all
+.PHONY: all
 all: data analysis
 
-data: Makefile.jobs
-	$(MAKE) -f $^
+include Makefile.jobs
 
 Makefile.jobs: study-config.json bin/build-makefile.py
 	jsonschema --instance study-config.json schemas/0.1.0/study-config.schema.json
 	$(PYTHON) bin/build-makefile.py > $@
-
-
-###################
-# analysis targets
-#
-.PHONY: analysis rq1
-analysis: rq1
-
-rq1: data rq1.py data/csv/kotlin/rq1.csv data/csv/kotlin/dupes.csv
-	$(PYTHON) rq1.py
 
 
 ####################

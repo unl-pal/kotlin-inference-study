@@ -22,14 +22,13 @@ if __name__ == '__main__':
 
     print('# DO NOT EDIT')
     print('# this file was automatically generated')
-    print('PYTHON:=python3')
     print('DOWNLOAD:=${PYTHON} bin/download.py')
     print('BOATOCSV:=${PYTHON} bin/boa-to-csv.py')
     print('GENDUPES:=$(PYTHON) bin/gendupes.py')
     print('')
 
-    print('.PHONY: all')
-    print('all: txt csv')
+    print('.PHONY: data')
+    print('data: txt csv')
 
     txt = []
     csv = []
@@ -54,11 +53,11 @@ if __name__ == '__main__':
                     string += ' -t "' + test.replace('$', '$$') + '"'
             if 'drop' in csv_info:
                 for d in csv_info['drop']:
-                    string += f' -d "{d}"'
+                    string += f' -d {int(d)}'
             if 'header' in csv_info:
-                string += f' --header {csv_info["header"]}'
+                string += f' --header "{csv_info["header"]}"'
             if 'numidx' in csv_info:
-                string += f' --numidx {csv_info["index"]}'
+                string += f' --numidx {int(csv_info["index"])}'
             string += ' $< > $@'
             print(string)
 
@@ -92,3 +91,22 @@ if __name__ == '__main__':
     print('.PHONY: txt csv')
     print('txt: ' + ' '.join(txt))
     print('csv: ' + ' '.join(csv))
+
+
+    analyses = []
+
+    for script in configuration['analyses']:
+        target = script.split('.')[0]
+        analyses.append(target)
+
+        inputs = configuration['analyses'][script]['input']
+        inputs = ['data/csv/' + x for x in inputs]
+
+        print('')
+        print(f'{target}: data analyses/{script} ' + ' '.join(inputs))
+        print(f'\t$(PYTHON) analyses/{script}')
+
+    if len(analyses) > 0:
+        print('')
+        print('.PHONY: analysis ' + ' '.join(analyses))
+        print('analysis: ' + ' '.join(analyses))
