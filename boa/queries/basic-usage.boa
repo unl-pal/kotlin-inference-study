@@ -30,6 +30,10 @@ visit(input, visitor {
         o[input.id][current(Revision).id][current(Revision).commit_date]["DUMMYDUMMYDUMMY.kt"]["module"][false][false] << 0;
         o[input.id][current(Revision).id][current(Revision).commit_date]["DUMMYDUMMYDUMMY.kt"]["module"][false][true] << 0;
     }
+    before node: ChangedFile -> {
+        if (! match(node.kind, "SOURCE_KOTLIN_1_"))
+            stop;
+    }
     before node: Namespace -> push(location, "module");
     after node: Namespace -> pop(location);
     before node: Declaration -> {
