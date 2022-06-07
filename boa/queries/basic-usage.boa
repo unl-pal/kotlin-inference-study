@@ -1,6 +1,6 @@
 o: output sum[project: string][file: string][location: string][isval: bool][isinferred: bool] of int; # Count
 
-<<escape>>
+{@escape@}
 
 location: stack of string;
 

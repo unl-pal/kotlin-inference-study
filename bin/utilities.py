@@ -14,32 +14,57 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import os
 import json
-
 import logging
+import sys
+
+STUDY_JSON = 'study-config.json'
+JOBS_JSON = 'jobs.json'
+
+CREDENTIALS_FILE = 'boa-credentials.txt'
+
+QUERY_ROOT = 'boa/'
+SNIPPET_ROOT = QUERY_ROOT + 'snippets/'
+
+DATA_ROOT = 'data/'
+TXT_ROOT = DATA_ROOT + 'txt/'
+CSV_ROOT = DATA_ROOT + 'csv/'
+PQ_ROOT = DATA_ROOT + 'parquet/'
+
+ANALYSIS_ROOT = 'analyses/'
 
 logger = logging.getLogger('boa.logger')
+logger.addHandler(logging.StreamHandler(sys.stderr))
 
 def get_credentials():
+    user = None
+    password = None
+
     try:
-        with open('boa-credentials.txt', 'r') as fh:
+        with open(CREDENTIALS_FILE, 'r') as fh:
             creds = [line.strip() for line in fh.readlines()]
-        user = creds[0]
-        password = creds[1]
+        if len(creds) > 0:
+            user = creds[0]
+        if len(creds) > 1:
+            password = creds[1]
     except:
+        pass
+
+    if not user or not password:
         import getpass
         try:
             import keyring
-            user = getpass.getuser()
+            user = user or getpass.getuser()
             password = keyring.get_password('boaapi', user)
             if password is None:
                 raise Exception()
         except:
-            user = input('Username [%s]: ' % getpass.getuser())
+            if not user:
+                user = input('Username [%s]: ' % getpass.getuser())
             if not user:
                 user = getpass.getuser()
             password = getpass.getpass()
+
     return (user, password)
 
 client = None
@@ -57,7 +82,7 @@ def close_client():
     client = None
 
 config = None
-def get_query_config(filename = 'study-config.json'):
+def get_query_config(filename = STUDY_JSON):
     global config
     if config is None:
         try:
@@ -76,7 +101,7 @@ def get_query_data():
         return job_data
 
     try:
-        with open('jobs.json', 'r') as fh:
+        with open(JOBS_JSON, 'r') as fh:
             query_data = json.load(fh)
         return query_data
     except:
@@ -87,7 +112,7 @@ def update_query_data(target, job_id, sha256):
     old_job_data = get_query_data()
     old_job_data[target] = { 'job': int(job_id), 'sha256': sha256 }
     job_data = old_job_data
-    with open('jobs.json', 'w') as fh:
+    with open(JOBS_JSON, 'w') as fh:
         json.dump(job_data, fh, indent = 2)
 
 def expand_replacements(replacements, query):
@@ -115,10 +140,13 @@ def build_replacements(global_replacements, local_replacements, only_files=False
                         replacements[target] = repl['replacement']
                 else:
                     if only_files:
-                        replacements[target] = 'boa/snippets/' + repl['file']
+                        replacements[target] = SNIPPET_ROOT + repl['file']
                     else:
-                        with open('boa/snippets/' + repl['file'], 'r') as fh:
-                            replacements[target] = fh.read()
+                        try:
+                            with open(SNIPPET_ROOT + repl['file'], 'r') as fh:
+                                replacements[target] = fh.read()
+                        except FileNotFoundError as e:
+                            raise FileNotFoundError(f"Snippet file '{repl['file']}' not found for substitution '{repl['target']}'.") from e
                 if target in replacements:
                     repls.append((target, replacements[target]))
     return repls
@@ -147,7 +175,7 @@ def prepare_query(target):
     config = get_query_config()
     query_info = config['queries'][target]
 
-    with open('boa/' + query_info['query'], 'r') as fh:
+    with open(QUERY_ROOT + query_info['query'], 'r') as fh:
         query = fh.read()
 
     query_substitutions = build_replacements(config.get('substitutions', []), query_info.get('substitutions', []))

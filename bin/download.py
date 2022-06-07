@@ -20,16 +20,15 @@ from boaapi.status import CompilerStatus, ExecutionStatus
 from utilities import *
 
 def run_query(target):
-    if not is_run_needed(target):
-        return
+    logger.info('Running query again...')
 
     client = get_client()
     query, sha256 = prepare_query(target)
     job = client.query(query, get_dataset(target))
 
-    logger.info(f'Job {job.id} is running.')
+    logger.debug(f'Job {job.id} is running.')
     job.wait()
-    logger.info(f'Job {job.id} is complete.')
+    logger.debug(f'Job {job.id} is complete.')
 
     if job.compiler_status is CompilerStatus.ERROR:
         logger.error(f'Job {job.id} had a compilation error.')
@@ -40,18 +39,23 @@ def run_query(target):
         logger.error(f'See url: {job.get_url()}')
         exit(22)
 
-    if get_make_public(target):
-        job.set_public(True)
-
     update_query_data(target, job.id, sha256)
 
+    outputPath = os.path.join(TXT_ROOT, target)
+    if os.path.exists(outputPath):
+        os.unlink(outputPath)
+
 def download_query(target):
+    logger.info(f'Downloading query output "{target}"...')
+
     job_data = get_query_data()
 
     client = get_client()
     job = client.get_job(job_data[target]['job'])
 
-    target = 'data/txt/' + target
+    job.set_public(get_make_public(target))
+
+    target = TXT_ROOT + target
     os.makedirs(os.path.dirname(target), exist_ok=True)
     with open(target, 'w') as fh:
         fh.write(job.output())
@@ -59,18 +63,20 @@ def download_query(target):
 if __name__ == '__main__':
     from argparse import ArgumentParser
     parser = ArgumentParser()
+    parser.add_argument('--verbose', '-v', action='count', default=0)
     parser.add_argument('target')
-    parser.add_argument('--force-rerun', '-force-rerun', '-f')
-    parser.add_argument('--verbose', '-v', action='count', default = 0)
     args = parser.parse_args()
 
-    verbosity = max(5 - args.verbose, 1) * 10
+    verbosity = min(max(3 - args.verbose, 1), 3) * 10
     logger.setLevel(verbosity)
-    logger.info('Setting verbosity to {verbosity}')
+    logger.info(f'Setting verbosity to {verbosity}')
 
-    target = args.target[9:] # trim off 'data/txt/'
+    target = args.target[len(TXT_ROOT):] # trim off 'data/txt/'
 
-    run_query(target)
-    download_query(target)
+    if is_run_needed(target):
+        run_query(target)
+
+    if not os.path.exists(args.target):
+        download_query(target)
 
     close_client()
