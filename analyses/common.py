@@ -136,7 +136,7 @@ def load_total_counts(language):
     path = f"data/parquet/counts-{language}.parquet"
     if osp.exists(path):
         return pd.read_parquet(path)
-    df = get_df("basic-usage.csv", language)
+    df = get_df("basic-usage", language)
     df_counts = df.groupby(['project', 'location'], as_index = False).sum()[['project', 'location', 'count']].rename(columns = {'count': 'total'})[['project', 'location', 'total']]
     df_counts.to_parquet(path)
     return df_counts
@@ -146,7 +146,7 @@ def load_pre_summarized(language, group_cols):
     path = f"data/parquet/counts-summarized-{language}-{group_cols_string}.parquet"
     if osp.exists(path):
         return pd.read_parquet(path)
-    df = get_df("basic-usage.csv", "language")
+    df = get_df("basic-usage", language)
     df_totals = load_total_counts(language)
     df_counted = df.groupby(group_cols, as_index = False).sum()[[*group_cols, 'count']]
     df_summarized = df_counted.merge(df_totals, on=['project', 'location'], how = 'left')
