@@ -48,7 +48,7 @@ visit(input, visitor {
         file := current(ChangedFile).name;
         if (def(node.expression)) {
             isinferred := ! def(node.return_type);
-            o[input.id][file]["return_val"][false][isinferred] << 1;
+            o[input.id][escape(file)]["return_val"][false][isinferred] << 1;
         }
         push(location, "body");
         if (def(node.expression)) visit(node.expression);
@@ -93,6 +93,6 @@ visit(input, visitor {
         exists(i: int; (def(node.modifiers[i]) && node.modifiers[i].kind == ModifierKind.FINAL))
             isval = true;
         isinferred := !def(node.variable_type);
-        o[input.id][file][place][isval][isinferred] << 1;
+        o[input.id][escape(file)][place][isval][isinferred] << 1;
     }
 });
