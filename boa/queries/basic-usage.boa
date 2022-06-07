@@ -1,39 +1,23 @@
-o: output sum[project: string][file: string][location: string][isval: bool][isinferred: bool] of int; # Count
+o: output sum[project: string][revision: string][outtime: time][file: string][location: string][isval: bool][isinferred: bool] of int; # Count
 
 {@escape@}
 
 location: stack of string;
 
 visit(input, visitor {
-    before node: CodeRepository -> {
-        # Output 0s as necessary
-        o[input.id]["DUMMYDUMMYDUMMY.kt"]["return_val"][false][false] << 0;
-        o[input.id]["DUMMYDUMMYDUMMY.kt"]["return_val"][false][true] << 0;
-        o[input.id]["DUMMYDUMMYDUMMY.kt"]["module"][true][false] << 0;
-        o[input.id]["DUMMYDUMMYDUMMY.kt"]["module"][true][true] << 0;
-        o[input.id]["DUMMYDUMMYDUMMY.kt"]["module"][false][false] << 0;
-        o[input.id]["DUMMYDUMMYDUMMY.kt"]["module"][false][true] << 0;
-        o[input.id]["DUMMYDUMMYDUMMY.kt"]["body"][true][false] << 0;
-        o[input.id]["DUMMYDUMMYDUMMY.kt"]["body"][true][true] << 0;
-        o[input.id]["DUMMYDUMMYDUMMY.kt"]["body"][false][false] << 0;
-        o[input.id]["DUMMYDUMMYDUMMY.kt"]["body"][false][true] << 0;
-        o[input.id]["DUMMYDUMMYDUMMY.kt"]["loop_variable"][true][false] << 0;
-        o[input.id]["DUMMYDUMMYDUMMY.kt"]["loop_variable"][true][true] << 0;
-        o[input.id]["DUMMYDUMMYDUMMY.kt"]["loop_variable"][false][false] << 0;
-        o[input.id]["DUMMYDUMMYDUMMY.kt"]["loop_variable"][false][true] << 0;
-        o[input.id]["DUMMYDUMMYDUMMY.kt"]["lambda_arg"][true][false] << 0;
-        o[input.id]["DUMMYDUMMYDUMMY.kt"]["lambda_arg"][true][true] << 0;
-        o[input.id]["DUMMYDUMMYDUMMY.kt"]["lambda_arg"][false][false] << 0;
-        o[input.id]["DUMMYDUMMYDUMMY.kt"]["lambda_arg"][false][true] << 0;
-        o[input.id]["DUMMYDUMMYDUMMY.kt"]["module"][true][false] << 0;
-        o[input.id]["DUMMYDUMMYDUMMY.kt"]["module"][true][true] << 0;
-        o[input.id]["DUMMYDUMMYDUMMY.kt"]["module"][false][false] << 0;
-        o[input.id]["DUMMYDUMMYDUMMY.kt"]["module"][false][true] << 0;
-
-        snapshot := getsnapshot(node, "SOURCE_KOTLIN_1_");
-        foreach (i: int; def(snapshot[i]))
-            visit(snapshot[i]);
-        stop;
+    before node: Revision -> {
+        # Output zeroes as necessary
+        kinds :=  { "return_val", "module", "body", "loop_variable", "lambda_arg" };
+        foreach (i: int; def(kinds[i])) {
+            o[input.id][current(Revision).id][current(Revision).commit_date]["DUMMYDUMMYDUMMY.kt"][kinds[i]][false][false] << 0;
+            o[input.id][current(Revision).id][current(Revision).commit_date]["DUMMYDUMMYDUMMY.kt"][kinds[i]][false][true] << 0;
+            o[input.id][current(Revision).id][current(Revision).commit_date]["DUMMYDUMMYDUMMY.kt"][kinds[i]][true][false] << 0;
+            o[input.id][current(Revision).id][current(Revision).commit_date]["DUMMYDUMMYDUMMY.kt"][kinds[i]][true][true] << 0;
+        }
+    }
+    before node: ChangedFile -> {
+        if (! match(node.kind, "SOURCE_KOTLIN_1_"))
+            stop;
     }
     before node: Namespace -> push(location, "module");
     after node: Namespace -> pop(location);
@@ -48,7 +32,7 @@ visit(input, visitor {
         file := current(ChangedFile).name;
         if (def(node.expression)) {
             isinferred := ! def(node.return_type);
-            o[input.id][escape(file)]["return_val"][false][isinferred] << 1;
+            o[input.id][current(Revision).id][current(Revision).commit_date][escape(file)]["return_val"][false][isinferred] << 1;
         }
         push(location, "body");
         if (def(node.expression)) visit(node.expression);
@@ -93,6 +77,6 @@ visit(input, visitor {
         exists(i: int; (def(node.modifiers[i]) && node.modifiers[i].kind == ModifierKind.FINAL))
             isval = true;
         isinferred := !def(node.variable_type);
-        o[input.id][escape(file)][place][isval][isinferred] << 1;
+        o[input.id][current(Revision).id][current(Revision).commit_date][escape(file)][place][isval][isinferred] << 1;
     }
 });
