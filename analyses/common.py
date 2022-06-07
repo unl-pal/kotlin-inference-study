@@ -132,25 +132,11 @@ def save_figure(figure, filename, x=None, y=None):
     fig.savefig(filename, dpi=600)
     plt.close(fig)
 
-
-
-
-def load_data_csv(language, file, **kwargs):
-    return pd.read_csv(f"data/csv/{language}/{file}", on_bad_lines='skip', **kwargs)
-
-def load_usage_data(language):
-    path = f"data/parquet/usage-{language}.parquet"
-    if osp.exists(path):
-        return pd.read_parquet(path)
-    df = load_data_csv(language, "basic-usage.csv")
-    df.to_parquet(path)
-    return df
-
 def load_total_counts(language):
     path = f"data/parquet/counts-{language}.parquet"
     if osp.exists(path):
         return pd.read_parquet(path)
-    df = load_usage_data(language)
+    df = get_df("basic-usage.csv", language)
     df_counts = df.groupby(['project', 'location'], as_index = False).sum()[['project', 'location', 'count']].rename(columns = {'count': 'total'})[['project', 'location', 'total']]
     df_counts.to_parquet(path)
     return df_counts
@@ -160,7 +146,7 @@ def load_pre_summarized(language, group_cols):
     path = f"data/parquet/counts-summarized-{language}-{group_cols_string}.parquet"
     if osp.exists(path):
         return pd.read_parquet(path)
-    df = load_usage_data(language)
+    df = get_df("basic-usage.csv", "language")
     df_totals = load_total_counts(language)
     df_counted = df.groupby(group_cols, as_index = False).sum()[[*group_cols, 'count']]
     df_summarized = df_counted.merge(df_totals, on=['project', 'location'], how = 'left')
