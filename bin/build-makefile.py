@@ -15,15 +15,15 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from utilities import get_query_config, build_replacements
+from utilities import get_query_config, build_replacements, TXT_ROOT, CSV_ROOT, PQ_ROOT, ANALYSIS_ROOT
 
 if __name__ == '__main__':
     configuration = get_query_config()
 
     print('# DO NOT EDIT')
     print('# this file was automatically generated')
-    print('DOWNLOAD:=${PYTHON} bin/download.py')
-    print('BOATOCSV:=${PYTHON} bin/boa-to-csv.py')
+    print('DOWNLOAD:=$(PYTHON) bin/download.py $(VERBOSE)')
+    print('BOATOCSV:=$(PYTHON) bin/boa-to-csv.py')
     print('GENDUPES:=$(PYTHON) bin/gendupes.py')
     print('')
 
@@ -36,12 +36,12 @@ if __name__ == '__main__':
     for target in configuration['queries']:
         query_info = configuration['queries'][target]
         substitution_files = [x for (_, x) in build_replacements(configuration.get('substitutions', []), query_info.get('substitutions', []), only_files = True)]
-        target = 'data/txt/' + target
+        target = TXT_ROOT + target
         txt.append(target)
 
         if 'csv' in query_info and 'output' in query_info['csv']:
             csv_info = query_info['csv']
-            csv_output = 'data/csv/' + csv_info['output']
+            csv_output = CSV_ROOT + csv_info['output']
             csv.append(csv_output)
 
             print('')
@@ -60,10 +60,13 @@ if __name__ == '__main__':
                 string += f' --numidx {int(csv_info["index"])}'
             string += ' $< > $@'
             print(string)
+            filename = csv_info['output'][:-4]
+            print('\t@rm -f data/parquet/' + filename + '.parquet')
+            print('\t@rm -f data/parquet/' + filename + '-deduped.parquet')
 
         if 'gendupes' in query_info and 'output' in query_info['gendupes']:
             dupes_info = query_info['gendupes']
-            dupes_txt = 'data/txt/' + dupes_info['output']
+            dupes_txt = TXT_ROOT + dupes_info['output']
             txt.append(dupes_txt)
 
             print('')
@@ -72,19 +75,19 @@ if __name__ == '__main__':
             print('\t${GENDUPES} $< > $@')
 
             if 'csv' in dupes_info:
-                dupes_csv  = 'data/csv/' + dupes_info['csv']
+                dupes_csv  = CSV_ROOT + dupes_info['csv']
                 csv.append(dupes_csv)
 
                 print('')
                 print(f'{dupes_csv}: {dupes_txt}')
                 print('\t$(BOATOCSV) $< > $@')
-                print('\t@rm -f data/parquet/$**/dupes.parquet')
-                print('\t@rm -f data/parquet/$**/deduped.parquet')
+                print(f'\t@rm -f {PQ_ROOT}$**/dupes.parquet')
+                print(f'\t@rm -f {PQ_ROOT}$**/*-deduped.parquet')
 
         print('')
         string = f'boa/{query_info["query"]} '
         string += ' '.join(substitution_files)
-        print(f'{target}: {string.strip()}')
+        print(f'{target}: {string.strip()} study-config.json')
         print(f'\t${{DOWNLOAD}} $@')
 
     print('')
@@ -100,11 +103,11 @@ if __name__ == '__main__':
         analyses.append(target)
 
         inputs = configuration['analyses'][script]['input']
-        inputs = ['data/csv/' + x for x in inputs]
+        inputs = [CSV_ROOT + x for x in inputs]
 
         print('')
-        print(f'{target}: data analyses/{script} ' + ' '.join(inputs))
-        print(f'\t$(PYTHON) analyses/{script}')
+        print(f'{target}: data {ANALYSIS_ROOT}{script} ' + ' '.join(inputs))
+        print(f'\t$(PYTHON) {ANALYSIS_ROOT}{script}')
 
     if len(analyses) > 0:
         print('')

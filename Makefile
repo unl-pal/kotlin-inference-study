@@ -14,13 +14,19 @@
 # limitations under the License.
 
 PYTHON:=python3
+VERBOSE:=
+
+ZIP:=zip
+ZIPOPTIONS:=-u -r
+ZIPIGNORES:=-x \*/.DS_Store -x \*/.gitkeep -x data/csv/\*
+
 
 .PHONY: all
 all: data analysis
 
-include Makefile.jobs
+include Makefile.study
 
-Makefile.jobs: study-config.json bin/build-makefile.py
+Makefile.study: study-config.json bin/build-makefile.py
 	jsonschema --instance study-config.json schemas/0.1.0/study-config.schema.json
 	$(PYTHON) bin/build-makefile.py > $@
 
@@ -28,25 +34,22 @@ Makefile.jobs: study-config.json bin/build-makefile.py
 ####################
 # packaging targets
 #
-ZIP:=zip
-
-ZIPOPTIONS:=-u -r
-ZIPIGNORES:=-x \*/.DS_Store -x \*/.gitkeep -x data/csv/\*/\*.csv -x data/csv/*.csv
-
 .PHONY: zip
 zip:
-	-$(ZIP) replication-pkg.zip $(ZIPOPTIONS) Makefile README.md LICENSE requirements.txt study-config.json jobs.json *.py bin/*.py boa/ figures/ tables/ data/ $(ZIPIGNORES)
+	-$(ZIP) replication-pkg.zip $(ZIPOPTIONS) .vscode/settings.json analyses/*.py bin/*.py boa/ data/ figures/ schemas/ tables/ jobs.json LICENSE Makefile README.md requirements.txt study-config.json $(ZIPIGNORES)
 
 
 ################
 # clean targets
 #
-.PHONY: clean clean-csv clean-pq clean-txt clean-zip clean-all
+.PHONY: clean clean-data clean-csv clean-pq clean-txt clean-zip clean-all
 
 clean:
 	rm -Rf __pycache__ bin/__pycache__
 	rm -f figures/*/*.pdf figures/*.pdf
 	rm -f tables/*/*.tex tables/*.tex
+
+clean-data: clean-csv clean-pq clean-txt
 
 clean-csv:
 	rm -f data/csv/*/*.csv data/csv/*.csv
@@ -60,4 +63,4 @@ clean-txt:
 clean-zip:
 	rm -f *.zip
 
-clean-all: clean clean-csv clean-pq clean-txt clean-zip
+clean-all: clean clean-data clean-zip

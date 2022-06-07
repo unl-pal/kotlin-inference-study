@@ -1,6 +1,6 @@
 o: output sum[project: string][revision: string][outtime: time][file: string][location: string][isval: bool][isinferred: bool] of int; # Count
 
-<<escape>>
+{@escape@}
 
 location: stack of string;
 
@@ -47,7 +47,7 @@ visit(input, visitor {
         file := current(ChangedFile).name;
         if (def(node.expression)) {
             isinferred := ! def(node.return_type);
-            o[input.id][current(Revision).id][current(Revision).commit_date][file]["return_val"][false][isinferred] << 1;
+            o[input.id][current(Revision).id][current(Revision).commit_date][escape(file)]["return_val"][false][isinferred] << 1;
         }
         push(location, "body");
         if (def(node.expression)) visit(node.expression);
@@ -92,6 +92,6 @@ visit(input, visitor {
         exists(i: int; (def(node.modifiers[i]) && node.modifiers[i].kind == ModifierKind.FINAL))
             isval = true;
         isinferred := !def(node.variable_type);
-        o[input.id][current(Revision).id][current(Revision).commit_date][file][place][isval][isinferred] << 1;
+        o[input.id][current(Revision).id][current(Revision).commit_date][escape(file)][place][isval][isinferred] << 1;
     }
 });
