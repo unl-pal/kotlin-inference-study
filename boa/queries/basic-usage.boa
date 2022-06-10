@@ -16,7 +16,7 @@ visit(input, visitor {
         }
     }
     before node: ChangedFile -> {
-        if (! match(node.kind, "SOURCE_KOTLIN_1_"))
+        if (! match(string(node.kind), "SOURCE_KOTLIN_1_"))
             stop;
     }
     before node: Namespace -> push(location, "module");
