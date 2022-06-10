@@ -1,0 +1,37 @@
+p: Project = input;
+o: output sum[url: string][starCount: int][revisionCount: int][contributorCount: int][head: string][ts: int][changedFileCount: int] of int;
+
+changedFileCount := 0;
+revisionCount : int;
+ts : int;
+head: string;
+contributorCount : int;
+s: set of string;
+
+
+visit(input, visitor {
+	before n: CodeRepository -> {
+	    revisionCount = getrevisionscount(n);
+	    
+	    head = getrevision(n, n.head).id;         
+	    ts = int(getrevision(n, n.head).commit_date);
+	    
+		snapshot := getsnapshot(n, "SOURCE_KOTLIN_");
+		foreach (i: int; def(snapshot[i]))
+		    visit(snapshot[i]);
+		stop;
+	}
+	
+	before cf: ChangedFile -> if (cf.kind != FileKind.SOURCE_KOTLIN_ERROR) changedFileCount++;
+});
+
+visit(input, visitor {
+	
+	before node: Revision -> {
+	    if (node.committer.username != "GitHub") {
+            add(s, node.committer.username);
+	    }
+	}
+});
+
+o[p.project_url][p.stars][revisionCount][len(s)][head][ts][changedFileCount] << 1;

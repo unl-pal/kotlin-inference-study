@@ -29,6 +29,16 @@
                     "2,\\.kts?$"
                 ]
             }
+        },
+        "kotlin/project-counts.txt": {
+            "query": "queries/project-counts.boa",
+            "dataset": "kotlin",
+            "make_public": false,
+            "csv": {
+                "output": "kotlin/project-counts.csv",
+                "drop": [ 0, 8 ],
+                "header": "project,stars,revisions,authors,head,lastTime,changedCount"
+            }
         }
     },
 
