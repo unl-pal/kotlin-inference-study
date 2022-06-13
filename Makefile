@@ -36,7 +36,7 @@ Makefile.study: study-config.json bin/build-makefile.py
 #
 .PHONY: zip
 zip:
-	-$(ZIP) replication-pkg.zip $(ZIPOPTIONS) .vscode/settings.json analyses/*.py bin/*.py boa/ data/ figures/ schemas/ tables/ jobs.json LICENSE Makefile README.md requirements.txt study-config.json $(ZIPIGNORES)
+	-$(ZIP) replication-pkg.zip $(ZIPOPTIONS) .vscode/settings.json analyses/**/*.py analyses/*.py bin/**/*.py bin/*.py boa/ data/ figures/ schemas/ tables/ jobs.json LICENSE Makefile README.md requirements.txt study-config.json $(ZIPIGNORES)
 
 
 ################
@@ -46,19 +46,19 @@ zip:
 
 clean:
 	rm -Rf __pycache__ bin/__pycache__
-	rm -f figures/*/*.pdf figures/*.pdf
-	rm -f tables/*/*.tex tables/*.tex
+	rm -f figures/**/*.pdf figures/*.pdf
+	rm -f tables/**/*.tex tables/*.tex
 
 clean-data: clean-csv clean-pq clean-txt
 
 clean-csv:
-	rm -f data/csv/*/*.csv data/csv/*.csv
+	rm -f data/csv/**/*.csv data/csv/*.csv
 
 clean-pq:
-	rm -f data/parquet/*/*.parquet data/parquet/*.parquet
+	rm -f data/parquet/**/*.parquet data/parquet/*.parquet
 
 clean-txt:
-	rm -f data/txt/*/*.txt data/txt/*.txt
+	rm -f data/txt/**/*.txt data/txt/*.txt
 
 clean-zip:
 	rm -f *.zip
