@@ -1,20 +1,12 @@
-o: output sum[project: string][revision: string][outtime: time][file: string][location: string][isval: bool][isinferred: bool] of int; # Count
+o: output sum[project: string]{@time-out@}[file: string][location: string][isval: bool][isinferred: bool] of int; # Count
 
 {@escape@}
 
 location: stack of string;
 
+{@project-filter@}
 visit(input, visitor {
-    before node: Revision -> {
-        # Output zeroes as necessary
-        kinds :=  { "return_val", "module", "body", "loop_variable", "lambda_arg" };
-        foreach (i: int; def(kinds[i])) {
-            o[input.id][current(Revision).id][current(Revision).commit_date]["DUMMYDUMMYDUMMY.kt"][kinds[i]][false][false] << 0;
-            o[input.id][current(Revision).id][current(Revision).commit_date]["DUMMYDUMMYDUMMY.kt"][kinds[i]][false][true] << 0;
-            o[input.id][current(Revision).id][current(Revision).commit_date]["DUMMYDUMMYDUMMY.kt"][kinds[i]][true][false] << 0;
-            o[input.id][current(Revision).id][current(Revision).commit_date]["DUMMYDUMMYDUMMY.kt"][kinds[i]][true][true] << 0;
-        }
-    }
+    {@time-or-snapshot@}
     before node: ChangedFile -> {
         if (! match(string(node.kind), "SOURCE_KOTLIN_1_"))
             stop;
@@ -32,7 +24,7 @@ visit(input, visitor {
         file := current(ChangedFile).name;
         if (def(node.expression)) {
             isinferred := ! def(node.return_type);
-            o[input.id][current(Revision).id][current(Revision).commit_date][escape(file)]["return_val"][false][isinferred] << 1;
+            o[input.id]{@time-part@}[escape(file)]["return_val"][false][isinferred] << 1;
         }
         push(location, "body");
         if (def(node.expression)) visit(node.expression);
@@ -77,6 +69,6 @@ visit(input, visitor {
         exists(i: int; (def(node.modifiers[i]) && node.modifiers[i].kind == ModifierKind.FINAL))
             isval = true;
         isinferred := !def(node.variable_type);
-        o[input.id][current(Revision).id][current(Revision).commit_date][escape(file)][place][isval][isinferred] << 1;
+        o[input.id]{@time-part@}[escape(file)][place][isval][isinferred] << 1;
     }
 });

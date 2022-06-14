@@ -21,10 +21,43 @@
             "query": "queries/basic-usage.boa",
             "dataset": "kotlin",
             "make_public": true,
+	    "substitutions": [
+		{
+		    "target": "{@time-or-snapshot@}",
+		    "replacement": "before node: CodeRepository -> {\n        # Output zeroes as necessary\n        kinds :=  { \"return_val\", \"module\", \"body\", \"loop_variable\", \"lambda_arg\" };\n        foreach (i: int; def(kinds[i])) {\n            o[input.id]{@time-part@}[\"DUMMYDUMMYDUMMY.kt\"][kinds[i]][false][false] << 0;\n            o[input.id]{@time-part@}[\"DUMMYDUMMYDUMMY.kt\"][kinds[i]][false][true] << 0;\n            o[input.id]{@time-part@}[\"DUMMYDUMMYDUMMY.kt\"][kinds[i]][true][false] << 0;\n            o[input.id]{@time-part@}[\"DUMMYDUMMYDUMMY.kt\"][kinds[i]][true][true] << 0;\n        }\n        snapshot := getsnapshot(node, \"SOURCE_KOTLIN_1_\");\n        foreach (i: int; def(snapshot[i]))\n            visit(snapshot[i]);\n        stop;\n    }"
+		}
+	    ],
             "csv": {
                 "output": "kotlin/basic-usage.csv",
                 "drop": [ 0 ],
                 "header": "project,file,location,isval,isinferred,count",
+                "test": [
+                    "2,\\.kts?$"
+                ]
+            }
+        },
+	"kotlin/over-time.txt": {
+            "query": "queries/basic-usage.boa",
+            "dataset": "kotlin",
+            "make_public": true,
+	    "substitutions": [
+		{
+		    "target": "{@time-out@}",
+		    "replacement": "[revision: string][outtime: time]"
+		},
+		{
+		    "target": "{@time-part@}",
+		    "replacement": "[current(Revision).id][current(Revision).commit_date]"
+		},
+		{
+		    "target": "{@time-or-snapshot@}",
+		    "replacement": "before node: Revision -> {\n        # Output zeroes as necessary\n        kinds :=  { \"return_val\", \"module\", \"body\", \"loop_variable\", \"lambda_arg\" };\n        foreach (i: int; def(kinds[i])) {\n            o[input.id]{@time-part@}[\"DUMMYDUMMYDUMMY.kt\"][kinds[i]][false][false] << 0;\n            o[input.id]{@time-part@}[\"DUMMYDUMMYDUMMY.kt\"][kinds[i]][false][true] << 0;\n            o[input.id]{@time-part@}[\"DUMMYDUMMYDUMMY.kt\"][kinds[i]][true][false] << 0;\n            o[input.id]{@time-part@}[\"DUMMYDUMMYDUMMY.kt\"][kinds[i]][true][true] << 0;\n        }\n    }"
+		}
+	    ],
+            "csv": {
+                "output": "kotlin/over-time.csv",
+                "drop": [ 0 ],
+                "header": "project,file,revision,time,location,isval,isinferred,count",
                 "test": [
                     "2,\\.kts?$"
                 ]
@@ -53,7 +86,19 @@
         },
         {
             "target": "{@project-filter@}",
-            "replacement": ""
-        }
+            "replacement": "if ((nrand(100) % 5) == 0)"
+        },
+	{
+	    "target": "{@time-out@}",
+	    "replacement": ""
+	},
+	{
+	    "target": "{@time-part@}",
+	    "replacement": ""
+	},
+	{
+	    "target": "{@time-or-snapshot@}",
+	    "replacement": ""
+	}
     ]
 }
