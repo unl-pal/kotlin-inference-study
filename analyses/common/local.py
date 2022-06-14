@@ -2,6 +2,7 @@
 
 import pandas as pd
 
+from matplotlib import pyplot as plt
 import seaborn as sns
 import os.path as osp
 
@@ -15,7 +16,9 @@ __all__ = [
     "location_map",
     "inferred_name",
     "val_or_var",
-    "save_figure"
+    "save_figure",
+    "plt",
+    "sns"
     ]
 
 # Set default plot style
@@ -27,7 +30,7 @@ def load_total_counts(language):
     path = f"data/parquet/counts-{language}.parquet"
     if osp.exists(path):
         return pd.read_parquet(path)
-    df = get_df("basic-usage", language)
+    df = get_df("basic-usage", language, header='infer')
     df_counts = df.groupby(['project', 'location'], as_index = False).sum()[['project', 'location', 'count']].rename(columns = {'count': 'total'})[['project', 'location', 'total']]
     df_counts.to_parquet(path)
     return df_counts
@@ -37,7 +40,7 @@ def load_pre_summarized(language, group_cols):
     path = f"data/parquet/counts-summarized-{language}-{group_cols_string}.parquet"
     if osp.exists(path):
         return pd.read_parquet(path)
-    df = get_df("basic-usage", language)
+    df = get_df("basic-usage", language, header='infer')
     df_totals = load_total_counts(language)
     df_counted = df.groupby(group_cols, as_index = False).sum()[[*group_cols, 'count']]
     df_summarized = df_counted.merge(df_totals, on=['project', 'location'], how = 'left')

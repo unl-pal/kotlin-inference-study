@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-from common import *
+from common.local import *
+from common.tables import *
 from matplotlib.ticker import PercentFormatter
 
 from scipy.stats import shapiro
@@ -25,4 +26,7 @@ for ax in figure.axes.flat:
     ax.yaxis.set_major_formatter(PercentFormatter(100))
 save_figure(figure.figure, "figures/rq-mutability-summary.pdf", 7, 4)
 
-save_table(summarized[['location', 'isinferred', 'isval', 'percent']].groupby(['location', 'isinferred', 'isval']).describe(), "tables/rq-mutability-summary.tex")
+
+styler = highlight_rows(highlight_cols(get_styler(summarized[['location', 'isinferred', 'isval', 'percent']].groupby(['location', 'isinferred', 'isval']).describe())))
+
+save_table(styler, "rq-mutability-summary.tex")

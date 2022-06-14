@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-from common import *
+from common.local import *
+from common.tables import *
 from matplotlib.ticker import PercentFormatter
 
 from scipy.stats import shapiro
@@ -19,4 +20,7 @@ ax.set_xlabel("")
 plt.gca().legend().set_title("")
 save_figure(fig, "figures/rq-usage-summary.pdf", 7, 4)
 
-save_table(summarized[['location', 'isinferred', 'percent']].groupby(['location', 'isinferred']).describe(), "tables/rq-usage-summary.tex")
+
+styler = highlight_cols(highlight_rows(get_styler(summarized[['location', 'isinferred', 'percent']].groupby(['location', 'isinferred']).describe())))
+
+save_table(styler, "rq-usage-summary.tex")
