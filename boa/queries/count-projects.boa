@@ -5,7 +5,7 @@ o: output sum[count_type: string][is_filtered: bool] of int;
     o["projects"][is_filtered] << 1;
     visit(input, visitor {
             before node: CodeRepository -> {
-                snapshot := get_snapshot(node);
+                snapshot := getsnapshot(node);
                 foreach(i: int; def(snapshot[i]))
                     visit(snapshot[i]);
                 stop;
