@@ -87,3 +87,14 @@
 ### `rhs.csv`
 
 ### `survival.csv`
+
+### `count-unfiltered.csv`, `count-filtered.csv`
+
+1. `type`
+: The type of `count`, `string`.
+
+2. `filtered`
+: Whether or not count is from filtered data, `boolean`.
+
+3. `count`
+: Count of items described by `type`, `long`.
