@@ -92,10 +92,10 @@
     },
     "analyses": {
         "table-counts.py": {
-            "input": {
+            "input": [
                 "kotlin/count-unfiltered.csv",
                 "kotlin/count-filtered.csv"
-            }
+            ]
         },
         "rq-mutability.py": {
             "input": [
