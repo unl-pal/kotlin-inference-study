@@ -16,8 +16,8 @@ o: output sum[count_type: string][is_filtered: bool] of int;
                     o["analyzed_files_head"][is_filtered] << 1;
             }
         });
-    all_hist_files := set of string;
-    all_analyzed_files := set of string;
+    all_hist_files: set of string;
+    all_analyzed_files: set of string;
     visit(input, visitor {
             before node: ChangedFile -> {
                 add(all_hist_files, node.name);
