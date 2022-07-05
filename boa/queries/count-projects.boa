@@ -1,4 +1,4 @@
-o: output sum[type: string][is_filtered: bool] of int;
+o: output sum[count_type: string][is_filtered: bool] of int;
 
 {@project-filter@}
 {
