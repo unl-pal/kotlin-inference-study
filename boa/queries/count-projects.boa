@@ -1,0 +1,30 @@
+o: output sum[type: string][is_filtered: bool] of int;
+
+{@project-filter@}
+{
+    o["projects"][is_filtered] << 1;
+    visit(input, visitor {
+            before node: CodeRepository -> {
+                snapshot := get_snapshot(node);
+                foreach(i: int; def(snapshot[i]))
+                    visit(snapshot[i]);
+                stop;
+            }
+            before node: ChangedFile -> {
+                o["total_files_head"][is_filtered] << 1;
+                if (iskind("SOURCE_KOTLIN_1_", node.kind))
+                    o["analyzed_files_head"][is_filtered] << 1;
+            }
+        });
+    all_hist_files := set of string;
+    all_analyzed_files := set of string;
+    visit(input, visitor {
+            before node: ChangedFile -> {
+                add(all_hist_files, node.name);
+                if(iskind("SOURCE_KOTLIN_1_", node.kind))
+                    add(all_analyzed_files, node.name);
+            }
+        });
+    o["total_files_hist"][is_filtered] << len(values(all_hist_files));
+    o["analyzed_files_hist"][is_filtered] << len(values(all_analyzed_files));
+}

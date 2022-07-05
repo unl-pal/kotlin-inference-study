@@ -62,10 +62,41 @@
                     "2,\\.kts?$"
                 ]
             }
+        },
+        "kotlin/count-unfiltered.txt": {
+            "query": "queries/count-projects.boa",
+            "dataset": "kotlin",
+            "make_public": true,
+            "substitutions": [
+                {
+                    "target": "{@project-filter@}",
+                    "replacement": "is_filtered := false;"
+                }
+            ],
+            "csv": {
+                "output": "kotlin/count-unfiltered.csv",
+                "drop": [ 0 ],
+                "header": "type,filtered,count"
+            }
+        },
+        "kotlin/count-filtered.txt": {
+            "query": "queries/count-projects.boa",
+            "dataset": "kotlin",
+            "make_public": true,
+            "csv": {
+                "output": "kotlin/count-filtered.csv",
+                "drop": [ 0 ],
+                "header": "type,filtered,count"
+            }
         }
     },
-
     "analyses": {
+        "table-counts.py": {
+            "input": {
+                "kotlin/count-unfiltered.csv",
+                "kotlin/count-filtered.csv"
+            }
+        },
         "rq-mutability.py": {
             "input": [
                 "kotlin/basic-usage.csv",
@@ -86,7 +117,7 @@
         },
         {
             "target": "{@project-filter@}",
-            "replacement": "if ((nrand(100) % 5) == 0)"
+            "replacement": "if ((nrand(100) % 5) == 0)\nis_filtered := true;"
         },
 	{
 	    "target": "{@time-out@}",
