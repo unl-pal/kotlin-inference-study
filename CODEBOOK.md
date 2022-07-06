@@ -32,57 +32,53 @@
 
 ### `basic-usage.csv`
 
-1. `project`
-: Project ID, `string`/`integer`
+1. `project` (`string`/`integer`)
+: Project ID.
 
-2. `file`
-: Filename relative to repository root, `string`.
+2. `file` (`string`)
+: Filename relative to repository root.
 
-3. `location`
+3. `location` (`string`, *restricted*)
 : Overall location of declaration, `string`, one of
    - `return_val`
    - `lambda_arg`
    - `body`
    - `module`
 
-4. `isval`
-: Whether or not location is declared as `val`, `boolean`, `true` if `val`, `false` if `var`.
+4. `isval` (`boolean`)
+: Whether or not location is declared as `val` (`true` if `val`, `false` if `var`).
 
-5. `isinferred`
-: Whether or not the location uses type inference, `boolean`.
+5. `isinferred` (`boolean`)
+: Whether or not the location uses type inference.
 
-6. `count`
-: Number of declarations fitting items 1--5, `long`.
+6. `count` (`long`)
+: Number of declarations fitting items 1--5.
 
 ### `over-time.txt`
 
-1. `project`
-: Project ID, `string`/`integer`
+1. `project` (`string`/`integer`)
+: Project ID.
 
-2. `revision`
-: SHA of revision collected, `string`.
+2. `revision` (`string`)
+: SHA of revision collected.
 
-3. `time`
-: Time of revision, `long` representing microseconds since Unix epoch.
+3. `time` (`long`)
+: Time of revision as microseconds since Unix epoch.
 
-4. `file`
-: Filename relative to repository root, `string`.
+4. `file` (`string`)
+: Filename relative to repository root.
 
-5. `location`
-: Overall location of declaration, `string`, one of
-   - `return_val`
-   - `lambda_arg`
-   - `body`
-   - `module`
+5. `location` (`string`, *restricted*)
+: Overall location of declaration, *see `basic-usage.csv`/`location`*.
 
-6. `isval`
-: Whether or not location is declared as `val`, `boolean`, `true` if `val`, `false` if `var`.
+6. `isval` (`boolean`)
+: Whether or not location is declared as `val` (`true` if `val`, `false` if `var`).
 
-7. `isinferred`
-: Whether or not the location uses type inference, `boolean`.
+7. `isinferred` (`boolean`)
+: Whether or not the location uses type inference.
 
-8. `count`
-: Number of declarations fitting items 1--5, `long`.
+8. `count` (`long`)
+: Number of declarations fitting items 1--7.
 
 ### `rhs.csv`
 
@@ -90,11 +86,16 @@
 
 ### `count-unfiltered.csv`, `count-filtered.csv`
 
-1. `type`
-: The type of `count`, `string`.
+1. `type` (`string`, *restricted*)
+: The type of `count`.  Possible values are
+    - `projects`
+    - `total_files_head`
+    - `analyzed_files_head`
+    - `total_files_hist`
+    - `analyzed_files_hist`
 
-2. `filtered`
-: Whether or not count is from filtered data, `boolean`.
+2. `filtered` (`boolean`)
+: Whether or not count is from filtered data.
 
-3. `count`
-: Count of items described by `type`, `long`.
+3. `count` (`long`)
+: Count of items described by `type`.
