@@ -1,12 +1,7 @@
 {
     "$schema": "schemas/0.1.0/study-config.schema.json",
     "datasets": {
-        "kotlin": "2021 Aug/Kotlin",
-        "python": "2021 Aug/Python",
-        "python-ds": "2020 August/Python-DS",
-        "java": "2019 October/GitHub",
-        "java-sf": "2013 September/SF",
-        "original": "2012 July/SF"
+        "kotlin": "2021 Aug/Kotlin"
     },
     "queries": {
         "kotlin/hashes.txt": {
