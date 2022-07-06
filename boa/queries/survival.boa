@@ -87,7 +87,7 @@ repository: CodeRepository;
                             last[loc] = isinferred;
                             location_map[loc] = "return_val";
                             creation[loc] = current(Revision).commit_date;
-                        } else if(isinferred != last[loc]) {
+                        } else if(!contains(has_changed, loc) && isinferred != last[loc]) {
                             o[input.id][file][name][location_map[loc]][last[loc]][true] << current(Revision).commit_date - creation[loc];
                             remove(file_items[file], name);
                             add(has_changed, loc);
@@ -146,7 +146,7 @@ repository: CodeRepository;
                         last[loc] = isinferred;
                         location_map[loc] = place;
                         creation[loc] = current(Revision).commit_date;
-                    } else if (isinferred != last[loc]) {
+                    } else if (!contains(has_changed, loc) && isinferred != last[loc]) {
                         o[input.id][file][name][location_map[loc]][last[loc]][true] << current(Revision).commit_date - creation[loc];
                         remove(file_items[file], name);
                         add(has_changed, loc);
