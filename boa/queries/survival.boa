@@ -4,13 +4,13 @@ o: output sum[project: string][file: string][items: string][location: string][st
 
 last: map[string] of bool;
 location_map: map[string] of string;
-creation: map[string] of bool;
+creation: map[string] of time;
 file_items: map[string] of set of string;
 has_changed: set of string;
 
 location: stack of string;
 name_parts: stack of string;
-order_stack: stack of string;
+order_stack: stack of int;
 
 head_time: time;
 repository: CodeRepository;
@@ -65,10 +65,6 @@ repository: CodeRepository;
                         the_set: set of string;
                         file_items[node.name] = the_set;
                     }
-                    foreach(i: int; def(node.methods[i]))
-                        visit(node.methods[i]);
-                    foreach(i: int; def(node.nested_declarations[i]))
-                        visit(node.nested_declarations[i]);
                 }
                 after node: ChangedFile -> {
                     # Handle removed items
@@ -142,7 +138,7 @@ repository: CodeRepository;
                 before node: Variable -> {
                     file := current(ChangedFile).name;
                     name := join(".", name_parts);
-                    loc := format("%s#%s");
+                    loc := format("%s#%s", file, name);
                     place := peek(location);
                     isinferred := !def(node.variable_type);
                     if(!contains(file_items[file], name) && !contains(has_changed, loc)) {
@@ -161,6 +157,6 @@ repository: CodeRepository;
                         # Mark as seen
                     }
                 }
-            };)
+            });
     }
 }
