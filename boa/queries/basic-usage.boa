@@ -8,7 +8,7 @@ location: stack of string;
 visit(input, visitor {
     {@time-or-snapshot@}
     before node: ChangedFile -> {
-        if (! match(string(node.kind), "SOURCE_KOTLIN_1_"))
+        if (! match("SOURCE_KOTLIN_1_", string(node.kind)))
             stop;
     }
     before node: Namespace -> push(location, "module");

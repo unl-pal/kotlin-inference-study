@@ -94,6 +94,7 @@ if __name__ == '__main__':
                 print(f'{clean_target} += {PQ_ROOT}$**/dupes.parquet')
                 print(f'{clean_target} += {PQ_ROOT}$**/*-deduped.parquet')
                 print(f'{dupes_csv}: {dupes_txt}')
+                print('\t@$(MKDIR) $(dir $@)')
                 print('\t$(PYTHON) $(BOATOCSV) $< > $@')
                 print(f'\t@$(RM) {PQ_ROOT}$**/dupes.parquet')
                 print(f'\t@$(RM) {PQ_ROOT}$**/*-deduped.parquet')
@@ -125,7 +126,7 @@ if __name__ == '__main__':
         inputs = [CSV_ROOT + x for x in inputs]
 
         print('')
-        print(f'{target}: data {ANALYSIS_ROOT}{script} ' + ' '.join(inputs))
+        print(f'{target}: {ANALYSIS_ROOT}{script} ' + ' '.join(inputs))
         print(f'\t$(PYTHON) {ANALYSIS_ROOT}{script}')
 
     if len(analyses) > 0:

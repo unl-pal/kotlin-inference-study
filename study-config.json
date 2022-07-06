@@ -1,12 +1,7 @@
 {
-    "$schema": "schemas/0.1.0/study-config.schema.json",
+    "$schema": "schemas/0.1.1/study-config.schema.json",
     "datasets": {
-        "kotlin": "2021 Aug/Kotlin",
-        "python": "2021 Aug/Python",
-        "python-ds": "2020 August/Python-DS",
-        "java": "2019 October/GitHub",
-        "java-sf": "2013 September/SF",
-        "original": "2012 July/SF"
+        "kotlin": "2021 Aug/Kotlin"
     },
     "queries": {
         "kotlin/hashes.txt": {
@@ -20,47 +15,49 @@
         "kotlin/basic-usage.txt": {
             "query": "queries/basic-usage.boa",
             "dataset": "kotlin",
-            "make_public": true,
-	    "substitutions": [
-		{
-		    "target": "{@time-or-snapshot@}",
-		    "replacement": "before node: CodeRepository -> {\n        # Output zeroes as necessary\n        kinds :=  { \"return_val\", \"module\", \"body\", \"loop_variable\", \"lambda_arg\" };\n        foreach (i: int; def(kinds[i])) {\n            o[input.id]{@time-part@}[\"DUMMYDUMMYDUMMY.kt\"][kinds[i]][false][false] << 0;\n            o[input.id]{@time-part@}[\"DUMMYDUMMYDUMMY.kt\"][kinds[i]][false][true] << 0;\n            o[input.id]{@time-part@}[\"DUMMYDUMMYDUMMY.kt\"][kinds[i]][true][false] << 0;\n            o[input.id]{@time-part@}[\"DUMMYDUMMYDUMMY.kt\"][kinds[i]][true][true] << 0;\n        }\n        snapshot := getsnapshot(node, \"SOURCE_KOTLIN_1_\");\n        foreach (i: int; def(snapshot[i]))\n            visit(snapshot[i]);\n        stop;\n    }"
-		}
-	    ],
+            "substitutions": [
+                {
+                    "target": "{@time-or-snapshot@}",
+                    "file": "snapshot-with-zeros.boa"
+                }
+            ],
             "csv": {
                 "output": "kotlin/basic-usage.csv",
-                "drop": [ 0 ],
+                "drop": [
+                    0
+                ],
                 "header": "project,file,location,isval,isinferred,count",
                 "test": [
                     "2,\\.kts?$"
                 ]
             }
         },
-	"kotlin/over-time.txt": {
+        "kotlin/over-time.txt": {
             "query": "queries/basic-usage.boa",
             "dataset": "kotlin",
-            "make_public": true,
-	    "substitutions": [
-		{
-		    "target": "{@time-out@}",
-		    "replacement": "[revision: string][outtime: time]"
-		},
-		{
-		    "target": "{@time-part@}",
-		    "replacement": "[current(Revision).id][current(Revision).commit_date]"
-		},
-		{
-		    "target": "{@time-or-snapshot@}",
-		    "replacement": "before node: Revision -> {\n        # Output zeroes as necessary\n        kinds :=  { \"return_val\", \"module\", \"body\", \"loop_variable\", \"lambda_arg\" };\n        foreach (i: int; def(kinds[i])) {\n            o[input.id][\"DUMMYDUMMYDUMMY.kt\"]{@time-part@}[kinds[i]][false][false] << 0;\n            o[input.id][\"DUMMYDUMMYDUMMY.kt\"]{@time-part@}[kinds[i]][false][true] << 0;\n            o[input.id][\"DUMMYDUMMYDUMMY.kt\"]{@time-part@}[kinds[i]][true][false] << 0;\n            o[input.id][\"DUMMYDUMMYDUMMY.kt\"]{@time-part@}[kinds[i]][true][true] << 0;\n        }\n    }"
-		},
-		{
-		    "target": "{@project-filter@}",
-		    "replacement": "if ((nrand(100) % 5) == 0)"
-		}
-	    ],
+            "substitutions": [
+                {
+                    "target": "{@time-out@}",
+                    "replacement": "[revision: string][outtime: time]"
+                },
+                {
+                    "target": "{@time-part@}",
+                    "replacement": "[current(Revision).id][current(Revision).commit_date]"
+                },
+                {
+                    "target": "{@time-or-snapshot@}",
+                    "file": "zeros.boa"
+                },
+                {
+                    "target": "{@project-filter@}",
+                    "replacement": "if ((nrand(100) % 5) == 0)"
+                }
+            ],
             "csv": {
                 "output": "kotlin/over-time.csv",
-                "drop": [ 0 ],
+                "drop": [
+                    0
+                ],
                 "header": "project,file,revision,time,location,isval,isinferred,count",
                 "test": [
                     "2,\\.kts?$"
@@ -70,7 +67,6 @@
         "kotlin/count-unfiltered.txt": {
             "query": "queries/count-projects.boa",
             "dataset": "kotlin",
-            "make_public": true,
             "substitutions": [
                 {
                     "target": "{@project-filter@}",
@@ -79,17 +75,20 @@
             ],
             "csv": {
                 "output": "kotlin/count-unfiltered.csv",
-                "drop": [ 0 ],
+                "drop": [
+                    0
+                ],
                 "header": "type,filtered,count"
             }
         },
         "kotlin/count-filtered.txt": {
             "query": "queries/count-projects.boa",
             "dataset": "kotlin",
-            "make_public": true,
             "csv": {
                 "output": "kotlin/count-filtered.csv",
-                "drop": [ 0 ],
+                "drop": [
+                    0
+                ],
                 "header": "type,filtered,count"
             }
         }
@@ -113,12 +112,12 @@
                 "kotlin/dupes.csv"
             ]
         },
-	"rq-over-time.py": {
-	    "input": [
-		"kotlin/over-time.csv",
-		"kotlin/dupes.csv"
-	    ]
-	}
+        "rq-over-time.py": {
+            "input": [
+                "kotlin/over-time.csv",
+                "kotlin/dupes.csv"
+            ]
+        }
     },
     "substitutions": [
         {
@@ -129,17 +128,17 @@
             "target": "{@project-filter@}",
             "replacement": "is_filtered := true;\nif ((nrand(100) % 5) == 0)"
         },
-	{
-	    "target": "{@time-out@}",
-	    "replacement": ""
-	},
-	{
-	    "target": "{@time-part@}",
-	    "replacement": ""
-	},
-	{
-	    "target": "{@time-or-snapshot@}",
-	    "replacement": ""
-	}
+        {
+            "target": "{@time-out@}",
+            "replacement": ""
+        },
+        {
+            "target": "{@time-part@}",
+            "replacement": ""
+        },
+        {
+            "target": "{@time-or-snapshot@}",
+            "replacement": ""
+        }
     ]
 }
