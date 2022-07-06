@@ -18,7 +18,7 @@
             "substitutions": [
                 {
                     "target": "{@time-or-snapshot@}",
-                    "replacement": "before node: CodeRepository -> {\n        # Output zeroes as necessary\n        kinds :=  { \"return_val\", \"module\", \"body\", \"loop_variable\", \"lambda_arg\" };\n        foreach (i: int; def(kinds[i])) {\n            o[input.id]{@time-part@}[\"DUMMYDUMMYDUMMY.kt\"][kinds[i]][false][false] << 0;\n            o[input.id]{@time-part@}[\"DUMMYDUMMYDUMMY.kt\"][kinds[i]][false][true] << 0;\n            o[input.id]{@time-part@}[\"DUMMYDUMMYDUMMY.kt\"][kinds[i]][true][false] << 0;\n            o[input.id]{@time-part@}[\"DUMMYDUMMYDUMMY.kt\"][kinds[i]][true][true] << 0;\n        }\n        snapshot := getsnapshot(node, \"SOURCE_KOTLIN_1_\");\n        foreach (i: int; def(snapshot[i]))\n            visit(snapshot[i]);\n        stop;\n    }"
+                    "file": "snapshot-with-zeros.boa"
                 }
             ],
             "csv": {
@@ -46,7 +46,7 @@
                 },
                 {
                     "target": "{@time-or-snapshot@}",
-                    "replacement": "before node: Revision -> {\n        # Output zeroes as necessary\n        kinds :=  { \"return_val\", \"module\", \"body\", \"loop_variable\", \"lambda_arg\" };\n        foreach (i: int; def(kinds[i])) {\n            o[input.id][\"DUMMYDUMMYDUMMY.kt\"]{@time-part@}[kinds[i]][false][false] << 0;\n            o[input.id][\"DUMMYDUMMYDUMMY.kt\"]{@time-part@}[kinds[i]][false][true] << 0;\n            o[input.id][\"DUMMYDUMMYDUMMY.kt\"]{@time-part@}[kinds[i]][true][false] << 0;\n            o[input.id][\"DUMMYDUMMYDUMMY.kt\"]{@time-part@}[kinds[i]][true][true] << 0;\n        }\n    }"
+                    "file": "zeros.boa"
                 },
                 {
                     "target": "{@project-filter@}",
