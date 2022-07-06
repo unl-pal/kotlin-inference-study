@@ -92,6 +92,19 @@
                 "drop": [ 0 ],
                 "header": "type,filtered,count"
             }
+        },
+        "kotlin/survival.txt": {
+            "query": "queries/survival.boa",
+            "dataset": "kotlin",
+            "make_public": true,
+            "csv": {
+                "output": "kotlin/survival.csv",
+                "drop": [0],
+                "header": "project,file,item,locatio,startinferred,observed,timetostop",
+                "test": [
+                    "2,\\.kts?$"
+                ]
+            }
         }
     },
     "analyses": {

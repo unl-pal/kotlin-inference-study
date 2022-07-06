@@ -1,0 +1,166 @@
+o: output sum[project: string][file: string][items: string][location: string][startsinferred: bool][changeobserved: bool] of int; # length_of_time
+
+{@escape@}
+
+last: map[string] of bool;
+location_map: map[string] of string;
+creation: map[string] of bool;
+file_items: map[string] of set of string;
+has_changed: set of string;
+
+location: stack of string;
+name_parts: stack of string;
+order_stack: stack of string;
+
+head_time: time;
+repository: CodeRepository;
+
+{@project-filter@}
+{
+    visit(input, visitor {
+            before node: CodeRepository -> {
+                repository = node;
+                head := node.head;
+                head_time = getrevision(node, head).commit_date;
+                push(order_stack, head);
+                visit(getrevision(node, head));
+                stop;
+            }
+            before rev: Revision -> {
+                if(len(rev.parents) > 0) {
+                    parent := rev.parents[0];
+                    push(order_stack, parent);
+                    visit(getrevision(repository, rev.parents[0]));
+                }
+                stop;
+            }
+        });
+    while(len(order_stack) > 0) {
+        visit(getrevision(repository, pop(order_stack)), visitor {
+                before node: Namespace -> {
+                    push(name_parts, node.name);
+                    push(location, "module");
+                }
+                after node: Namespace -> {
+                    pop(name_parts);
+                    pop(location);
+                }
+                before node: ChangedFile -> {
+                    if(!iskind("SOURCE_KOTLIN_1_", node.kind))
+                        stop;
+                    if(node.change == ChangeKind.DELETED) {
+                        items := values(file_items[node.name]);
+                        foreach(i: int; def(items[i])) {
+                            loc := format("%s#%s", node.name, items[i]);
+                            o[input.id][node.name][items[i]][location_map[loc]][last[loc]][false] << current(Revision).commit_date - creation[loc];
+                            add(has_changed, loc);
+                            remove(location_map, loc);
+                            remove(last, loc);
+                            remove(creation, loc);
+                        }
+                        remove(file_items, node.name);
+                        stop;
+                    }
+                    if (node.change == ChangeKind.ADDED) {
+                        the_set: set of string;
+                        file_items[node.name] = the_set;
+                    }
+                    foreach(i: int; def(node.methods[i]))
+                        visit(node.methods[i]);
+                    foreach(i: int; def(node.nested_declarations[i]))
+                        visit(node.nested_declarations[i]);
+                }
+                after node: ChangedFile -> {
+                    # Handle removed items
+                }
+                before node: Declaration -> {
+                    push(name_parts, node.name);
+                }
+                after node: Declaration -> {
+                    pop(name_parts);
+                }
+                before node: Method -> {
+                    push(name_parts, node.name);
+                    file := current(ChangedFile).name;
+                    name := join(".", name_parts);
+                    loc := format("%s#%s", file, name);
+                    if(def(node.expression)) {
+                        isinferred := !def(node.return_type);
+                        if(!contains(file_items[file], name) && !contains(has_changed, loc)) {
+                            add(file_items[file], name);
+                            last[loc] = isinferred;
+                            location_map[loc] = "return_val";
+                            creation[loc] = current(Revision).commit_date;
+                        } else if(isinferred != last[loc]) {
+                            o[input.id][file][name][location_map[loc]][last[loc]][true] << current(Revision).commit_date - creation[loc];
+                            remove(file_items[file], name);
+                            add(has_changed, loc);
+                            remove(location_map, loc);
+                            remove(last, loc);
+                            remove(creation, loc);
+                        } else {
+                            # Mark as seen
+                        }
+                    }
+                    push(location, "body");
+                    if(def(node.expression))
+                        visit(node.expression);
+                    foreach(i: int; def(node.statements[i]))
+                        visit(node.statements[i]);
+                    pop(location);
+                    stop;
+                }
+                after node: Method -> {
+                    pop(name_parts);
+                }
+                before node: Statement -> {
+                    if(node.kind == StatementKind.FOR) {
+                        push(location, "loop_variable");
+                        if(def(node.variable_declaration))
+                            visit(node.variable_declaration);
+                        pop(location);
+                        foreach(i: int; def(node.expressions[i]))
+                            visit(node.expressions[i]);
+                        foreach(i: int; def(node.statements[i]))
+                            visit(node.statements[i]);
+                        stop;
+                    }
+                }
+                before node: Expression -> {
+                    if(node.kind == ExpressionKind.LAMBDA) {
+                        push(location, "lambda_arg");
+                        foreach(i: int; def(node.variable_decls[i]))
+                            visit(node.variable_decls[i]);
+                        pop(location);
+                    }
+                    foreach(i: int; def(node.expressions[i]))
+                        visit(node.expressions[i]);
+                    foreach(i: int; def(node.statements[i]))
+                        visit(node.statements[i]);
+                    stop;
+                }
+                before node: Variable -> {
+                    file := current(ChangedFile).name;
+                    name := join(".", name_parts);
+                    loc := format("%s#%s");
+                    place := peek(location);
+                    isinferred := !def(node.variable_type);
+                    if(!contains(file_items[file], name) && !contains(has_changed, loc)) {
+                        add(file_items[file], name);
+                        last[loc] = isinferred;
+                        location_map[loc] = place;
+                        creation[loc] = current(Revision).commit_date;
+                    } else if (isinferred != last[loc]) {
+                        o[input.id][file][name][location_map[loc]][last[loc]][true] << current(Revision).commit_date - creation[loc];
+                        remove(file_items[file], name);
+                        add(has_changed, loc);
+                        remove(location_map, loc);
+                        remove(last, loc);
+                        remove(creation, loc);
+                    } else {
+                        # Mark as seen
+                    }
+                }
+            };)
+    }
+}
