@@ -48,19 +48,20 @@ repository: CodeRepository;
                 before node: ChangedFile -> {
                     if(!iskind("SOURCE_KOTLIN_1_", node.kind))
                         stop;
-                    if(node.change == ChangeKind.DELETED) {
-                        items := values(file_items[node.name]);
-                        foreach(i: int; def(items[i])) {
-                            loc := format("%s#%s", node.name, items[i]);
-                            o[input.id][node.name][items[i]][location_map[loc]][last[loc]][false] << current(Revision).commit_date - creation[loc];
-                            add(has_changed, loc);
-                            remove(location_map, loc);
-                            remove(last, loc);
-                            remove(creation, loc);
-                        }
-                        remove(file_items, node.name);
-                        stop;
-                    }
+                    # if(node.change == ChangeKind.DELETED) {
+                    #     empty_string_set := set of string;
+                    #     items := values(lookup(file_items, node.name, empty_string_set));
+                    #     foreach(i: int; def(items[i])) {
+                    #         loc := format("%s#%s", node.name, items[i]);
+                    #         o[input.id][node.name][items[i]][location_map[loc]][last[loc]][false] << current(Revision).commit_date - creation[loc];
+                    #         add(has_changed, loc);
+                    #         remove(location_map, loc);
+                    #         remove(last, loc);
+                    #         remove(creation, loc);
+                    #     }
+                    #     remove(file_items, node.name);
+                    #     stop;
+                    # }
                     if (node.change == ChangeKind.ADDED) {
                         the_set: set of string;
                         file_items[node.name] = the_set;
