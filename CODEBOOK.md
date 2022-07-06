@@ -88,6 +88,27 @@
 
 ### `survival.csv`
 
+1. `project` (`string`/`integer`)
+: Project ID.
+
+2. `file` (`string`)
+: Filename relative to repository root, `string`.
+
+3. `item` (`string`)
+: Fully-qualified name of observation.
+
+4. `location` (`string`, *restricted*)
+: Overall location of declaration, `string`, see `basic-usage.csv`/`location`.
+
+5. `startinferred` (`boolean`)
+: Whether or not the observation starts inferred.
+
+6. `observed` (`boolean`)
+: Observation right-censoring.  `true` if a change in inference status (i.e., annotation presence) is observed, `false` if no change is observed before "death" (deletion or end of history) of `item`.
+
+7. `timetochange` (`long`)
+: How long (in microseconds) before a change or end of history (see `observed`).
+
 ### `count-unfiltered.csv`, `count-filtered.csv`
 
 1. `type`
