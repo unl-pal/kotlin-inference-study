@@ -49,7 +49,7 @@ repository: CodeRepository;
                     if (!iskind("SOURCE_KOTLIN_1_", node.kind))
                         stop;
                     if (node.change == ChangeKind.DELETED) {
-                        empty_string_set := set of string;
+                        empty_string_set: set of string;
                         items := values(lookup(file_items, node.name, empty_string_set));
                         foreach (i: int; def(items[i])) {
                             loc := format("%s#%s", node.name, items[i]);
