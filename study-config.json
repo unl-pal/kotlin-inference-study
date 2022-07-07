@@ -109,7 +109,7 @@
             "csv": {
                 "output": "kotlin/survival.csv",
                 "drop": [0],
-                "header": "project,file,item,locatio,startinferred,observed,timetostop",
+                "header": "project,file,item,location,startinferred,observed,timetostop",
                 "test": [
                     "2,\\.kts?$"
                 ]
