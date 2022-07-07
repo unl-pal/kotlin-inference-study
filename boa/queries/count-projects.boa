@@ -1,5 +1,7 @@
 o: output sum[count_type: string][is_filtered: bool] of int;
 
+{@is-filtered@}
+
 {@project-filter@}
 {
     o["projects"][is_filtered] << 1;
