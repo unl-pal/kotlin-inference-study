@@ -1,4 +1,5 @@
 filter_valid_file_count := 0;
+has_gradle := false;
 visit(input, visitor {
         before node: CodeRepository -> {
             snapshot := getsnapshot(node, "SOURCE_KOTLIN_1");
@@ -7,9 +8,10 @@ visit(input, visitor {
             stop;
         }
         before node: ChangedFile -> {
-            if (!match(`build\.gradle\.kts`, node.name))
-                filter_valid_file_count++;
+            filter_valid_file_count++;
+            if (match(`build\.gradle\.kts`, node.name))
+                has_gradle = true;
         }
     });
 
-if(filter_valid_file_count >= 0)
+if(filter_valid_file_count >= 0 && (!has_gradle && filter_valid_file_count == 1))
