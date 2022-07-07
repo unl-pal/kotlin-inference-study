@@ -145,10 +145,6 @@
         {
             "target": "{@time-part@}",
             "replacement": ""
-        },
-        {
-            "target": "{@time-or-snapshot@}",
-            "replacement": ""
         }
     ]
 }
