@@ -6,7 +6,7 @@ from matplotlib import pyplot as plt
 import seaborn as sns
 import os.path as osp
 
-from .utils import _get_dir
+from .utils import _resolve_dir, _get_dir
 from .df import get_df
 
 __all__ = [
@@ -28,7 +28,7 @@ def set_style():
     sns.set_theme(context='paper', style='whitegrid', palette='colorblind')
 
 def load_total_counts(language):
-    path = f"data/parquet/counts-{language}.parquet"
+    path = _resolve_dir(f"data/parquet/{_get_dir(language)}counts.parquet")
     if osp.exists(path):
         return pd.read_parquet(path)
     df = get_df("basic-usage", language, header='infer')
@@ -38,7 +38,7 @@ def load_total_counts(language):
 
 def load_pre_summarized(language, group_cols):
     group_cols_string = '-'.join(group_cols)
-    path = f"data/parquet/counts-summarized-{language}-{group_cols_string}.parquet"
+    path = _resolve_dir(f"data/parquet/{_get_dir(language)}counts-summarized-{group_cols_string}.parquet")
     if osp.exists(path):
         return pd.read_parquet(path)
     df = get_df("basic-usage", language, header='infer')

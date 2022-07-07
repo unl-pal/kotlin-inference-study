@@ -5,14 +5,11 @@ o: output collection[hash: int][proj: string] of url: string;
 {@project-filter@}
 visit(input, visitor {
     before cr: CodeRepository -> {
-        snapshot := getsnapshot(cr, "SOURCE_");
+        snapshot := getsnapshot(cr, "SOURCE_KOTLIN_1_");
         foreach (i: int; def(snapshot[i]))
             visit(snapshot[i]);
         stop;
     }
-    before cf: ChangedFile ->
-        if (match(`_ERROR$`, string(cf.kind)))
-            stop;
     before ast: ASTRoot ->
         o[hash(string(ast, true))][input.id] << escape(current(ChangedFile).name);
 });
