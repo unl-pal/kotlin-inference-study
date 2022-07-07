@@ -7,28 +7,25 @@ location: stack of string;
 {@project-filter@}
 visit(input, visitor {
     {@time-or-snapshot@}
-    before node: ChangedFile -> {
-        if (! match("SOURCE_KOTLIN_1_", string(node.kind)))
-            stop;
-    }
     before node: Namespace -> push(location, "module");
-    after node: Namespace -> pop(location);
+    after  node: Namespace -> pop(location);
     before node: Declaration -> {
-        foreach(i: int; def(node.methods[i]))
+        foreach (i: int; def(node.methods[i]))
             visit(node.methods[i]);
-        foreach(i: int; def(node.nested_declarations[i]))
+        foreach (i: int; def(node.nested_declarations[i]))
             visit(node.nested_declarations[i]);
         stop;
     }
     before node: Method -> {
         file := current(ChangedFile).name;
         if (def(node.expression)) {
-            isinferred := ! def(node.return_type);
+            isinferred := !def(node.return_type);
             o[input.id][escape(file)]{@time-part@}["return_val"][false][isinferred] << 1;
         }
         push(location, "body");
-        if (def(node.expression)) visit(node.expression);
-        foreach(i: int; def(node.statements[i]))
+        if (def(node.expression))
+            visit(node.expression);
+        foreach (i: int; def(node.statements[i]))
             visit(node.statements[i]);
         pop(location);
         stop;
@@ -39,9 +36,9 @@ visit(input, visitor {
             if (def(node.variable_declaration))
                 visit(node.variable_declaration);
             pop(location);
-            foreach(i: int; def(node.expressions[i]))
+            foreach (i: int; def(node.expressions[i]))
                 visit(node.expressions[i]);
-            foreach(i: int; def(node.statements[i]))
+            foreach (i: int; def(node.statements[i]))
                 visit(node.statements[i]);
             stop;
         }
@@ -49,15 +46,14 @@ visit(input, visitor {
     before node: Expression -> {
         if (node.kind == ExpressionKind.LAMBDA) {
             push(location, "lambda_arg");
-            foreach(i: int; def(node.variable_decls[i])) {
+            foreach (i: int; def(node.variable_decls[i]))
                 visit(node.variable_decls[i]);
-            }
             pop(location);
         }
         push(location, "body");
-        foreach(i: int; def(node.expressions[i]))
+        foreach (i: int; def(node.expressions[i]))
             visit(node.expressions[i]);
-        foreach(i: int; def(node.statements[i]))
+        foreach (i: int; def(node.statements[i]))
             visit(node.statements[i]);
         pop(location);
         stop;
@@ -66,7 +62,7 @@ visit(input, visitor {
         file := current(ChangedFile).name;
         place := peek(location);
         isval := false;
-        exists(i: int; (def(node.modifiers[i]) && node.modifiers[i].kind == ModifierKind.FINAL))
+        exists (i: int; def(node.modifiers[i]) && node.modifiers[i].kind == ModifierKind.FINAL)
             isval = true;
         isinferred := !def(node.variable_type);
         o[input.id][escape(file)]{@time-part@}[place][isval][isinferred] << 1;

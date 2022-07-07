@@ -3,9 +3,9 @@ before node: CodeRepository -> {
     kinds := { "return_val", "module", "body", "loop_variable", "lambda_arg" };
     foreach (i: int; def(kinds[i])) {
         o[input.id]{@time-part@}["DUMMYDUMMYDUMMY.kt"][kinds[i]][false][false] << 0;
-        o[input.id]{@time-part@}["DUMMYDUMMYDUMMY.kt"][kinds[i]][false][true] << 0;
-        o[input.id]{@time-part@}["DUMMYDUMMYDUMMY.kt"][kinds[i]][true][false] << 0;
-        o[input.id]{@time-part@}["DUMMYDUMMYDUMMY.kt"][kinds[i]][true][true] << 0;
+        o[input.id]{@time-part@}["DUMMYDUMMYDUMMY.kt"][kinds[i]][false][true]  << 0;
+        o[input.id]{@time-part@}["DUMMYDUMMYDUMMY.kt"][kinds[i]][true][false]  << 0;
+        o[input.id]{@time-part@}["DUMMYDUMMYDUMMY.kt"][kinds[i]][true][true]   << 0;
     }
     snapshot := getsnapshot(node, "SOURCE_KOTLIN_1_");
     foreach (i: int; def(snapshot[i]))
