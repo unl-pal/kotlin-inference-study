@@ -1,4 +1,4 @@
-o: output sum[project: string][file: string][items: string][location: string][startsinferred: bool][changeobserved: bool] of int; # length_of_time
+o: output sum[project: string][file: string][item: string][location: string][startsinferred: bool][changeobserved: bool] of int; # length_of_time
 
 {@escape@}
 
@@ -46,25 +46,21 @@ repository: CodeRepository;
                     pop(location);
                 }
                 before node: ChangedFile -> {
-                    if(!iskind("SOURCE_KOTLIN_1_", node.kind))
+                    if (!iskind("SOURCE_KOTLIN_1_", node.kind))
                         stop;
-                    # if(node.change == ChangeKind.DELETED) {
-                    #     empty_string_set := set of string;
-                    #     items := values(lookup(file_items, node.name, empty_string_set));
-                    #     foreach(i: int; def(items[i])) {
-                    #         loc := format("%s#%s", node.name, items[i]);
-                    #         o[input.id][node.name][items[i]][location_map[loc]][last[loc]][false] << current(Revision).commit_date - creation[loc];
-                    #         add(has_changed, loc);
-                    #         remove(location_map, loc);
-                    #         remove(last, loc);
-                    #         remove(creation, loc);
-                    #     }
-                    #     remove(file_items, node.name);
-                    #     stop;
-                    # }
-                    if (node.change == ChangeKind.ADDED) {
-                        the_set: set of string;
-                        file_items[node.name] = the_set;
+                    if (node.change == ChangeKind.DELETED) {
+                        empty_string_set := set of string;
+                        items := values(lookup(file_items, node.name, empty_string_set));
+                        foreach (i: int; def(items[i])) {
+                            loc := format("%s#%s", node.name, items[i]);
+                            o[input.id][node.name][items[i]][location_map[loc]][last[loc]][false] << current(Revision).commit_date - creation[loc];
+                            add(has_changed, loc);
+                            remove(location_map, loc);
+                            remove(last, loc);
+                            remove(creation, loc);
+                        }
+                        remove(file_items, node.name);
+                        stop;
                     }
                 }
                 after node: ChangedFile -> {
@@ -81,14 +77,18 @@ repository: CodeRepository;
                     file := current(ChangedFile).name;
                     name := join(".", name_parts);
                     loc := format("%s#%s", file, name);
-                    if(def(node.expression)) {
+                    if (def(node.expression)) {
                         isinferred := !def(node.return_type);
-                        if(!contains(file_items[file], name) && !contains(has_changed, loc)) {
+                        if (!haskey(file_items, file)) {
+                            empty_set: set of string;
+                            file_items[file] = empty_set;
+                        }
+                        if (!contains(file_items[file], name) && !contains(has_changed, loc)) {
                             add(file_items[file], name);
                             last[loc] = isinferred;
                             location_map[loc] = "return_val";
                             creation[loc] = current(Revision).commit_date;
-                        } else if(!contains(has_changed, loc) && isinferred != last[loc]) {
+                        } else if (!contains(has_changed, loc) && isinferred != last[loc]) {
                             o[input.id][file][name][location_map[loc]][last[loc]][true] << current(Revision).commit_date - creation[loc];
                             remove(file_items[file], name);
                             add(has_changed, loc);
@@ -100,9 +100,9 @@ repository: CodeRepository;
                         }
                     }
                     push(location, "body");
-                    if(def(node.expression))
+                    if (def(node.expression))
                         visit(node.expression);
-                    foreach(i: int; def(node.statements[i]))
+                    foreach (i: int; def(node.statements[i]))
                         visit(node.statements[i]);
                     pop(location);
                     stop;
@@ -111,28 +111,28 @@ repository: CodeRepository;
                     pop(name_parts);
                 }
                 before node: Statement -> {
-                    if(node.kind == StatementKind.FOR) {
+                    if (node.kind == StatementKind.FOR) {
                         push(location, "loop_variable");
-                        if(def(node.variable_declaration))
+                        if (def(node.variable_declaration))
                             visit(node.variable_declaration);
                         pop(location);
-                        foreach(i: int; def(node.expressions[i]))
+                        foreach (i: int; def(node.expressions[i]))
                             visit(node.expressions[i]);
-                        foreach(i: int; def(node.statements[i]))
+                        foreach (i: int; def(node.statements[i]))
                             visit(node.statements[i]);
                         stop;
                     }
                 }
                 before node: Expression -> {
-                    if(node.kind == ExpressionKind.LAMBDA) {
+                    if (node.kind == ExpressionKind.LAMBDA) {
                         push(location, "lambda_arg");
-                        foreach(i: int; def(node.variable_decls[i]))
+                        foreach (i: int; def(node.variable_decls[i]))
                             visit(node.variable_decls[i]);
                         pop(location);
                     }
-                    foreach(i: int; def(node.expressions[i]))
+                    foreach (i: int; def(node.expressions[i]))
                         visit(node.expressions[i]);
-                    foreach(i: int; def(node.statements[i]))
+                    foreach (i: int; def(node.statements[i]))
                         visit(node.statements[i]);
                     stop;
                 }
@@ -142,7 +142,11 @@ repository: CodeRepository;
                     loc := format("%s#%s", file, name);
                     place := peek(location);
                     isinferred := !def(node.variable_type);
-                    if(!contains(file_items[file], name) && !contains(has_changed, loc)) {
+                    if (!haskey(file_items, file)) {
+                        empty_set: set of string;
+                        file_items[file] = empty_set;
+                    }
+                    if (!contains(file_items[file], name) && !contains(has_changed, loc)) {
                         add(file_items[file], name);
                         last[loc] = isinferred;
                         location_map[loc] = place;
