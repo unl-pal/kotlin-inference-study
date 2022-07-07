@@ -70,6 +70,10 @@
             "substitutions": [
                 {
                     "target": "{@project-filter@}",
+                    "replacement": ""
+                },
+                {
+                    "target": "{@is-filtered@}",
                     "replacement": "is_filtered := false;"
                 }
             ],
@@ -84,6 +88,12 @@
         "kotlin/count-filtered.txt": {
             "query": "queries/count-projects.boa",
             "dataset": "kotlin",
+            "substitutions": [
+                {
+                    "target": "{@is-filtered@}",
+                    "replacement": "is_filtered := true;"
+                }
+            ],
             "csv": {
                 "output": "kotlin/count-filtered.csv",
                 "drop": [
@@ -139,7 +149,7 @@
         },
         {
             "target": "{@project-filter@}",
-            "replacement": "is_filtered := true;\nif ((nrand(100) % 5) == 0)"
+            "replacement": ""
         },
         {
             "target": "{@time-out@}",
