@@ -10,7 +10,6 @@ df = df[df.isInferred == "true"]
 
 expressionCategories = pd.DataFrame()
 expressionCategories['Category'] = ['Literal', 'Constructor', 'NEW', 'Other']
-expressionCategories
 
 counts = []
 
@@ -29,6 +28,5 @@ numOther = len(df) - numLiterals- numConstructors - numNEW
 counts.append(numOther)
 
 expressionCategories['Count'] = counts
-expressionCategories
 
-# save_table(expressionCategories, "expression-categories.tex")
+save_table(expressionCategories, "expression-categories.tex")
