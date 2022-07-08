@@ -149,7 +149,7 @@
         },
         {
             "target": "{@project-filter@}",
-            "replacement": ""
+            "file": "filter.boa"
         },
         {
             "target": "{@time-out@}",
