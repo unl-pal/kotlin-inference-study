@@ -1,4 +1,4 @@
-o: output sum[project: string][file: string][item: string][location: string][startsinferred: bool][changeobserved: bool] of int; # length_of_time
+o: output collection[project: string][file: string][item: string][location: string][startsinferred: bool][changeobserved: bool] of int; # length_of_time
 
 {@escape@}
 
