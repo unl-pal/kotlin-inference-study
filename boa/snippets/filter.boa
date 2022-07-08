@@ -1,15 +1,14 @@
 keep := false;
 visit(input, visitor {
-        before node: CodeRepository -> {
-            snapshot := getsnapshot(node, "SOURCE_KOTLIN_1");
-            foreach (i: int; !keep && def(snapshot[i]))
-                visit(snapshot[i]);
-            stop;
-        }
-        before node: ChangedFile -> {
-            if (!match(`build\.gradle\.kts`, node.name))
-                keep = true;
-        }
-    });
+    before node: CodeRepository -> {
+        snapshot := getsnapshot(node, "SOURCE_KOTLIN_1");
+        foreach (i: int; !keep && def(snapshot[i]))
+            visit(snapshot[i]);
+        stop;
+    }
+    before node: ChangedFile ->
+        if (!match(`build\.gradle\.kts`, node.name))
+            keep = true;
+});
 
 if (keep)
