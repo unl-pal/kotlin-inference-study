@@ -1,0 +1,25 @@
+o: output sum[project: string][filepath: string][is_inferred: bool][expKind: string][methodname: string] of int;
+
+head: string;
+
+visit(input, visitor {
+    before node: CodeRepository -> {
+        head = getrevision(node, node.head).id;       
+
+        snapshot := getsnapshot(node, "SOURCE_KOTLIN_1_");
+        foreach (i: int; def(snapshot[i]))
+            visit(snapshot[i]);
+        stop;
+    }
+    before node: Variable -> {
+        filepath := current(ChangedFile).name;
+        isinferred := !def(node.variable_type);
+        expKind := string(node.initializer.kind); 
+        methodname := "none";
+        
+        if (string(node.initializer.kind) == "METHODCALL") 
+            methodname = string(node.initializer.method);
+
+        o[input.id][filepath][isinferred][expKind][methodname] << 1;
+    }
+});
