@@ -12,6 +12,8 @@ location: stack of string;
 name_parts: stack of string;
 order_stack: stack of int;
 
+seen_items: set of string;
+
 head_time: time;
 repository: CodeRepository;
 
@@ -64,7 +66,18 @@ repository: CodeRepository;
                     }
                 }
                 after node: ChangedFile -> {
-                    # Handle removed items
+                    empty_string_set: set of string;
+                    items := values(difference(lookup(file_items, node.name, empty_string_set), seen_items));
+                    foreach (i: int; def(items[i])) {
+                        loc := format("%s#%s", node.name, items[i]);
+                        item := split(items[i], "#")[0];
+                        o[input.id][node.name][item][location_map[loc]][last[loc]][false] << current(Revision).commit_date - creation[loc];
+                        add(has_changed, loc);
+                        remove(location_map, loc);
+                        remove(last, loc);
+                        remove(file_items[node.name], items[i]);
+                    }
+                    clear(seen_items);
                 }
                 before node: Declaration -> {
                     push(name_parts, node.name);
@@ -76,7 +89,7 @@ repository: CodeRepository;
                     push(name_parts, node.name);
                     file := current(ChangedFile).name;
                     name := join(".", name_parts);
-                    loc := format("%s#%s", file, name);
+                    loc := format("%s#%s#return_val", file, name);
                     if (def(node.expression)) {
                         isinferred := !def(node.return_type);
                         if (!haskey(file_items, file)) {
@@ -84,19 +97,19 @@ repository: CodeRepository;
                             file_items[file] = empty_set;
                         }
                         if (!contains(file_items[file], name) && !contains(has_changed, loc)) {
-                            add(file_items[file], name);
+                            add(file_items[file], format("%s#return_val", name));
                             last[loc] = isinferred;
                             location_map[loc] = "return_val";
                             creation[loc] = current(Revision).commit_date;
                         } else if (!contains(has_changed, loc) && isinferred != last[loc]) {
                             o[input.id][file][name][location_map[loc]][last[loc]][true] << current(Revision).commit_date - creation[loc];
-                            remove(file_items[file], name);
+                            remove(file_items[file], format("%s#return_val", name));
                             add(has_changed, loc);
                             remove(location_map, loc);
                             remove(last, loc);
                             remove(creation, loc);
                         } else {
-                            # Mark as seen
+                            add(seen_items, format("%s#return_val", name));
                         }
                     }
                     push(location, "body");
@@ -137,30 +150,34 @@ repository: CodeRepository;
                     stop;
                 }
                 before node: Variable -> {
+                    push(name_parts, node.name);
                     file := current(ChangedFile).name;
                     name := join(".", name_parts);
-                    loc := format("%s#%s", file, name);
                     place := peek(location);
+                    loc := format("%s#%s#%s", file, name, place);
                     isinferred := !def(node.variable_type);
                     if (!haskey(file_items, file)) {
                         empty_set: set of string;
                         file_items[file] = empty_set;
                     }
                     if (!contains(file_items[file], name) && !contains(has_changed, loc)) {
-                        add(file_items[file], name);
+                        add(file_items[file], format("%s#%s", name, place));
                         last[loc] = isinferred;
                         location_map[loc] = place;
                         creation[loc] = current(Revision).commit_date;
                     } else if (!contains(has_changed, loc) && isinferred != last[loc]) {
                         o[input.id][file][name][location_map[loc]][last[loc]][true] << current(Revision).commit_date - creation[loc];
-                        remove(file_items[file], name);
+                        remove(file_items[file], format("%s#%s", name, place));
                         add(has_changed, loc);
                         remove(location_map, loc);
                         remove(last, loc);
                         remove(creation, loc);
                     } else {
-                        # Mark as seen
+                        add(seen_items, format("%s#%s", name, place));
                     }
+                }
+                after node: Variable -> {
+                    pop(name_parts);
                 }
             });
     }
