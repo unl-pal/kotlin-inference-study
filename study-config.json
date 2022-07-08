@@ -101,6 +101,26 @@
                 ],
                 "header": "type,filtered,count"
             }
+        },
+        "kotlin/right-hand-side-expression.txt": {
+            "query": "queries/right-hand-side-expression.boa",
+            "dataset": "kotlin",
+            "substitutions": [
+                {
+                    "target": "{@time-or-snapshot@}",
+                    "file": "snapshot-with-zeros.boa"
+                }
+            ],
+            "csv": {
+                "output": "kotlin/right-hand-side-expression.csv",
+                "drop": [
+                    0
+                ],
+                "header": "project,file,isinferred,expressionkind,methodname,count",
+                "test": [
+                    "2,\\.kts?$"
+                ]
+            }
         }
     },
     "analyses": {
