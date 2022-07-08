@@ -140,7 +140,12 @@
                 "kotlin/over-time.csv",
                 "kotlin/dupes.csv"
             ]
-        }
+        },
+	"rq-survival.py": {
+	    "input": [
+		"kotlin/survival.csv"
+	    ]
+	}
     },
     "substitutions": [
         {
