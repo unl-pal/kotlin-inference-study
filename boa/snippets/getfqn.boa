@@ -1,0 +1,10 @@
+imports: array of string;
+
+getfqn := function(ns: string, name: string): string {
+    name_no_args := split(name, "<")[0];
+    if (strfind(".", name) != -1)
+        return name_no_args;
+    foreach (i: int; match("\\\\.\\\\Q" + name_no_args + "\\\\E$", imports[i]))
+        return imports[i];
+    return ns + "." + name_no_args;
+};
