@@ -58,7 +58,7 @@
                         "dataset"
                     ],
                     "default": {
-                        "query": ".boa",
+                        "query": "queries/.boa",
                         "dataset": ""
                     },
                     "additionalProperties": false,
@@ -212,7 +212,7 @@
             "type": "array",
             "default": [
                 {
-                    "target": "<<TODO>>",
+                    "target": "{@TODO@}",
                     "file": ".boa"
                 }
             ],
