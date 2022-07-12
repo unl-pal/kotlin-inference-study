@@ -1,0 +1,47 @@
+getBytecodeType := function(t: string): string {
+    dims := 0;
+    trimmed := t;
+
+    dots := strfind("...", t);
+    if (dots > -1) {
+        trimmed = substring(t, 0, dots);
+        dims = dims + 1;
+    }
+
+    parts := split(trimmed, `\[`);
+    if (len(parts) > 1) {
+        trimmed = parts[0];
+        dims = dims + len(parts) - 1;
+    }
+
+    btype := "";
+    for (i := 0; i < dims; i++)
+        btype = btype + "[";
+
+    if (trimmed == "byte" || trimmed == "char" || trimmed == "double"
+          || trimmed == "float" || trimmed == "int" || trimmed == "short"
+          || trimmed == "void")
+        btype = btype + uppercase(substring(trimmed, 0, 1));
+    else if (trimmed == "long")
+        btype = btype + "J";
+    else if (trimmed == "boolean")
+        btype = btype + "Z";
+    else
+        btype = btype + "L" + strreplace(trimmed, ".", "/", true) + ";";
+
+    return btype;
+};
+
+# returns method signature in Java VM bytecode format
+getMethodSignature := function(pkg: string, cls: string, m: Method): string {
+    sig := "";
+
+    if (pkg != "")
+        sig = pkg + ".";
+    sig = sig + cls + "." + m.name + "(";
+
+    foreach (i: int; def(m.arguments[i]))
+        sig = sig + getBytecodeType(m.arguments[i].variable_type.name);
+
+    return sig + ")" + getBytecodeType(m.return_type.name);
+};
