@@ -1,0 +1,47 @@
+o: output sum[project_url: string][filepath: string][class: string][nonvardeclname: string][nonvardecltype: string][methodreturntype: string] of int;
+
+fqn : string;
+file : string;
+namestack: stack of string;
+types : map[string] of string;
+
+escape := function(s: string): string {
+    return strreplace(s, "\n", "\\n", true);
+};
+
+# find all types
+visit(input, visitor {
+    before node: CodeRepository -> {
+        snapshot := getsnapshot(node, "SOURCE_KOTLIN_1_");
+        foreach (i: int; def(snapshot[i]))
+            visit(snapshot[i]);
+        stop;
+    }
+    before node: Namespace -> {
+        push(namestack, node.name);
+        foreach(i: int; def(node.declarations[i]))
+            visit(node.declarations[i]);
+    }
+    after node: Namespace -> pop(namestack);
+    before node: Declaration -> {
+        push(namestack, node.name);
+        fqn = join(".", namestack);
+        file = current(ChangedFile).name;
+        types[node.name] = string(node.kind);
+        declname := node.name;
+        decltype := string(node.kind);
+        o[input.project_url][escape(file)][fqn][declname][decltype]["none"] << 1;
+    }
+    after node: Declaration -> pop(namestack);
+    before node: Method -> {
+        push(namestack, node.name);
+        fqn = join(".", namestack);
+        file = current(ChangedFile).name;
+        methodname := node.name;
+        returntype := "unknown";
+        if (node.return_type.name != "")
+            returntype = node.return_type.name;
+        o[input.project_url][escape(file)][fqn][methodname]["none"][returntype] << 1;
+    }
+    after node: Method -> pop(namestack);
+});
