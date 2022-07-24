@@ -23,5 +23,9 @@
   "kotlin/right-hand-side-expression.txt": {
     "job": 100233,
     "sha256": "deb63fc65f737366734fcce68f7c25ee265a70fa845f7da2dff566c38246b3fb"
+  },
+  "kotlin/gather-rhs-type-information.txt": {
+    "job": 100510,
+    "sha256": "31d46614b66664a56b9d1e0c6d6ce1b6dcdccccbe708d68f872bee15c490b1cb"
   }
 }
