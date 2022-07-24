@@ -109,6 +109,14 @@
                 {
                     "target": "{@time-or-snapshot@}",
                     "file": "snapshot-with-zeros.boa"
+                },
+                {
+                    "target": "{@project-filter@}",
+                    "replacement": "filter.boa"
+                },
+                {
+                    "target": "{@escape@}",
+                    "file": "escape.boa"
                 }
             ],
             "csv": {
@@ -117,6 +125,34 @@
                     0
                 ],
                 "header": "project,file,isinferred,expressionkind,methodname,count",
+                "test": [
+                    "2,\\.kts?$"
+                ]
+            }
+        },
+        "kotlin/gather-rhs-type-information.txt": {
+            "query": "queries/gather-rhs-type-information.boa",
+            "dataset": "kotlin",
+            "substitutions": [
+                {
+                    "target": "{@time-or-snapshot@}",
+                    "file": "snapshot-with-zeros.boa"
+                },
+                {
+                    "target": "{@project-filter@}",
+                    "replacement": "filter.boa"
+                },
+                {
+                    "target": "{@escape@}",
+                    "file": "escape.boa"
+                }
+            ],
+            "csv": {
+                "output": "kotlin/gather-rhs-type-information.csv",
+                "drop": [
+                    0
+                ],
+                "header": "project,filepath,class,nonvardecltype,methodreturntype",
                 "test": [
                     "2,\\.kts?$"
                 ]
