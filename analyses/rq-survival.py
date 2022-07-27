@@ -36,3 +36,5 @@ fitter.plot_survival_function(ax=ax)
 plt.title('Lifespans of items')
 
 save_figure(plt.gcf(), "figures/lifespans.pdf", x=7, y=4)
+
+fitter.print_summary()
