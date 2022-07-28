@@ -27,14 +27,20 @@ starts_inferred = df['startinferred']
 T = df['timetochange']
 E = df['observed']
 
+print(T[starts_inferred].info())
+print(E[starts_inferred].info())
 fitter.fit(T[starts_inferred], E[starts_inferred], label='Starts Inferred')
 fitter.plot_survival_function(ax=ax)
+print(fitter.survival_function_.head())
 
+print(T[~starts_inferred].info())
+print(E[~starts_inferred].info())
 fitter.fit(T[~starts_inferred], E[~starts_inferred], label='Starts Annotated')
 fitter.plot_survival_function(ax=ax)
+print(fitter.survival_function_.head())
 
 plt.title('Lifespans of items')
 
 save_figure(plt.gcf(), "figures/lifespans.pdf", x=7, y=4)
 
-fitter.print_summary()
+print(fitter.survival_function_.head())
