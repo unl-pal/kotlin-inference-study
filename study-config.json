@@ -105,7 +105,6 @@
         "kotlin/survival.txt": {
             "query": "queries/survival.boa",
             "dataset": "kotlin",
-            "make_public": true,
             "csv": {
                 "output": "kotlin/survival.csv",
                 "drop": [0],
