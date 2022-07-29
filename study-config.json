@@ -157,6 +157,34 @@
                     "2,\\.kts?$"
                 ]
             }
+        },
+        "kotlin/determine-rhs-expression-types.txt": {
+            "query": "queries/determine-rhs-expression-types.boa",
+            "dataset": "kotlin",
+            "substitutions": [
+                {
+                    "target": "{@time-or-snapshot@}",
+                    "file": "snapshot-with-zeros.boa"
+                },
+                {
+                    "target": "{@project-filter@}",
+                    "replacement": "filter.boa"
+                },
+                {
+                    "target": "{@escape@}",
+                    "file": "escape.boa"
+                }
+            ],
+            "csv": {
+                "output": "kotlin/determine-rhs-expression-types.csv",
+                "drop": [
+                    0
+                ],
+                "header": "project,filepath,class,isinferred,isactualvar,expkind,vartype,mapval",
+                "test": [
+                    "2,\\.kts?$"
+                ]
+            }
         }
     },
     "analyses": {
