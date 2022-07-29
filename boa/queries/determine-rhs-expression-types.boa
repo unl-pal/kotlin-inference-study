@@ -1,0 +1,104 @@
+m: output sum[project_url: string][filepath: string][fqn: string][is_inferred: bool][isactualvar: bool][expkind: string][vartype: string][expname: string][mapval : string] of int;
+
+fqn : string;
+file : string;
+namestack: stack of string;
+vartypes : map[string] of string;
+methodreturntypes : map[string] of string;
+
+escape := function(s: string): string {
+    return strreplace(s, "\n", "\\n", true);
+};
+
+# find non-variable declaration types
+visit(input, visitor {
+    before node: CodeRepository -> {
+        snapshot := getsnapshot(node, "SOURCE_KOTLIN_1_");
+        foreach (i: int; def(snapshot[i]))
+            visit(snapshot[i]);
+        stop;
+    }
+    before node: Namespace -> {
+        push(namestack, node.name);
+        foreach(i: int; def(node.declarations[i]))
+            visit(node.declarations[i]);
+    }
+    after node: Namespace -> pop(namestack);
+    before node: Declaration -> {
+        push(namestack, node.name);
+        fqn = join(".", namestack);
+        vartypes[fqn] = string(node.kind);
+        decltype := string(node.kind);
+    }
+    after node: Declaration -> pop(namestack);
+    before node: Method -> {
+        push(namestack, node.name);
+        fqn = join(".", namestack);
+        returntype := "unknown";
+        if (node.return_type.name != "")
+            returntype = node.return_type.name;
+        methodreturntypes[fqn] = returntype;
+    }
+    after node: Method -> pop(namestack);
+});
+
+visit(input, visitor {
+    before node: CodeRepository -> {
+        snapshot := getsnapshot(node, "SOURCE_KOTLIN_1_");
+        foreach (i: int; def(snapshot[i]))
+            visit(snapshot[i]);
+        stop;
+    }
+    before node: Namespace -> {
+        push(namestack, node.name);
+        foreach(i: int; def(node.declarations[i]))
+            visit(node.declarations[i]);
+    }
+    after node: Namespace -> pop(namestack);
+    before node: Declaration -> {
+        push(namestack, node.name);
+        fqn = join(".", namestack);
+    }
+    after node: Declaration -> pop(namestack);
+    before node: Method -> {
+        push(namestack, node.name);
+        fqn = join(".", namestack);
+    }
+    after node: Method -> pop(namestack);
+    before node: Variable -> {
+#        push(namestack, node.name);
+#        fqn = join(".", namestack);
+        
+        filepath := current(ChangedFile).name;
+        isinferred := !def(node.variable_type);
+        isactualvar := false;
+        expkind := string(node.initializer.kind); 
+        vartype := node.variable_type.name;
+        expname := "none";
+        mapval := "none";
+
+        if (expkind == "LITERAL") {
+            expname = node.initializer.literal;
+            
+        } else if (expkind == "METHODCALL") {
+            expname = node.initializer.method;
+            if (haskey(methodreturntypes, fqn)) {
+                mapval = lookup(methodreturntypes, fqn, "default1");
+            }
+            
+        } else if (expkind == "VARACCESS") {
+            expname = node.initializer.variable;
+            if (haskey(vartypes, fqn)) {
+                mapval = lookup(vartypes, fqn, "default2");
+                
+            } else {
+                isactualvar = true;
+            }
+            
+        } else if (expkind == "NEW") {
+            expname = node.initializer.new_type.name;
+        }
+        m[input.project_url][escape(filepath)][fqn][isinferred][isactualvar][expkind][vartype][expname][mapval] << 1;
+    }
+#    after node: Variable -> pop(namestack);
+});
