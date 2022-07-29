@@ -27,5 +27,9 @@
   "kotlin/gather-rhs-type-information.txt": {
     "job": 100510,
     "sha256": "31d46614b66664a56b9d1e0c6d6ce1b6dcdccccbe708d68f872bee15c490b1cb"
+  },
+  "kotlin/determine-rhs-expression-types.txt": {
+    "job": 100613,
+    "sha256": "ccfc610ed7a0ef7ab1c4f89f362e7bbc603e96178cc39d7b6406ce4a509d8e8e"
   }
 }
