@@ -1,4 +1,5 @@
-m: output sum[project_url: string][filepath: string][fqn: string][is_inferred: bool][isactualvar: bool][expkind: string][vartype: string][expname: string][mapval : string] of int;
+# m: output sum[project: string][filepath: string][class: string][is_inferred: bool][isactualvar: bool][expkind: string][vartype: string][expname: string][mapval : string] of int;
+m: output sum[project: string][filepath: string][class: string][is_inferred: bool][isactualvar: bool][expkind: string][vartype: string][mapval : string] of int;
 
 fqn : string;
 file : string;
@@ -98,7 +99,8 @@ visit(input, visitor {
         } else if (expkind == "NEW") {
             expname = node.initializer.new_type.name;
         }
-        m[input.project_url][escape(filepath)][fqn][isinferred][isactualvar][expkind][vartype][expname][mapval] << 1;
+        # m[input.id][escape(filepath)][fqn][isinferred][isactualvar][expkind][vartype][expname][mapval] << 1;
+        m[input.id][escape(filepath)][fqn][isinferred][isactualvar][expkind][vartype][mapval] << 1;
     }
 #    after node: Variable -> pop(namestack);
 });
