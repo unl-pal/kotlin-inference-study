@@ -7,7 +7,8 @@ from common.tables import *
 from common.df import *
 pd.set_option('display.max_colwidth', None)
 
-df = get_df("right-hand-side-expression", "kotlin", names=['id', 'file_path', 'isInferred', 'expressionKind', 'methodName', 'count'])
+# df = get_df("right-hand-side-expression", "kotlin", names=['id', 'file_path', 'isInferred', 'expressionKind', 'methodName', 'count'])
+df = get_df("determine-rhs-expression-types", "kotlin", names=['project_id', 'file_url', 'class', 'isinferred', 'isactualvar', 'expkind', 'vartype', 'mapval', 'count'])
 df = df[df.isInferred == "true"]
 
 expressionCategories = pd.DataFrame()
@@ -28,6 +29,6 @@ numOther = len(df) - numLiterals- numConstructors - numNEW
 counts.append(numOther)
 
 expressionCategories['Count'] = counts
-
+print(expressionCategories)
 styler = highlight_rows(highlight_cols(get_styler(expressionCategories)))
 save_table(styler, "expression-categories.tex")
