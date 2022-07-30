@@ -80,7 +80,33 @@
 8. `count` (`long`)
 : Number of declarations fitting items 1--7.
 
-### `rhs.csv`
+### `gather-rhs-type-information.csv`
+
+1. `project` (`string`/`integer`)
+: Project ID.
+
+2. `file` (`string`)
+: Filename relative to repository root.
+
+3. `fqn` (`string`)
+: Fully qualified name.
+
+4. `nonvardecltype` (`string`)
+: The type of declarations that are not in the `Variable` node. (`none` if declaration is in `Variable` node).
+    - `CLASS`
+    - `SINGLETON`
+    - `IMMUTABLE`
+    - `INTERFACE`
+    - `ENUM`
+    - `ANNOTATION`
+    - `ALIAS`
+    - `none`
+
+5. `methodreturntype` (`string`)
+: Return type of a method (`none` if not a method).
+
+6. `count` (`long`)
+: Number of declarations fitting items 1--7.
 
 ### `survival.csv`
 
