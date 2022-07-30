@@ -27,6 +27,5 @@ numOther = len(df) - numLiterals- numConstructors - numNEW
 counts.append(numOther)
 
 expressionCategories['Count'] = counts
-print(expressionCategories)
 styler = highlight_rows(highlight_cols(get_styler(expressionCategories)))
 save_table(styler, "expression-categories.tex")
