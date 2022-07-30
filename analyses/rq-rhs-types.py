@@ -1,14 +1,12 @@
 #!/usr/bin/env python
-# coding: utf-8
-
+#coding: utf-8
 import numpy as np
 import pandas as pd
 from common.tables import *
 from common.df import *
 pd.set_option('display.max_colwidth', None)
 
-# df = get_df("right-hand-side-expression", "kotlin", names=['id', 'file_path', 'isInferred', 'expressionKind', 'methodName', 'count'])
-df = get_df("determine-rhs-expression-types", "kotlin", names=['project_id', 'file_url', 'class', 'isinferred', 'isactualvar', 'expkind', 'vartype', 'mapval', 'count'])
+df = get_df("right-hand-side-expression", "kotlin", names=['id', 'file_path', 'isInferred', 'expressionKind', 'methodName', 'count'])
 df = df[df.isInferred == "true"]
 
 expressionCategories = pd.DataFrame()
