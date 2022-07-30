@@ -211,6 +211,11 @@
                 "kotlin/over-time.csv",
                 "kotlin/dupes.csv"
             ]
+        },
+        "rq-rhs-types.py": {
+            "input": [
+                "kotlin/determine-rhs-expression-types.csv"
+            ]
         }
     },
     "substitutions": [
