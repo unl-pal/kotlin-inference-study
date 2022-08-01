@@ -6,8 +6,8 @@ from common.tables import *
 from common.df import *
 pd.set_option('display.max_colwidth', None)
 
-df = get_df("right-hand-side-expression", "kotlin", names=['id', 'file_path', 'isInferred', 'expressionKind', 'methodName', 'count'])
-df = df[df.isInferred == "true"]
+df = get_df('right-hand-side-expression', 'kotlin', names=['id', 'file_path', 'isInferred', 'expressionKind', 'methodName', 'count'])
+df = df[df.isInferred == 'true']
 
 expressionCategories = pd.DataFrame()
 expressionCategories['Category'] = ['Literal', 'Constructor', 'NEW', 'Other']
@@ -27,5 +27,6 @@ numOther = len(df) - numLiterals- numConstructors - numNEW
 counts.append(numOther)
 
 expressionCategories['Count'] = counts
+
 styler = highlight_rows(highlight_cols(get_styler(expressionCategories)))
-save_table(styler, "expression-categories.tex")
+save_table(styler, 'expression-categories.tex')
