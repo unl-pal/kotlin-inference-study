@@ -1,13 +1,13 @@
 o: output sum[project: string][filepath: string][class: string][nonvardecltype: string][methodreturntype: string] of int;
 
+{@escape@}
+
 fqn : string;
 file : string;
 namestack: stack of string;
 types : map[string] of string;
 
-escape := function(s: string): string {
-    return strreplace(s, "\n", "\\n", true);
-};
+{@project-filter@}
 
 # find non-variable declaration types
 visit(input, visitor {
