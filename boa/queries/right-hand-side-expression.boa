@@ -17,7 +17,7 @@ visit(input, visitor {
         expKind := string(node.initializer.kind); 
         methodname := "none";
         
-        if (string(node.initializer.kind) == "METHODCALL") 
+        if (node.initializer.kind == ExpressionKind.METHODCALL) 
             methodname = string(node.initializer.method);
 
         o[input.id][filepath][isinferred][expKind][methodname] << 1;
