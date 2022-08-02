@@ -9,84 +9,86 @@ vartypes : map[string] of string;
 methodreturntypes : map[string] of string;
 
 {@project-filter@}
-visit(input, visitor {
-    before node: CodeRepository -> {
-        snapshot := getsnapshot(node, "SOURCE_KOTLIN_1_");
-        foreach (i: int; def(snapshot[i]))
-            visit(snapshot[i]);
-        stop;
-    }
-    before node: Namespace -> {
-        push(namestack, node.name);
-        foreach(i: int; def(node.declarations[i]))
-            visit(node.declarations[i]);
-    }
-    after node: Namespace -> pop(namestack);
-    before node: Declaration -> {
-        push(namestack, node.name);
-        fqn = join(".", namestack);
-        vartypes[fqn] = string(node.kind);
-        decltype := string(node.kind);
-    }
-    after node: Declaration -> pop(namestack);
-    before node: Method -> {
-        push(namestack, node.name);
-        fqn = join(".", namestack);
-        returntype := "unknown";
-        if (node.return_type.name != "")
-            returntype = node.return_type.name;
-        methodreturntypes[fqn] = returntype;
-    }
-    after node: Method -> pop(namestack);
-});
+{
+    visit(input, visitor {
+        before node: CodeRepository -> {
+            snapshot := getsnapshot(node, "SOURCE_KOTLIN_1_");
+            foreach (i: int; def(snapshot[i]))
+                visit(snapshot[i]);
+            stop;
+        }
+        before node: Namespace -> {
+            push(namestack, node.name);
+            foreach(i: int; def(node.declarations[i]))
+                visit(node.declarations[i]);
+        }
+        after node: Namespace -> pop(namestack);
+        before node: Declaration -> {
+            push(namestack, node.name);
+            fqn = join(".", namestack);
+            vartypes[fqn] = string(node.kind);
+            decltype := string(node.kind);
+        }
+        after node: Declaration -> pop(namestack);
+        before node: Method -> {
+            push(namestack, node.name);
+            fqn = join(".", namestack);
+            returntype := "unknown";
+            if (node.return_type.name != "")
+                returntype = node.return_type.name;
+            methodreturntypes[fqn] = returntype;
+        }
+        after node: Method -> pop(namestack);
+    });
 
-visit(input, visitor {
-    before node: CodeRepository -> {
-        snapshot := getsnapshot(node, "SOURCE_KOTLIN_1_");
-        foreach (i: int; def(snapshot[i]))
-            visit(snapshot[i]);
-        stop;
-    }
-    before node: Namespace -> {
-        push(namestack, node.name);
-        foreach(i: int; def(node.declarations[i]))
-            visit(node.declarations[i]);
-    }
-    after node: Namespace -> pop(namestack);
-    before node: Declaration -> {
-        push(namestack, node.name);
-        fqn = join(".", namestack);
-    }
-    after node: Declaration -> pop(namestack);
-    before node: Method -> {
-        push(namestack, node.name);
-        fqn = join(".", namestack);
-    }
-    after node: Method -> pop(namestack);
-    before node: Variable -> {
-        filepath := current(ChangedFile).name;
-        isinferred := !def(node.variable_type);
-        isactualvar := false;
-        vartype := node.variable_type.name;
-        mapval := "none";
-        expkind := "none";
+    visit(input, visitor {
+        before node: CodeRepository -> {
+            snapshot := getsnapshot(node, "SOURCE_KOTLIN_1_");
+            foreach (i: int; def(snapshot[i]))
+                visit(snapshot[i]);
+            stop;
+        }
+        before node: Namespace -> {
+            push(namestack, node.name);
+            foreach(i: int; def(node.declarations[i]))
+                visit(node.declarations[i]);
+        }
+        after node: Namespace -> pop(namestack);
+        before node: Declaration -> {
+            push(namestack, node.name);
+            fqn = join(".", namestack);
+        }
+        after node: Declaration -> pop(namestack);
+        before node: Method -> {
+            push(namestack, node.name);
+            fqn = join(".", namestack);
+        }
+        after node: Method -> pop(namestack);
+        before node: Variable -> {
+            filepath := current(ChangedFile).name;
+            isinferred := !def(node.variable_type);
+            isactualvar := false;
+            vartype := node.variable_type.name;
+            mapval := "none";
+            expkind := "none";
 
-        if (def(node.initializer)) {
-            expkind = string(node.initializer.kind);
+            if (def(node.initializer)) {
+                expkind = string(node.initializer.kind);
 
-            if (expkind == string(ExpressionKind.METHODCALL)) {
-                if (haskey(methodreturntypes, fqn)) {
-                    mapval = lookup(methodreturntypes, fqn, "default1");
-                }
+                if (expkind == string(ExpressionKind.METHODCALL)) {
+                    if (haskey(methodreturntypes, fqn)) {
+                        mapval = lookup(methodreturntypes, fqn, "default1");
+                    }
 
-            } else if (expkind == string(ExpressionKind.VARACCESS)) {
-                if (haskey(vartypes, fqn)) {
-                    mapval = lookup(vartypes, fqn, "default2");
-                } else {
-                    isactualvar = true;
+                } else if (expkind == string(ExpressionKind.VARACCESS)) {
+                    if (haskey(vartypes, fqn)) {
+                        mapval = lookup(vartypes, fqn, "default2");
+                    } else {
+                        isactualvar = true;
+                    }
                 }
             }
+            m[input.id][escape(filepath)][fqn][isinferred][isactualvar][expkind][vartype][mapval] << 1;
         }
-        m[input.id][escape(filepath)][fqn][isinferred][isactualvar][expkind][vartype][mapval] << 1;
-    }
-});
+    });
+}
