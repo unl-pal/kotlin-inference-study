@@ -9,8 +9,6 @@ vartypes : map[string] of string;
 methodreturntypes : map[string] of string;
 
 {@project-filter@}
-
-# find non-variable declaration types
 visit(input, visitor {
     before node: CodeRepository -> {
         snapshot := getsnapshot(node, "SOURCE_KOTLIN_1_");
@@ -69,24 +67,24 @@ visit(input, visitor {
         filepath := current(ChangedFile).name;
         isinferred := !def(node.variable_type);
         isactualvar := false;
-
-        expkind := "none";
-        if (def(node.initializer))
-            expkind = string(node.initializer.kind);
-
         vartype := node.variable_type.name;
         mapval := "none";
+        expkind := "none";
 
-        if (expkind == string(ExpressionKind.METHODCALL)) {
-            if (haskey(methodreturntypes, fqn)) {
-                mapval = lookup(methodreturntypes, fqn, "default1");
-            }
+        if (def(node.initializer)) {
+            expkind = string(node.initializer.kind);
 
-        } else if (expkind == string(ExpressionKind.VARACCESS)) {
-            if (haskey(vartypes, fqn)) {
-                mapval = lookup(vartypes, fqn, "default2");
-            } else {
-                isactualvar = true;
+            if (expkind == string(ExpressionKind.METHODCALL)) {
+                if (haskey(methodreturntypes, fqn)) {
+                    mapval = lookup(methodreturntypes, fqn, "default1");
+                }
+
+            } else if (expkind == string(ExpressionKind.VARACCESS)) {
+                if (haskey(vartypes, fqn)) {
+                    mapval = lookup(vartypes, fqn, "default2");
+                } else {
+                    isactualvar = true;
+                }
             }
         }
         m[input.id][escape(filepath)][fqn][isinferred][isactualvar][expkind][vartype][mapval] << 1;
