@@ -25,11 +25,11 @@
     "sha256": "deb63fc65f737366734fcce68f7c25ee265a70fa845f7da2dff566c38246b3fb"
   },
   "kotlin/gather-rhs-type-information.txt": {
-    "job": 100635,
-    "sha256": "9a68b2f42900f6114737c4a8a59d7b3544104519a57504277898abc04edd9278"
+    "job": 100637,
+    "sha256": "b7ed095bf45fb7eacc12f16392296ff847bd92eb5f07d2e8cdec81b0cf4b92f4"
   },
   "kotlin/determine-rhs-expression-types.txt": {
-    "job": 100634,
-    "sha256": "3386e442b545dedea6f5d08f4d46f2626ff41fa711880bd56c8fa58c0b949348"
+    "job": 100636,
+    "sha256": "cd4e69d321240ce210e3d7c15c714d2a257e4f31fd1f5f522d65522aa4886fb8"
   }
 }
