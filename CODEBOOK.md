@@ -17,6 +17,9 @@
  - `{@time-or-snapshot@}`
 : Either snapshot or at each revision, output base files.
 
+ - `{@get-method-signature@}`
+: Provides function `getMethodSignature(string, string, Method): string`, which takes a package name, a class name, and a method returning a JVM Bytecode formatted method signature.
+
 ## Output Files
 
 ### `dupes.csv`
