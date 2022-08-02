@@ -22,15 +22,17 @@ head_time: time;
         before repository: CodeRepository -> {
             headrev := getrevision(repository, repository.head);
             head_time = headrev.commit_date;
-            push(order_stack, repository.head);
+            head_revision := repository.head;
+            push(order_stack, head_revision);
 
             visit(headrev);
             stop;
         }
         before rev: Revision -> {
             if (len(rev.parents) > 0) {
-                push(order_stack, rev.parents[0]);
-                visit(getrevision(current(CodeRepository), rev.parents[0]));
+                next_commit := rev.parents[0];
+                push(order_stack, next_commit);
+                visit(getrevision(current(CodeRepository), next_commit));
             }
             stop;
         }
