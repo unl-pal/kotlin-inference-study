@@ -8,8 +8,6 @@ namestack: stack of string;
 types : map[string] of string;
 
 {@project-filter@}
-
-# find non-variable declaration types
 visit(input, visitor {
     before node: CodeRepository -> {
         snapshot := getsnapshot(node, "SOURCE_KOTLIN_1_");
