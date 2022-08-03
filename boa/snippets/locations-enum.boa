@@ -1,0 +1,7 @@
+type Location = enum {
+    RET_VAL,
+    LOOP_VAR,
+    LAMBDA_ARG,
+    BODY,
+    MODULE
+};
