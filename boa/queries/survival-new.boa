@@ -1,6 +1,7 @@
 {@locations-enum@}
 
 type ChangeType = enum {
+    OBSERVATION_ENDED = "OBSERVATION_ENDED",
     FILE_DELETED = "FILE_DELETED",
     ITEM_DISAPPEARED = "ITEM_DISAPPEARED",
     STATE_SWITCHED = "STATE_SWITCHED"
@@ -190,4 +191,11 @@ head_time: time;
                 after node: Variable -> pop(name_parts);
             });
     }
+}
+
+locs := values(keys(status));
+foreach(i: int; def(locs[i])) {
+    loc := locs[i];
+    item_status := status[loc];
+    o[input.id][item_status.file][item_status.name][item_status.location][item_status.is_inferred][ChangeType.OBSERVATION_ENDED][false] << current(Revision).commit_date - item_status.creation_time;
 }
