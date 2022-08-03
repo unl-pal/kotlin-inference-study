@@ -1,5 +1,3 @@
-{@locations-enum@}
-
 type ChangeType = enum {
     OBSERVATION_ENDED = "OBSERVATION_ENDED",
     FILE_DELETED = "FILE_DELETED",
@@ -7,7 +5,7 @@ type ChangeType = enum {
     STATE_SWITCHED = "STATE_SWITCHED"
 };
 
-o: output collection[project: string][file: string][item: string][location: Location][startinferred: bool][changekind: ChangeType][changeobserved: bool] of int; # length_of_time
+o: output collection[project: string][file: string][item: string][location: string][startinferred: bool][changekind: ChangeType][changeobserved: bool] of int; # length_of_time
 
 {@escape@}
 
@@ -16,14 +14,14 @@ type Status = {
  file: string,
  is_inferred: bool,
  creation_time: time,
- location: Location
+ location: string
 };
 
 status: map[string] of Status;
 file_items: map[string] of set of string;
 has_changed: set of string;
 
-location: stack of Location;
+location: stack of string;
 name_parts: stack of string;
 order_stack: stack of int;
 
@@ -65,7 +63,7 @@ head_time: time;
                 }
                 before node: Namespace -> {
                     push(name_parts, node.name);
-                    push(location, Location.MODULE);
+                    push(location, "MODULE");
                 }
                 after node: Namespace -> {
                     pop(name_parts);
@@ -108,7 +106,7 @@ head_time: time;
                     file := current(ChangedFile).name;
                     name := join(".", name_parts);
                     if(def(node.expression)) {
-                        push(location, Location.RET_VAL);
+                        push(location, "RET_VAL");
                         loc := get_loc_name(file);
                         isinferred := !def(node.return_type);
                         add(seen_items, loc);
@@ -129,7 +127,7 @@ head_time: time;
                         }
                         pop(location);
                     }
-                    push(location, Location.BODY);
+                    push(location, "BODY");
                     if (def(node.expression))
                         visit(node.expression);
                     foreach (i: int; def(node.statements[i]))
@@ -140,7 +138,7 @@ head_time: time;
                 after node: Method -> pop(name_parts);
                 before node: Statement -> {
                     if (node.kind == StatementKind.FOR) {
-                        push(location, Location.LOOP_VAR);
+                        push(location, "LOOP_VAR");
                         if (def(node.variable_declaration))
                             visit(node.variable_declaration);
                         pop(location);
@@ -153,7 +151,7 @@ head_time: time;
                 }
                 before node: Expression -> {
                     if (node.kind == ExpressionKind.LAMBDA) {
-                        push(location, Location.LAMBDA_ARG);
+                        push(location, "LAMBDA_ARG");
                         foreach (i: int; def(node.variable_decls[i]))
                             visit(node.variable_decls[i]);
                         pop(location);
