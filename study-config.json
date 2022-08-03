@@ -103,7 +103,7 @@
             }
         },
         "kotlin/survival.txt": {
-            "query": "queries/survival.boa",
+            "query": "queries/survival-new.boa",
             "dataset": "kotlin",
             "csv": {
                 "output": "kotlin/survival.csv",
@@ -166,6 +166,10 @@
         {
             "target": "{@time-part@}",
             "replacement": ""
+        },
+        {
+            "target": "{@locations-enum@}",
+            "file": "locations-enum.boa"
         }
     ]
 }

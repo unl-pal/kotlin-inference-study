@@ -13,7 +13,7 @@ o: output collection[project: string][file: string][item: string][location: Loca
 type Status = {
  name: string,
  file: string,
- is_open: bool,
+ is_inferred: bool,
  creation_time: bool,
  location: Location
 };
@@ -25,6 +25,10 @@ has_changed: set of string;
 location: stack of Location;
 name_parts: stack of string;
 order_stack: stack of int;
+
+get_loc_name := function (file: string): string {
+    return format("%s#%s#%s", file, join(".", name_parts), peek(location));
+}
 
 seen_items: set of string;
 
@@ -71,14 +75,13 @@ head_time: time;
                         stop;
                     if (node.change == ChangeKind.DELETED) {
                         empty_string_set: set of string;
-                        items := values(lookup(file_items, node.name, empty_string_set));
-                        foreach (i: int; def(items[i])) {
-                            loc := format("%s#%s", node.name, items[i]);
-                            o[input.id][escape(node.name)][items[i]][location_map[loc]][last[loc]][ChangeType.FILE_DELETED][false] << current(Revision).commit_date - creation[loc];
+                        locs := values(lookup(file_items, node.name, empty_string_set));
+                        foreach (i: int; def(locs[i])) {
+                            loc := locs[i];
+                            item_status := status[loc];
+                            o[input.id][item_status.file][item_status.name][item_status.location][item_status.is_inferred][ChangeType.FILE_DELETED][false] << current(Revision).commit_date - item_status.creation_time;
                             add(has_changed, loc);
-                            remove(location_map, loc);
-                            remove(last, loc);
-                            remove(creation, loc);
+                            remove(status, loc);
                         }
                         remove(file_items, node.name);
                         stop;
@@ -86,15 +89,14 @@ head_time: time;
                 }
                 after node: ChangedFile -> {
                     empty_string_set: set of string;
-                    items := values(difference(lookup(file_items, node.name, empty_string_set), seen_items));
-                    foreach (i: int; def(items[i])) {
-                        loc := format("%s#%s", node.name, items[i]);
-                        item := split(items[i], "#")[0];
-                        o[input.id][escape(node.name)][item][location_map[loc]][last[loc]][ChangeType.ITEM_DISAPPEARED][false] << current(Revision).commit_date - creation[loc];
+                    locs := values(difference(lookup(file_items, node.name, empty_string_set), seen_items));
+                    foreach (i: int; def(locs[i])) {
+                        loc := locs[i];
+                        item_status := status[loc];
+                        o[input.id][item_status.file][item_status.name][item_status.location][item_status.is_inferred][ChangeType.ITEM_DISAPPEARED][false] << current(Revision).commit_date - item_status.creation_time;
                         add(has_changed, loc);
-                        remove(location_map, loc);
-                        remove(last, loc);
-                        remove(file_items[node.name], items[i]);
+                        remove(status, loc);
+                        remove(file_items[node.name], loc);
                     }
                     clear(seen_items);
                 }
@@ -104,30 +106,27 @@ head_time: time;
                     push(name_parts, node.name);
                     file := current(ChangedFile).name;
                     name := join(".", name_parts);
-                    loc := format("%s#%s#return_val", file, name);
-                    if (def(node.expression)) {
+                    if(def(node.expression)) {
+                        push(location, Location.RET_VAL);
+                        loc := get_loc_name(file);
                         isinferred := !def(node.return_type);
+                        add(seen_items, loc);
                         if (!haskey(file_items, file)) {
                             empty_set: set of string;
                             file_items[file] = empty_set;
                         }
-                        if (!contains(file_items[file], name) && !contains(has_changed, loc)) {
-                            add(file_items[file], format("%s#return_val", name));
-                            last[loc] = isinferred;
-                            location_map[loc] = Location.RET_VAL;
-                            creation[loc] = current(Revision).commit_date;
-                            add(seen_items, format("%s#RET_VAL", name));
-                        } else if (!contains(has_changed, loc) && isinferred != last[loc]) {
-                            o[input.id][escape(file)][name][location_map[loc]][last[loc]][ChangeType.STATE_SWITCHED][true] << current(Revision).commit_date - creation[loc];
-                            remove(file_items[file], format("%s#RET_VAL", name));
+                        if (!contains(file_items[file], loc) && !contains(has_changed, loc)) {
+                            add(file_items[file], loc);
+                            item_status: Status = { name, escape(file), inferred, current(Revision).commit_date, peek(location)};
+                            status[loc] = item_status;
+                        } else if (!contains(has_changed[loc]) && isinferred != status[loc].is_inferred) {
+                            item_status := status[loc];
+                            o[input.id][item_status.file][item_status.name][item_status.location][item_status.is_inferred][ChangeType.STATE_SWITCHED][true] << current(Revision).commit_date - item_status.creation_time;
                             add(has_changed, loc);
-                            remove(location_map, loc);
-                            remove(last, loc);
-                            remove(creation, loc);
-                            add(seen_items, format("%s#RET_VAL", name));
-                        } else {
-                            add(seen_items, format("%s#RET_VAL", name));
+                            remove(file_items[file], loc);
+                            remove(status, loc);
                         }
+                        pop(location);
                     }
                     push(location, BODY);
                     if (def(node.expression))
@@ -167,30 +166,25 @@ head_time: time;
                 before node: Variable -> {
                     push(name_parts, node.name);
                     file := current(ChangedFile).name;
-                    name := join(".", name_parts);
                     place := peek(location);
-                    loc := format("%s#%s#%s", file, name, place);
+                    loc := get_loc_name(file);
+                    add(seen_items, loc);
+                    name := join(".", name_parts);
                     isinferred := !def(node.variable_type);
                     if (!haskey(file_items, file)) {
                         empty_set: set of string;
                         file_items[file] = empty_set;
                     }
-                    if (!contains(file_items[file], name) && !contains(has_changed, loc)) {
-                        add(file_items[file], format("%s#%s", name, place));
-                        last[loc] = isinferred;
-                        location_map[loc] = place;
-                        creation[loc] = current(Revision).commit_date;
-                        add(seen_items, format("%s#%s", name, place));
-                    } else if (!contains(has_changed, loc) && isinferred != last[loc]) {
-                        o[input.id][escape(file)][name][location_map[loc]][last[loc]][ChangeType.STATE_SWITCHED][true] << current(Revision).commit_date - creation[loc];
-                        remove(file_items[file], format("%s#%s", name, place));
+                    if (!contains(file_items[file], loc) && !contains(has_changed, loc)) {
+                        add(file_items[file], loc);
+                        item_status: Status = { name, escape(file), inferred, current(Revision).commit_date, peek(location)};
+                        status[loc] = item_status;
+                    } else if (!contains(has_changed[loc]) && isinferred != status[loc].is_inferred) {
+                        item_status := status[loc];
+                        o[input.id][item_status.file][item_status.name][item_status.location][item_status.is_inferred][ChangeType.STATE_SWITCHED][true] << current(Revision).commit_date - item_status.creation_time;
                         add(has_changed, loc);
-                        remove(location_map, loc);
-                        remove(last, loc);
-                        remove(creation, loc);
-                        add(seen_items, format("%s#%s", name, place));
-                    } else {
-                        add(seen_items, format("%s#%s", name, place));
+                        remove(file_items[file], loc);
+                        remove(status, loc);
                     }
                 }
                 after node: Variable -> pop(name_parts);
