@@ -15,7 +15,7 @@ type Status = {
  name: string,
  file: string,
  is_inferred: bool,
- creation_time: bool,
+ creation_time: time,
  location: Location
 };
 
@@ -29,7 +29,7 @@ order_stack: stack of int;
 
 get_loc_name := function (file: string): string {
     return format("%s#%s#%s", file, join(".", name_parts), peek(location));
-}
+};
 
 seen_items: set of string;
 
@@ -39,9 +39,9 @@ head_time: time;
 {
     visit(input, visitor {
             before repository: CodeRepository -> {
-            headrev := getrevision(repository, repository.head);
+                headrev := getrevision(repository, repository.head);
                 head_time = headrev.commit_date;
-            head_revision := repository.head;
+                head_revision := repository.head;
                 push(order_stack, head_revision);
 
                 visit(headrev);
@@ -118,9 +118,9 @@ head_time: time;
                         }
                         if (!contains(file_items[file], loc) && !contains(has_changed, loc)) {
                             add(file_items[file], loc);
-                            item_status: Status = { name, escape(file), inferred, current(Revision).commit_date, peek(location)};
+                            item_status: Status = { name, escape(file), isinferred, current(Revision).commit_date, peek(location) };
                             status[loc] = item_status;
-                        } else if (!contains(has_changed[loc]) && isinferred != status[loc].is_inferred) {
+                        } else if (!contains(has_changed, loc) && isinferred != status[loc].is_inferred) {
                             item_status := status[loc];
                             o[input.id][item_status.file][item_status.name][item_status.location][item_status.is_inferred][ChangeType.STATE_SWITCHED][true] << current(Revision).commit_date - item_status.creation_time;
                             add(has_changed, loc);
@@ -129,7 +129,7 @@ head_time: time;
                         }
                         pop(location);
                     }
-                    push(location, BODY);
+                    push(location, Location.BODY);
                     if (def(node.expression))
                         visit(node.expression);
                     foreach (i: int; def(node.statements[i]))
@@ -178,9 +178,9 @@ head_time: time;
                     }
                     if (!contains(file_items[file], loc) && !contains(has_changed, loc)) {
                         add(file_items[file], loc);
-                        item_status: Status = { name, escape(file), inferred, current(Revision).commit_date, peek(location)};
+                        item_status: Status = { name, escape(file), isinferred, current(Revision).commit_date, peek(location) };
                         status[loc] = item_status;
-                    } else if (!contains(has_changed[loc]) && isinferred != status[loc].is_inferred) {
+                    } else if (!contains(has_changed, loc) && isinferred != status[loc].is_inferred) {
                         item_status := status[loc];
                         o[input.id][item_status.file][item_status.name][item_status.location][item_status.is_inferred][ChangeType.STATE_SWITCHED][true] << current(Revision).commit_date - item_status.creation_time;
                         add(has_changed, loc);
@@ -193,7 +193,7 @@ head_time: time;
     }
 }
 
-locs := values(keys(status));
+locs := keys(status);
 foreach(i: int; def(locs[i])) {
     loc := locs[i];
     item_status := status[loc];
