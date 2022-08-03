@@ -1,9 +1,9 @@
 {@locations-enum@}
 
 type ChangeType = enum {
-    FILE_DELETED,
-    ITEM_DISAPPEARED,
-    STATE_SWITCHED
+    FILE_DELETED = "FILE_DELETED",
+    ITEM_DISAPPEARED = "ITEM_DISAPPEARED",
+    STATE_SWITCHED = "STATE_SWITCHED"
 };
 
 o: output collection[project: string][file: string][item: string][location: Location][startinferred: bool][changekind: ChangeType][changeobserved: bool] of int; # length_of_time
