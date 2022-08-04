@@ -5,10 +5,7 @@ import pandas as pd
 from common.tables import *
 from common.df import *
 
-df_unfiltered = get_df("count-unfiltered", "kotlin", header='infer')
-df_filtered = get_df("count-filtered", "kotlin", header='infer')
-
-df = pd.concat([df_unfiltered, df_filtered])
+df = get_df("counts", "kotlin", header='infer')
 
 df['filtered'] = df['filtered'].apply(lambda x: "Post-Filtering" if x else "Pre-Filtering")
 df['type'] = df['type'].apply(lambda x: {'projects': "Projects",
