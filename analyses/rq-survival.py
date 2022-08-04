@@ -16,9 +16,12 @@ print("Loading survival data", flush=True)
 df = get_df("survival", "kotlin", header='infer')
 print("Survival data loaded", flush=True)
 
-# print(df.head(), flush=True)
-# print(df.describe(), flush=True)
+print("Summarizing Time to Change by Change Kind")
+df_summarized = df.groupby(['changekind'])[['timetochange']].describe().transpose()
+summarized_styler = highlight_cols(highlight_rows(get_styler(df_summarized)))
+save_table(summarized_styler, "time-to-change-by-changetype.tex", "rq-survival")
 
+print("Fitting Survival Curves")
 fitter = KaplanMeierFitter()
 ax = plt.subplot(111)
 
@@ -27,20 +30,13 @@ starts_inferred = df['startinferred']
 T = df['timetochange']
 E = df['observed']
 
-print(T[starts_inferred].info())
-print(E[starts_inferred].info())
+print("Fitting starting inferred")
 fitter.fit(T[starts_inferred], E[starts_inferred], label='Starts Inferred')
 fitter.plot_survival_function(ax=ax)
-print(fitter.survival_function_.head())
 
-print(T[~starts_inferred].info())
-print(E[~starts_inferred].info())
+print("Fitting starting annotated")
 fitter.fit(T[~starts_inferred], E[~starts_inferred], label='Starts Annotated')
 fitter.plot_survival_function(ax=ax)
-print(fitter.survival_function_.head())
 
 plt.title('Lifespans of items')
-
 save_figure(plt.gcf(), "figures/lifespans.pdf", x=7, y=4)
-
-print(fitter.survival_function_.head())
