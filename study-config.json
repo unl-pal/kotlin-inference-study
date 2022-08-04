@@ -103,7 +103,7 @@
             }
         },
         "kotlin/survival.txt": {
-            "query": "queries/survival-new.boa",
+            "query": "queries/survival.boa",
             "dataset": "kotlin",
             "csv": {
                 "output": "kotlin/survival.csv",
