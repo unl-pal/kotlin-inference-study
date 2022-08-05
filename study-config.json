@@ -64,50 +64,20 @@
                 ]
             }
         },
-        "kotlin/count-unfiltered.txt": {
-            "query": "queries/count-projects.boa",
-            "dataset": "kotlin",
-            "substitutions": [
-                {
-                    "target": "{@project-filter@}",
-                    "replacement": ""
-                },
-                {
-                    "target": "{@is-filtered@}",
-                    "replacement": "is_filtered := false;"
-                }
-            ],
-            "csv": {
-                "output": "kotlin/count-unfiltered.csv",
-                "drop": [
-                    0
-                ],
-                "header": "type,filtered,count"
-            }
-        },
-        "kotlin/count-filtered.txt": {
-            "query": "queries/count-projects.boa",
-            "dataset": "kotlin",
-            "substitutions": [
-                {
-                    "target": "{@is-filtered@}",
-                    "replacement": "is_filtered := true;"
-                }
-            ],
-            "csv": {
-                "output": "kotlin/count-filtered.csv",
-                "drop": [
-                    0
-                ],
-                "header": "type,filtered,count"
-            }
-        }
+	"kotlin/counts.txt": {
+	    "query": "queries/count-projects.boa",
+	    "dataset": "kotlin",
+	    "csv": {
+		"output": "kotlin/counts.csv",
+		"drop": [ 0 ],
+		"header": "type,filtered,count"
+	    }
+	}
     },
     "analyses": {
         "table-counts.py": {
             "input": [
-                "kotlin/count-unfiltered.csv",
-                "kotlin/count-filtered.csv"
+                "kotlin/counts.csv"
             ]
         },
         "rq-mutability.py": {
