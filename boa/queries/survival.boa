@@ -73,6 +73,10 @@ get_loc_name := function (file: string): string {
                 before node: ChangedFile -> {
                     if (!iskind("SOURCE_KOTLIN_1_", node.kind))
                         stop;
+                    if (!haskey(file_items, node.name)) {
+                        empty_string_set: set of string;
+                        file_items[node.name] = empty_string_set;
+                    }
                     if (node.change == ChangeKind.DELETED) {
                         empty_string_set: set of string;
                         locs := values(lookup(file_items, node.name, empty_string_set));
@@ -111,10 +115,6 @@ get_loc_name := function (file: string): string {
                         loc := get_loc_name(file);
                         isinferred := !def(node.return_type);
                         add(seen_items, loc);
-                        if (!haskey(file_items, file)) {
-                            empty_set: set of string;
-                            file_items[file] = empty_set;
-                        }
                         if (!contains(file_items[file], loc) && !contains(has_changed, loc)) {
                             add(file_items[file], loc);
                             item_status: Status = { name, escape(file), isinferred, current(Revision).commit_date, peek(location) };
@@ -170,11 +170,7 @@ get_loc_name := function (file: string): string {
                     loc := get_loc_name(file);
                     add(seen_items, loc);
                     name := join(".", name_parts);
-                    isinferred := !def(node.variable_type);
-                    if (!haskey(file_items, file)) {
-                        empty_set: set of string;
-                        file_items[file] = empty_set;
-                    }
+                    isinferred := !def(node.variable_type);                    
                     if (!contains(file_items[file], loc) && !contains(has_changed, loc)) {
                         add(file_items[file], loc);
                         item_status: Status = { name, escape(file), isinferred, current(Revision).commit_date, peek(location) };
