@@ -9,6 +9,8 @@ o: output collection[project: string][file: string][item: string][location: stri
 
 {@escape@}
 
+{@get-method-signature@}
+
 type Status = {
  name: string,
  file: string,
@@ -107,7 +109,8 @@ get_loc_name := function (file: string): string {
                 before node: Declaration -> push(name_parts, node.name);
                 after  node: Declaration -> pop(name_parts);
                 before node: Method -> {
-                    push(name_parts, node.name);
+                    method_signature := getMethodSignature("", "", node);
+                    push(name_parts, method_signature);
                     file := current(ChangedFile).name;
                     name := join(".", name_parts);
                     if(def(node.expression)) {
@@ -134,9 +137,9 @@ get_loc_name := function (file: string): string {
                     foreach (i: int; def(node.statements[i]))
                         visit(node.statements[i]);
                     pop(location);
+                    pop(name_parts);
                     stop;
                 }
-                after node: Method -> pop(name_parts);
                 before node: Statement -> {
                     if (node.kind == StatementKind.FOR) {
                         push(location, "LOOP_VAR");
