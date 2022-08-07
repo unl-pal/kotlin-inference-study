@@ -91,22 +91,11 @@
 3. `fqn` (`string`)
 : Fully qualified name.
 
-4. `nonvardecltype` (`string`)
-: The type of declarations that are not in the `Variable` node. (`none` if declaration is in `Variable` node).
-    - `CLASS`
-    - `SINGLETON`
-    - `IMMUTABLE`
-    - `INTERFACE`
-    - `ENUM`
-    - `ANNOTATION`
-    - `ALIAS`
-    - `none`
+4. `isReturnType` (`boolean`)
+: Whether or not the type is a declaration type or method return type.
 
-5. `methodreturntype` (`string`)
-: Return type of a method (`none` if not a method).
-
-6. `count` (`long`)
-: Number of declarations fitting items 1--7.
+5. `type` (`string`)
+: Return either declaration type of method return type.
 
 ### `determine-rhs-expression-types.csv`
 
