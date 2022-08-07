@@ -3,6 +3,8 @@ decl: output collection[project: string][filepath: string][fqn: string][isRetrun
 
 {@escape@}
 
+{@get-method-signature@}
+
 name_stack : stack of string;
 types : map[string] of string;
 
@@ -31,7 +33,8 @@ types : map[string] of string;
         }
         after node: Declaration -> pop(name_stack );
         before node: Method -> {
-            push(name_stack , node.name);
+            method_signature := getMethodSignature("", "", node);
+            push(name_stack, method_signature);
             fqn := join(".", name_stack );
             file := current(ChangedFile).name;
             returntype := "unknown";
