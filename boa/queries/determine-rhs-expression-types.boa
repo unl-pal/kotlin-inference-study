@@ -2,6 +2,8 @@ m: output sum[project: string][filepath: string][class: string][is_inferred: boo
 
 {@escape@}
 
+{@get-method-signature@}
+
 name_stack: stack of string;
 var_types : map[string] of string;
 method_return_types : map[string] of string;
@@ -29,7 +31,8 @@ method_return_types : map[string] of string;
         }
         after node: Declaration -> pop(name_stack);
         before node: Method -> {
-            push(name_stack, node.name);
+            method_signature := getMethodSignature("", "", node);
+            push(name_stack, method_signature);
             fqn := join(".", name_stack);
             returntype := "unknown";
             if (node.return_type.name != "")
@@ -57,7 +60,8 @@ method_return_types : map[string] of string;
         }
         after node: Declaration -> pop(name_stack);
         before node: Method -> {
-            push(name_stack, node.name);
+            method_signature := getMethodSignature("", "", node);
+            push(name_stack, method_signature);
         }
         after node: Method -> pop(name_stack);
         before node: Variable -> {
