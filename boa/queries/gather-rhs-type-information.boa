@@ -1,10 +1,9 @@
-o: output sum[project: string][filepath: string][class: string][nonvardecltype: string][methodreturntype: string] of int;
+mrt: output collection[project: string][filepath: string][fqn: string][isRetrunType: bool] of string; # return type
+decl: output collection[project: string][filepath: string][fqn: string][isRetrunType: bool] of string; # decl type
 
 {@escape@}
 
-fqn : string;
-file : string;
-namestack: stack of string;
+name_stack : stack of string;
 types : map[string] of string;
 
 {@project-filter@}
@@ -17,29 +16,29 @@ types : map[string] of string;
             stop;
         }
         before node: Namespace -> {
-            push(namestack, node.name);
+            push(name_stack , node.name);
             foreach(i: int; def(node.declarations[i]))
                 visit(node.declarations[i]);
         }
-        after node: Namespace -> pop(namestack);
+        after node: Namespace -> pop(name_stack );
         before node: Declaration -> {
-            push(namestack, node.name);
-            fqn = join(".", namestack);
-            file = current(ChangedFile).name;
+            push(name_stack , node.name);
+            fqn := join(".", name_stack );
+            file := current(ChangedFile).name;
             types[fqn] = string(node.kind);
             decltype := string(node.kind);
-            o[input.id][escape(file)][fqn][decltype]["none"] << 1;
+            decl[input.id][escape(file)][fqn][false] << decltype;
         }
-        after node: Declaration -> pop(namestack);
+        after node: Declaration -> pop(name_stack );
         before node: Method -> {
-            push(namestack, node.name);
-            fqn = join(".", namestack);
-            file = current(ChangedFile).name;
+            push(name_stack , node.name);
+            fqn := join(".", name_stack );
+            file := current(ChangedFile).name;
             returntype := "unknown";
             if (node.return_type.name != "")
                 returntype = node.return_type.name;
-            o[input.id][escape(file)][fqn]["none"][returntype] << 1;
+            mrt[input.id][escape(file)][fqn][true] << returntype;
         }
-        after node: Method -> pop(namestack);
+        after node: Method -> pop(name_stack );
     });
 }
