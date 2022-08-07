@@ -116,7 +116,7 @@
                 "drop": [
                     0
                 ],
-                "header": "project,filepath,class,nonvardecltype,methodreturntype",
+                "header": "project,filepath,fqn,isReturnType,type",
                 "test": [
                     "2,\\.kts?$"
                 ]
