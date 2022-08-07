@@ -184,6 +184,10 @@
             "file": "filter.boa"
         },
         {
+            "target": "{@get-method-signature@}",
+            "file": "get-method-signature.boa"
+        },
+        {
             "target": "{@time-out@}",
             "replacement": ""
         },
