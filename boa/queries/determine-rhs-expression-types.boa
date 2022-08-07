@@ -2,11 +2,9 @@ m: output sum[project: string][filepath: string][class: string][is_inferred: boo
 
 {@escape@}
 
-fqn : string;
-file : string;
-namestack: stack of string;
-vartypes : map[string] of string;
-methodreturntypes : map[string] of string;
+name_stack: stack of string;
+var_types : map[string] of string;
+method_return_types : map[string] of string;
 
 {@project-filter@}
 {
@@ -18,27 +16,27 @@ methodreturntypes : map[string] of string;
             stop;
         }
         before node: Namespace -> {
-            push(namestack, node.name);
+            push(name_stack, node.name);
             foreach(i: int; def(node.declarations[i]))
                 visit(node.declarations[i]);
         }
-        after node: Namespace -> pop(namestack);
+        after node: Namespace -> pop(name_stack);
         before node: Declaration -> {
-            push(namestack, node.name);
-            fqn = join(".", namestack);
-            vartypes[fqn] = string(node.kind);
+            push(name_stack, node.name);
+            fqn := join(".", name_stack);
+            var_types[fqn] = string(node.kind);
             decltype := string(node.kind);
         }
-        after node: Declaration -> pop(namestack);
+        after node: Declaration -> pop(name_stack);
         before node: Method -> {
-            push(namestack, node.name);
-            fqn = join(".", namestack);
+            push(name_stack, node.name);
+            fqn := join(".", name_stack);
             returntype := "unknown";
             if (node.return_type.name != "")
                 returntype = node.return_type.name;
-            methodreturntypes[fqn] = returntype;
+            method_return_types[fqn] = returntype;
         }
-        after node: Method -> pop(namestack);
+        after node: Method -> pop(name_stack);
     });
 
     visit(input, visitor {
@@ -49,22 +47,21 @@ methodreturntypes : map[string] of string;
             stop;
         }
         before node: Namespace -> {
-            push(namestack, node.name);
+            push(name_stack, node.name);
             foreach(i: int; def(node.declarations[i]))
                 visit(node.declarations[i]);
         }
-        after node: Namespace -> pop(namestack);
+        after node: Namespace -> pop(name_stack);
         before node: Declaration -> {
-            push(namestack, node.name);
-            fqn = join(".", namestack);
+            push(name_stack, node.name);
         }
-        after node: Declaration -> pop(namestack);
+        after node: Declaration -> pop(name_stack);
         before node: Method -> {
-            push(namestack, node.name);
-            fqn = join(".", namestack);
+            push(name_stack, node.name);
         }
-        after node: Method -> pop(namestack);
+        after node: Method -> pop(name_stack);
         before node: Variable -> {
+            fqn := join(".", name_stack);
             filepath := current(ChangedFile).name;
             isinferred := !def(node.variable_type);
             isactualvar := false;
@@ -76,13 +73,13 @@ methodreturntypes : map[string] of string;
                 expkind = string(node.initializer.kind);
 
                 if (expkind == string(ExpressionKind.METHODCALL)) {
-                    if (haskey(methodreturntypes, fqn)) {
-                        mapval = lookup(methodreturntypes, fqn, "default1");
+                    if (haskey(method_return_types, fqn)) {
+                        mapval = lookup(method_return_types, fqn, "default1");
                     }
 
                 } else if (expkind == string(ExpressionKind.VARACCESS)) {
-                    if (haskey(vartypes, fqn)) {
-                        mapval = lookup(vartypes, fqn, "default2");
+                    if (haskey(var_types, fqn)) {
+                        mapval = lookup(var_types, fqn, "default2");
                     } else {
                         isactualvar = true;
                     }
