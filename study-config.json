@@ -113,10 +113,7 @@
             ],
             "csv": {
                 "output": "kotlin/gather-rhs-type-information.csv",
-                "drop": [
-                    0
-                ],
-                "header": "project,filepath,fqn,isReturnType,type",
+                "header": "var,project,filepath,fqn,type",
                 "test": [
                     "2,\\.kts?$"
                 ]
@@ -133,10 +130,8 @@
             ],
             "csv": {
                 "output": "kotlin/determine-rhs-expression-types.csv",
-                "drop": [
-                    0
-                ],
-                "header": "project,filepath,class,isinferred,isactualvar,expkind,vartype,mapval",
+                "drop": [0],
+                "header": "project,filepath,class,isinferred,isactualvar,expkind,vartype,mapval,count",
                 "test": [
                     "2,\\.kts?$"
                 ]
