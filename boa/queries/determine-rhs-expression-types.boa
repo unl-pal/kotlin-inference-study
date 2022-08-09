@@ -71,7 +71,7 @@ method_return_types : map[string] of string;
             isactualvar := false;
             vartype := node.variable_type.name;
             mapval := "none";
-            expkind := "none";
+            expkind := "unknown";
 
             if (def(node.initializer)) {
                 expkind = string(node.initializer.kind);
@@ -89,7 +89,10 @@ method_return_types : map[string] of string;
                     }
                 }
             }
+            push(name_stack, node.name);
+            fqn = join(".", name_stack);
             m[input.id][escape(filepath)][fqn][isinferred][isactualvar][expkind][vartype][mapval] << 1;
         }
+        after node: Variable -> pop(name_stack);
     });
 }
