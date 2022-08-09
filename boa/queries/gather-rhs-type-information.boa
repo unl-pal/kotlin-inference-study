@@ -1,5 +1,5 @@
-mrt: output collection[project: string][filepath: string][fqn: string][isRetrunType: bool] of string; # return type
-decl: output collection[project: string][filepath: string][fqn: string][isRetrunType: bool] of string; # decl type
+mrt: output collection[project: string][filepath: string][fqn: string] of string; # return type
+decl: output collection[project: string][filepath: string][fqn: string] of string; # decl type
 
 {@escape@}
 
@@ -29,7 +29,7 @@ types : map[string] of string;
             file := current(ChangedFile).name;
             types[fqn] = string(node.kind);
             decltype := string(node.kind);
-            decl[input.id][escape(file)][fqn][false] << decltype;
+            decl[input.id][escape(file)][fqn] << decltype;
         }
         after node: Declaration -> pop(name_stack );
         before node: Method -> {
@@ -40,7 +40,7 @@ types : map[string] of string;
             returntype := "unknown";
             if (node.return_type.name != "")
                 returntype = node.return_type.name;
-            mrt[input.id][escape(file)][fqn][true] << returntype;
+            mrt[input.id][escape(file)][fqn] << returntype;
         }
         after node: Method -> pop(name_stack );
     });
