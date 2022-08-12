@@ -1,4 +1,23 @@
-m: output sum[project: string][filepath: string][class: string][is_inferred: bool][isactualvar: bool][expkind: string][vartype: string][mapval : string] of int;
+m: output sum[project: string][filepath: string][class: string][is_inferred: bool][expkind: string][mapval : string] of int;
+
+helper := function(e: Expression, name_stack: stack of string, var_types : map[string] of string, method_return_types : map[string] of string) : string {
+    if (len(e.expressions) > 1) {
+        for (i := 0; i < len(e.expressions); i++) {
+            pop(name_stack);
+            fqn := join(".", name_stack);
+            if (e.expressions[i].kind == ExpressionKind.NEW) {
+                return string(ExpressionKind.NEW);
+
+            } else if (haskey(method_return_types, fqn)) {
+                return lookup(method_return_types, fqn, "default1");
+
+            } else if (haskey(var_types, fqn)) {
+                return lookup(method_return_types, fqn, "default2");
+            }
+        }
+    }
+    return "helper_none";
+};
 
 {@escape@}
 
@@ -68,10 +87,9 @@ method_return_types : map[string] of string;
             fqn := join(".", name_stack);
             filepath := current(ChangedFile).name;
             isinferred := !def(node.variable_type);
-            isactualvar := false;
-            vartype := node.variable_type.name;
             mapval := "none";
             expkind := "unknown";
+            is_literal := false;
 
             if (def(node.initializer)) {
                 expkind = string(node.initializer.kind);
@@ -84,14 +102,16 @@ method_return_types : map[string] of string;
                 } else if (expkind == string(ExpressionKind.VARACCESS)) {
                     if (haskey(var_types, fqn)) {
                         mapval = lookup(var_types, fqn, "default2");
-                    } else {
-                        isactualvar = true;
                     }
                 }
             }
+
+            if (expkind == "unknown" || mapval  == "unknown")
+                mapval = helper(node.initializer, name_stack, var_types, method_return_types);
+
             push(name_stack, node.name);
             fqn = join(".", name_stack);
-            m[input.id][escape(filepath)][fqn][isinferred][isactualvar][expkind][vartype][mapval] << 1;
+            m[input.id][escape(filepath)][fqn][isinferred][expkind][mapval] << 1;
         }
         after node: Variable -> pop(name_stack);
     });
