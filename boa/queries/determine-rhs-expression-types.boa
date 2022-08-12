@@ -1,24 +1,5 @@
 m: output sum[project: string][filepath: string][class: string][is_inferred: bool][expkind: string][mapval : string] of int;
 
-helper := function(e: Expression, name_stack: stack of string, var_types : map[string] of string, method_return_types : map[string] of string) : string {
-    if (len(e.expressions) > 1) {
-        for (i := 0; i < len(e.expressions); i++) {
-            pop(name_stack);
-            fqn := join(".", name_stack);
-            if (e.expressions[i].kind == ExpressionKind.NEW) {
-                return string(ExpressionKind.NEW);
-
-            } else if (haskey(method_return_types, fqn)) {
-                return lookup(method_return_types, fqn, "default1");
-
-            } else if (haskey(var_types, fqn)) {
-                return lookup(method_return_types, fqn, "default2");
-            }
-        }
-    }
-    return "helper_none";
-};
-
 {@escape@}
 
 {@get-method-signature@}
@@ -105,9 +86,6 @@ method_return_types : map[string] of string;
                     }
                 }
             }
-
-            if (expkind == "unknown" || mapval  == "unknown")
-                mapval = helper(node.initializer, name_stack, var_types, method_return_types);
 
             push(name_stack, node.name);
             fqn = join(".", name_stack);
