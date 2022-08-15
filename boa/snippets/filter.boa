@@ -1,10 +1,9 @@
 keep := false;
 
 exclude_set: set of string;
-excludes_list := "30242877;361056637;313649481";
-excludes := split(excludes_list, `;`);
-foreach (i: int; def(excludes[i]))
-    add(exclude_set, excludes[i]);
+add(exclude_set, "30242877");
+add(exclude_set, "361056637");
+add(exclude_set, "313649481");
 
 if (!contains(exclude_set, input.id))
 visit(input, visitor {
