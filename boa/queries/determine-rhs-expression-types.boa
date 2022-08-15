@@ -89,7 +89,7 @@ method_return_types : map[string] of string;
 
             push(name_stack, node.name);
             fqn = join(".", name_stack);
-            m[input.id][escape(filepath)][fqn][isinferred][expkind][mapval] << 1;
+            m[input.id][escape(filepath)][escape(fqn)][isinferred][expkind][mapval] << 1;
         }
         after node: Variable -> pop(name_stack);
     });
