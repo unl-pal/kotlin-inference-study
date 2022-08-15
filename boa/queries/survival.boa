@@ -50,7 +50,7 @@ get_loc_name := function (file: string): string {
             }
             before rev: Revision -> {
                 if (len(rev.parents) > 0) {
-                next_commit := rev.parents[0];
+                    next_commit := rev.parents[0];
                     push(order_stack, next_commit);
                     visit(getrevision(current(CodeRepository), next_commit));
                 }
