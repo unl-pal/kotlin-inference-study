@@ -1,5 +1,7 @@
 keep := false;
 
+# These projects are not part of analysis as doing so requires more
+# memory than is available for use on the Boa runners.
 exclude_set: set of string;
 add(exclude_set, "30242877");
 add(exclude_set, "361056637");
