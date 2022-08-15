@@ -136,10 +136,6 @@
         {
             "target": "{@time-part@}",
             "replacement": ""
-        },
-        {
-            "target": "{@locations-enum@}",
-            "file": "locations-enum.boa"
         }
     ]
 }

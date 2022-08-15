@@ -1,7 +1,0 @@
-type Location = enum {
-    RET_VAL = "RET_VAL",
-    LOOP_VAR = "LOOP_VAR",
-    LAMBDA_ARG = "LAMBDA_ARG",
-    BODY = "BODY",
-    MODULE = "MODULE"
-};
