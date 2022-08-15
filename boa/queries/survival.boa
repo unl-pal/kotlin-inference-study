@@ -35,15 +35,15 @@ get_loc_name := function (file: string): string {
     return format("%s#%s#%s", file, join(".", name_parts), peek(location));
 };
 
-process_locations := function(locs: string[]) {
+process_locs := function(locs: array of string, reason: ChangeType, curr_time: time) {
     foreach(i: int; def(locs[i])) {
         loc := locs[i];
         item_status := status[loc];
         add(has_changed, loc);
         remove(status, loc);
-        o[input.id][item_status.file][item_status.name][item_status.location][item_status.is_inferred][ChangeType.OBSERVATION_ENDED][false] << head_time - item_status.creation_time;
+        o[input.id][item_status.file][item_status.name][item_status.location][item_status.is_inferred][reason][false] << curr_time - item_status.creation_time;
     }
-}
+};
 
 {@project-filter@}
 {
@@ -91,7 +91,7 @@ process_locations := function(locs: string[]) {
                     if (node.change == ChangeKind.DELETED) {
                         empty_string_set: set of string;
                         locs := values(lookup(file_items, node.name, empty_string_set));
-                        process_locs(locs);
+                        process_locs(locs, ChangeType.FILE_DELETED, current(Revision).commit_date);
                         remove(file_items, node.name);
                         stop;
                     }
@@ -192,4 +192,4 @@ process_locations := function(locs: string[]) {
     }
 }
 
-process_locs(keys(status));
+process_locs(keys(status), ChangeType.OBSERVATION_ENDED, head_time);
