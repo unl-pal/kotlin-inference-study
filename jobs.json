@@ -20,6 +20,10 @@
     "job": 100228,
     "sha256": "dcbe3a0bdb92f79260f9fff640fce7c8c9ecc2535130edb62b51405fdf0fcc2a"
   },
+  "kotlin/counts.txt": {
+    "job": 100693,
+    "sha256": "5f12b215ef91805e6d73a7d2f0b380e9d590d728b79dfd4e2317ec3bd54bb24e"
+  },
   "kotlin/right-hand-side-expression.txt": {
     "job": 100233,
     "sha256": "deb63fc65f737366734fcce68f7c25ee265a70fa845f7da2dff566c38246b3fb"
