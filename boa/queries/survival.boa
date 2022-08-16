@@ -37,6 +37,11 @@ get_loc_name := function (file: string): string {
     return format("%s#%s#%s", file, join(".", name_parts), peek(location));
 };
 
+myabs := function(x: int): int {
+    if (x < 0) return -x;
+    return x;
+};
+
 process_locs := function(locs: array of string, reason: ChangeType, curr_time: time) {
     foreach(i: int; def(locs[i])) {
         loc := locs[i];
@@ -86,18 +91,21 @@ process_locs := function(locs: array of string, reason: ChangeType, curr_time: t
                         new_file := current(ChangedFile).name;
                         foreach(i: int; def(names[i])) {
                             name := names[i];
-                            ns := file_namespaces[i];
-                            ns_len := length(ns);
-                            locs := values(lookup(file_items, name, empty_string_set));
-                            foreach(j: int; def(locs[i])) {
-                                old_loc := locs[i];
-                                status_item := status[old_loc];
-                                status_item.name = format("%s%s", node.name, substring(status_item.name, ns_len + 1));
-                                status_item.file = new_file;
-                                new_loc := format("%s#%s#%s", new_file, status_item.name, status_item.location);
-                                remove(status, old_loc);
-                                status[new_loc] = status_item;
-                                remove(file_items[name], old_loc);
+                            if(haskey(file_namespaces, name)) {
+                                ns := file_namespaces[names[i]];
+                                ns_len := myabs(len(ns));
+                                locs := values(lookup(file_items, name, empty_string_set));
+                                foreach(j: int; def(locs[j])) {
+                                    old_loc := locs[j];
+                                    status_item := status[old_loc];
+                                    status_item.name = format("%s%s", node.name, substring(status_item.name, ns_len));
+                                    status_item.file = new_file;
+                                    new_loc := format("%s#%s#%s", new_file, status_item.name, status_item.location);
+                                    remove(status, old_loc);
+                                    status[new_loc] = status_item;
+                                    remove(file_items[name], old_loc);
+                                    add(seen_items, new_loc);
+                                }
                             }
                         }
                     }
