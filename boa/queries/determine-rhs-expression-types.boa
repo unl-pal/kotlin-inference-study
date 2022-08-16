@@ -1,47 +1,13 @@
-m: output sum[project: string][filepath: string][class: string][is_inferred: bool][expkind: string][mapval : string] of int;
+m: output sum[project: string][filepath: string][class: string][is_inferred: bool][expkind: string] of int;
 
 {@escape@}
 
 {@get-method-signature@}
 
 name_stack: stack of string;
-var_types : map[string] of string;
-method_return_types : map[string] of string;
 
 {@project-filter@}
 {
-    visit(input, visitor {
-        before node: CodeRepository -> {
-            snapshot := getsnapshot(node, "SOURCE_KOTLIN_1_");
-            foreach (i: int; def(snapshot[i]))
-                visit(snapshot[i]);
-            stop;
-        }
-        before node: Namespace -> {
-            push(name_stack, node.name);
-            foreach(i: int; def(node.declarations[i]))
-                visit(node.declarations[i]);
-        }
-        after node: Namespace -> pop(name_stack);
-        before node: Declaration -> {
-            push(name_stack, node.name);
-            fqn := join(".", name_stack);
-            var_types[fqn] = string(node.kind);
-            decltype := string(node.kind);
-        }
-        after node: Declaration -> pop(name_stack);
-        before node: Method -> {
-            method_signature := getMethodSignature("", "", node);
-            push(name_stack, method_signature);
-            fqn := join(".", name_stack);
-            returntype := "unknown";
-            if (node.return_type.name != "")
-                returntype = node.return_type.name;
-            method_return_types[fqn] = returntype;
-        }
-        after node: Method -> pop(name_stack);
-    });
-
     visit(input, visitor {
         before node: CodeRepository -> {
             snapshot := getsnapshot(node, "SOURCE_KOTLIN_1_");
@@ -65,31 +31,16 @@ method_return_types : map[string] of string;
         }
         after node: Method -> pop(name_stack);
         before node: Variable -> {
+            push(name_stack, node.name);
             fqn := join(".", name_stack);
             filepath := current(ChangedFile).name;
             isinferred := !def(node.variable_type);
-            mapval := "none";
             expkind := "unknown";
-            is_literal := false;
 
-            if (def(node.initializer)) {
+            if (def(node.initializer))
                 expkind = string(node.initializer.kind);
 
-                if (expkind == string(ExpressionKind.METHODCALL)) {
-                    if (haskey(method_return_types, fqn)) {
-                        mapval = lookup(method_return_types, fqn, "default1");
-                    }
-
-                } else if (expkind == string(ExpressionKind.VARACCESS)) {
-                    if (haskey(var_types, fqn)) {
-                        mapval = lookup(var_types, fqn, "default2");
-                    }
-                }
-            }
-
-            push(name_stack, node.name);
-            fqn = join(".", name_stack);
-            m[input.id][escape(filepath)][escape(fqn)][isinferred][expkind][mapval] << 1;
+            m[input.id][escape(filepath)][escape(fqn)][isinferred][expkind] << 1;
         }
         after node: Variable -> pop(name_stack);
     });
