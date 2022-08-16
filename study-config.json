@@ -102,7 +102,7 @@
             "csv": {
                 "output": "kotlin/determine-rhs-expression-types.csv",
                 "drop": [0],
-                "header": "project,filepath,class,isinferred,expkind,mapval,count",
+                "header": "project,filepath,class,isinferred,expkind,count",
                 "test": [
                     "2,\\.kts?$"
                 ]
