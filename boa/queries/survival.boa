@@ -22,6 +22,8 @@ type Status = {
 status: map[string] of Status;
 file_items: map[string] of set of string;
 has_changed: set of string;
+file_namespaces: map[string] of string;
+file_copy: bool = false;
 
 location: stack of string;
 name_parts: stack of string;
@@ -74,8 +76,31 @@ process_locs := function(locs: array of string, reason: ChangeType, curr_time: t
                     stop;
                 }
                 before node: Namespace -> {
+                    if (!haskey(file_namespaces, current(ChangedFile).name))
+                        file_namespaces[current(ChangedFile).name] = node.name;
                     push(name_parts, node.name);
                     push(location, "MODULE");
+                    if (file_copy) {
+                        empty_string_set: set of string;
+                        names := current(ChangedFile).previous_names;
+                        new_file := current(ChangedFile).name;
+                        foreach(i: int; def(names[i])) {
+                            name := names[i];
+                            ns := file_namespaces[i];
+                            ns_len := length(ns);
+                            locs := values(lookup(file_items, name, empty_string_set));
+                            foreach(j: int; def(locs[i])) {
+                                old_loc := locs[i];
+                                status_item := status[old_loc];
+                                status_item.name = format("%s%s", node.name, substring(status_item.name, ns_len + 1));
+                                status_item.file = new_file;
+                                new_loc := format("%s#%s#%s", new_file, status_item.name, status_item.location);
+                                remove(status, old_loc);
+                                status[new_loc] = status_item;
+                                remove(file_items[name], old_loc);
+                            }
+                        }
+                    }
                 }
                 after node: Namespace -> {
                     pop(name_parts);
@@ -95,22 +120,23 @@ process_locs := function(locs: array of string, reason: ChangeType, curr_time: t
                         remove(file_items, node.name);
                         stop;
                     }
-                    # TODO RENAMED and MOVED
                     if (node.change == ChangeKind.RENAMED || node.change == ChangeKind.MOVED) {
-                        foreach (i: int; def(node.previous_names[i])) {
-                            empty_string_set: set of string;
-                            locs := values(lookup(file_items, node.previous_names[i], empty_string_set));
-                            foreach(j: int; def(locs[j])) {
-                                item_status := status[locs[j]];
-                                item_status.file = node.name;
-                                status[format("%s#%s#%s", node.name, item_status.name, item_status.location)] = item_status;
-                                remove(status, locs[j]);
-                            }
-                            remove(file_items, node.previous_names[i]);
-                        }
+                        file_copy = true;
+                        # foreach (i: int; def(node.previous_names[i])) {
+                        #     empty_string_set: set of string;
+                        #     locs := values(lookup(file_items, node.previous_names[i], empty_string_set));
+                        #     foreach(j: int; def(locs[j])) {
+                        #         item_status := status[locs[j]];
+                        #         item_status.file = node.name;
+                        #         status[format("%s#%s#%s", node.name, item_status.name, item_status.location)] = item_status;
+                        #         remove(status, locs[j]);
+                        #     }
+                        #     remove(file_items, node.previous_names[i]);
+                        # }
                     }
                 }
                 after node: ChangedFile -> {
+                    file_copy = false;
                     empty_string_set: set of string;
                     locs := values(difference(lookup(file_items, node.name, empty_string_set), seen_items));
                     foreach (i: int; def(locs[i])) {
