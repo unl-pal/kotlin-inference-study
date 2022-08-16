@@ -130,17 +130,6 @@ process_locs := function(locs: array of string, reason: ChangeType, curr_time: t
                     }
                     if (node.change == ChangeKind.RENAMED || node.change == ChangeKind.MOVED) {
                         file_copy = true;
-                        # foreach (i: int; def(node.previous_names[i])) {
-                        #     empty_string_set: set of string;
-                        #     locs := values(lookup(file_items, node.previous_names[i], empty_string_set));
-                        #     foreach(j: int; def(locs[j])) {
-                        #         item_status := status[locs[j]];
-                        #         item_status.file = node.name;
-                        #         status[format("%s#%s#%s", node.name, item_status.name, item_status.location)] = item_status;
-                        #         remove(status, locs[j]);
-                        #     }
-                        #     remove(file_items, node.previous_names[i]);
-                        # }
                     }
                 }
                 after node: ChangedFile -> {
