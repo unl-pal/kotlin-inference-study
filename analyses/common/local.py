@@ -23,8 +23,6 @@ __all__ = [
 
 # Set default plot style
 def set_style():
-    # sns.set_style('whitegrid')
-    # sns.set_palette('colorblind')
     sns.set_theme(context='paper', style='whitegrid', palette='colorblind')
 
 def load_total_counts(language):
