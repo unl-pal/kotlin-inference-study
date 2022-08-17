@@ -28,7 +28,7 @@ def set_style():
     sns.set_theme(context='paper', style='whitegrid', palette='colorblind')
 
 def load_total_counts(language):
-    path = _resolve_dir(f"data/parquet/{_get_dir(language)}counts.parquet")
+    path = _resolve_dir(f"data/parquet/{_get_dir(language)}total-counts.parquet")
     if osp.exists(path):
         return pd.read_parquet(path)
     df = get_df("basic-usage", language, header='infer')
