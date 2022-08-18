@@ -28,6 +28,9 @@ __all__ = [
     "save_table",
     ]
 
+pd.set_option('styler.latex.hrules', True)
+pd.set_option('styler.latex.multicol_align', 'c')
+
 def get_styler(df):
     if isinstance(df, pd.Series):
         return df.to_frame().style
