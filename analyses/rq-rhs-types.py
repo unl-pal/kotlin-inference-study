@@ -10,7 +10,7 @@ from matplotlib.ticker import PercentFormatter
 from scipy.stats import shapiro
 pd.set_option('display.max_colwidth', None)
 
-df = get_df("determine-rhs-expression-types", "kotlin", header='infer')
+df = get_df('determine-rhs-expression-types', 'kotlin', header='infer')
 
 set_style()
 df_count = df[df.isinferred == True].drop(columns=['filepath','class','count'])
