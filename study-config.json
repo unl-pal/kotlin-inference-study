@@ -65,14 +65,16 @@
             }
         },
         "kotlin/counts.txt": {
-	    "query": "queries/count-projects.boa",
-	    "dataset": "kotlin",
-	    "csv": {
-		"output": "kotlin/counts.csv",
-		"drop": [ 0 ],
-		"header": "type,filtered,count"
-	    }
-	},
+            "query": "queries/count-projects.boa",
+            "dataset": "kotlin",
+            "csv": {
+                "output": "kotlin/counts.csv",
+                "drop": [
+                    0
+                ],
+                "header": "type,filtered,count"
+            }
+        },
         "kotlin/gather-rhs-type-information.txt": {
             "query": "queries/gather-rhs-type-information.boa",
             "dataset": "kotlin",
@@ -101,7 +103,9 @@
             ],
             "csv": {
                 "output": "kotlin/determine-rhs-expression-types.csv",
-                "drop": [0],
+                "drop": [
+                    0
+                ],
                 "header": "project,filepath,class,isinferred,expkind,count",
                 "test": [
                     "2,\\.kts?$"
