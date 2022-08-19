@@ -17,6 +17,12 @@
  - `{@time-or-snapshot@}`
 : Either snapshot or at each revision, output base files.
 
+- `{@locations-enum@}`
+: An enum describing possible locations.
+
+ - `{@get-method-signature@}`
+: Provides function `getMethodSignature(string, string, Method): string`, which takes a package name, a class name, and a method returning a JVM Bytecode formatted method signature.
+
 ## Output Files
 
 ### `dupes.csv`
@@ -83,6 +89,30 @@
 ### `rhs.csv`
 
 ### `survival.csv`
+
+1. `project` (`string`/`integer`)
+: Project ID.
+
+2. `file` (`string`)
+: Filename relative to repository root, `string`.
+
+3. `item` (`string`)
+: Fully-qualified name of observation.
+
+4. `location` (`string`, *restricted*)
+: Overall location of declaration, `string`, see `basic-usage.csv`/`location`.
+
+5. `startinferred` (`boolean`)
+: Whether or not the observation starts inferred.
+
+6. `changekind` (`string`, *restricted*)
+: The sort of change recorded.  Options are `file_deletion` (file with this item is removed without changing state), `item_disappearance` (item dissappears without changing state), `state_switch` (item changes state from inferred to not inferred or vice versa).
+
+7. `observed` (`boolean`)
+: Observation right-censoring.  `true` if a change in inference status (i.e., annotation presence) is observed, `false` if no change is observed before "death" (deletion or end of history) of `item`.
+
+8. `timetochange` (`long`)
+: How long (in microseconds) before a change or end of history (see `observed`).
 
 ### `count-unfiltered.csv`, `count-filtered.csv`
 

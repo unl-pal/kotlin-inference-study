@@ -64,7 +64,7 @@
                 ]
             }
         },
-	"kotlin/counts.txt": {
+        "kotlin/counts.txt": {
 	    "query": "queries/count-projects.boa",
 	    "dataset": "kotlin",
 	    "csv": {
@@ -72,7 +72,19 @@
 		"drop": [ 0 ],
 		"header": "type,filtered,count"
 	    }
-	}
+	},
+        "kotlin/survival.txt": {
+            "query": "queries/survival.boa",
+            "dataset": "kotlin",
+            "csv": {
+                "output": "kotlin/survival.csv",
+                "drop": [0],
+                "header": "project,file,item,location,startinferred,changekind,observed,timetochange",
+                "test": [
+                    "2,\\.kts?$"
+                ]
+            }
+        }
     },
     "analyses": {
         "table-counts.py": {
@@ -97,7 +109,12 @@
                 "kotlin/over-time.csv",
                 "kotlin/dupes.csv"
             ]
-        }
+        },
+	"rq-survival.py": {
+	    "input": [
+		"kotlin/survival.csv"
+	    ]
+	}
     },
     "substitutions": [
         {
@@ -108,6 +125,10 @@
             "target": "{@project-filter@}",
             "file": "filter.boa"
         },
+	{
+	    "target": "{@get-method-signature@}",
+	    "file": "get-method-signature.boa"
+	},
         {
             "target": "{@time-out@}",
             "replacement": ""
