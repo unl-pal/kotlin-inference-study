@@ -24,6 +24,10 @@
     "job": 100693,
     "sha256": "5f12b215ef91805e6d73a7d2f0b380e9d590d728b79dfd4e2317ec3bd54bb24e"
   },
+  "kotlin/survival.txt": {
+    "job": 100845,
+    "sha256": "3188d321b7696b3e39d456c48068ae92966a5df2f9a80241f28e0222d19d4d18"
+  },
   "kotlin/right-hand-side-expression.txt": {
     "job": 100233,
     "sha256": "deb63fc65f737366734fcce68f7c25ee265a70fa845f7da2dff566c38246b3fb"

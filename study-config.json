@@ -75,6 +75,18 @@
                 "header": "type,filtered,count"
             }
         },
+        "kotlin/survival.txt": {
+            "query": "queries/survival.boa",
+            "dataset": "kotlin",
+            "csv": {
+                "output": "kotlin/survival.csv",
+                "drop": [0],
+                "header": "project,file,item,location,startinferred,changekind,observed,timetochange",
+                "test": [
+                    "2,\\.kts?$"
+                ]
+            }
+        },
         "kotlin/gather-rhs-type-information.txt": {
             "query": "queries/gather-rhs-type-information.boa",
             "dataset": "kotlin",
@@ -107,11 +119,8 @@
                     0
                 ],
                 "header": "project,filepath,class,isinferred,expkind,count",
-                "test": [
-                    "2,\\.kts?$"
-                ]
             }
-        }
+	}
     },
     "analyses": {
         "table-counts.py": {
@@ -137,6 +146,11 @@
                 "kotlin/dupes.csv"
             ]
         },
+        "rq-survival.py": {
+	    "input": [
+		"kotlin/survival.csv"
+	    ]
+	},
         "rq-rhs-types.py": {
             "input": [
                 "kotlin/determine-rhs-expression-types.csv"
@@ -152,10 +166,10 @@
             "target": "{@project-filter@}",
             "file": "filter.boa"
         },
-        {
-            "target": "{@get-method-signature@}",
-            "file": "get-method-signature.boa"
-        },
+	{
+	    "target": "{@get-method-signature@}",
+	    "file": "get-method-signature.boa"
+	},
         {
             "target": "{@time-out@}",
             "replacement": ""
