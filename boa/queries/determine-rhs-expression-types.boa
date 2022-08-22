@@ -15,11 +15,7 @@ name_stack: stack of string;
                 visit(snapshot[i]);
             stop;
         }
-        before node: Namespace -> {
-            push(name_stack, node.name);
-            foreach(i: int; def(node.declarations[i]))
-                visit(node.declarations[i]);
-        }
+        before node: Namespace -> push(name_stack, node.name);
         after node: Namespace -> pop(name_stack);
         before node: Declaration -> {
             push(name_stack, node.name);
