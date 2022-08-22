@@ -27,8 +27,8 @@ types : map[string] of string;
             push(name_stack , node.name);
             fqn := join(".", name_stack );
             file := current(ChangedFile).name;
-            types[fqn] = string(node.kind);
             decltype := string(node.kind);
+            types[fqn] = decltype;
             decl[input.id][escape(file)][fqn] << decltype;
         }
         after node: Declaration -> pop(name_stack );
