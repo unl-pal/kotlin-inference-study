@@ -15,12 +15,8 @@ name_stack: stack of string;
                 visit(snapshot[i]);
             stop;
         }
-        before node: Namespace -> push(name_stack, node.name);
-        after node: Namespace -> pop(name_stack);
-        before node: Declaration -> {
-            push(name_stack, node.name);
-        }
-        after node: Declaration -> pop(name_stack);
+        before node: Namespace, Declaration -> push(name_stack, node.name);
+        after node: Namespace, Declaration -> pop(name_stack);
         before node: Method -> {
             method_signature := getMethodSignature("", "", node);
             push(name_stack, method_signature);
