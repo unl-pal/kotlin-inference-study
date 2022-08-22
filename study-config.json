@@ -101,7 +101,7 @@
                 "drop": [
                     0
                 ],
-                "header": "project,filepath,class,isinferred,expkind,count",
+                "header": "project,filepath,class,isinferred,expkind,count"
             }
 	}
     },
