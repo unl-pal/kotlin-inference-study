@@ -37,7 +37,7 @@ types : map[string] of string;
             push(name_stack, method_signature);
             fqn := join(".", name_stack );
             file := current(ChangedFile).name;
-            returntype := "unknown";
+            returntype := "<unk>";
             if (node.return_type.name != "")
                 returntype = node.return_type.name;
             mrt[input.id][escape(file)][fqn] << returntype;
