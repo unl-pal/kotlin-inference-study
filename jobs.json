@@ -28,10 +28,6 @@
     "job": 100845,
     "sha256": "3188d321b7696b3e39d456c48068ae92966a5df2f9a80241f28e0222d19d4d18"
   },
-  "kotlin/right-hand-side-expression.txt": {
-    "job": 100233,
-    "sha256": "deb63fc65f737366734fcce68f7c25ee265a70fa845f7da2dff566c38246b3fb"
-  },
   "kotlin/gather-rhs-type-information.txt": {
     "job": 100638,
     "sha256": "6bf02271d5220130b473016a062cfacc7a047822879a6579c50f0abc03ff15e1"
