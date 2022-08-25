@@ -17,24 +17,36 @@ name_stack: stack of string;
         }
 
         before node: Namespace -> push(name_stack, node.name);
-        before node: Declaration -> push(name_stack, node.name);
-        after Namespace, Declaration -> pop(name_stack);
+        after Namespace -> pop(name_stack);
+
+        before node: Declaration -> {
+            push(name_stack, node.name);
+            foreach (i: int; def(node.methods[i]))
+                visit(node.methods[i]);
+            foreach (i: int; def(node.nested_declarations[i]))
+                visit(node.nested_declarations[i]);
+            pop(name_stack);
+            stop;
+        }
 
         before node: Method -> push(name_stack, getMethodSignature("", "", node));
-        after node: Method -> pop(name_stack);
+        after Method -> pop(name_stack);
 
         before node: Variable -> {
-            push(name_stack, node.name);
+            if (!has_modifier(node, ModifierKind.IMPLICIT)) {
+                push(name_stack, node.name);
 
-            filepath := current(ChangedFile).name;
-            fqn := join(".", name_stack);
-            isinferred := !def(node.variable_type);
-            expkind := "??";
-            if (def(node.initializer))
-                expkind = string(node.initializer.kind);
+                filepath := current(ChangedFile).name;
+                fqn := join(".", name_stack);
+                isinferred := !def(node.variable_type);
+                rhskind := "??";
+                if (def(node.initializer))
+                    rhskind = string(node.initializer.kind);
 
-            m[input.id][escape(filepath)][escape(fqn)][isinferred][expkind] << 1;
+                m[input.project_url][escape(filepath)][fqn][isinferred][rhskind] << 1;
+
+                pop(name_stack);
+            }
         }
-        after node: Variable -> pop(name_stack);
     });
 }
