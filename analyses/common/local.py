@@ -1,5 +1,6 @@
 # coding: utf-8
 
+import os
 import pandas as pd
 
 from matplotlib import pyplot as plt
@@ -66,7 +67,7 @@ def inferred_name(isinferred):
 def val_or_var(isval):
     return 'val' if isval else 'var'
 
-def save_figure(figure, filename, x=None, y=None):
+def save_figure(figure, filename, x=None, y=None, subdir=None):
     '''Save a FIGURE to FILENAME with size of X, Y inches.'''
     fig = figure.get_figure()
     plt.tight_layout()
@@ -74,5 +75,6 @@ def save_figure(figure, filename, x=None, y=None):
         fig.set(figwidth = x)
     if y is not None:
         fig.set(figheight = y)
-    fig.savefig(filename, dpi=600)
+    os.makedirs(_resolve_dir(f'figures/{_get_dir(subdir)}'), 0o755, True)
+    fig.savefig(_resolve_dir(f'figures/{_get_dir(subdir)}{filename}'), dpi=600)
     plt.close(fig)
