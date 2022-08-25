@@ -15,21 +15,21 @@ name_stack: stack of string;
                 visit(snapshot[i]);
             stop;
         }
+
         before node: Namespace -> push(name_stack, node.name);
         before node: Declaration -> push(name_stack, node.name);
         after Namespace, Declaration -> pop(name_stack);
-        before node: Method -> {
-            method_signature := getMethodSignature("", "", node);
-            push(name_stack, method_signature);
-        }
+
+        before node: Method -> push(name_stack, getMethodSignature("", "", node));
         after node: Method -> pop(name_stack);
+
         before node: Variable -> {
             push(name_stack, node.name);
-            fqn := join(".", name_stack);
-            filepath := current(ChangedFile).name;
-            isinferred := !def(node.variable_type);
-            expkind := "unknown";
 
+            filepath := current(ChangedFile).name;
+            fqn := join(".", name_stack);
+            isinferred := !def(node.variable_type);
+            expkind := "??";
             if (def(node.initializer))
                 expkind = string(node.initializer.kind);
 

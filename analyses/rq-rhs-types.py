@@ -1,13 +1,9 @@
 #!/usr/bin/env python
 #coding: utf-8
-from unicodedata import name
-import numpy as np
 import pandas as pd
 from common.tables import *
 from common.df import *
 from common.local import *
-from matplotlib.ticker import PercentFormatter
-from scipy.stats import shapiro
 pd.set_option('display.max_colwidth', None)
 
 df = get_df('determine-rhs-expression-types', 'kotlin', header='infer')
