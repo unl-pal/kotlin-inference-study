@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 #coding: utf-8
+#%%
 import pandas as pd
 from common.tables import *
 from common.df import *
@@ -10,17 +11,32 @@ df = get_df('determine-rhs-expression-types', 'kotlin', header='infer')
 
 set_style()
 
+def groupKinds(x):
+    kind = x['expkind']
+    keep = ['ARRAYACCESS', 'CAST', 'LITERAL', 'METHODCALL', 'NEW', 'STATEMENT', 'TEMPLATE', 'VARACCESS']
+    if kind in keep:
+        return kind
+    return 'OTHER'
+
 df_count = df[df.isinferred == True].drop(columns=['filepath', 'class', 'count'])
-df_count['expkind'] = df_count.apply(lambda x: 'LITERAL' if x['expkind'] == 'LITERAL' else ('NEW' if x['expkind'] == 'NEW' else 'OTHER'), axis = 1)
+df_count['expkind'] = df_count.apply(groupKinds, axis = 1)
 df_count = df_count.groupby(['project', 'isinferred', 'expkind'])['expkind'].count().reset_index(name='count')
 sum = df_count['count'].sum()
 df_count['percent'] = df_count.apply(lambda x: 0 if x['count'] == 0 else (x['count'] / sum) * 100, axis = 1)
 print(df_count)
 print(df_count['expkind'].describe())
+df[(df.expkind == '??') & (df.isinferred == False)]
+df[(df.expkind == '??') & (df.isinferred == True)]
 
+#%%
 plt.figure()
 fig, ax = plt.subplots(1,1)
-sns.boxplot(x='expkind', y='percent', data=df_count, ax = ax, showfliers = False)
-ax.set_ylabel("Percent per Project")
-ax.set_xlabel("")
-save_figure(fig, "figures/rq-rhs-types.pdf", 7, 4)
+plt.xticks(rotation=20)
+df_sort = df_count.sort_values(by='percent', ascending=False)
+sns.boxplot(x='expkind', y='percent', data=df_sort, ax = ax, showfliers = False)
+ax.set_ylabel('Percent per Project')
+ax.set_xlabel('')
+save_figure(fig, 'rq-rhs-types.pdf', 7, 4)
+fig
+
+# %%
