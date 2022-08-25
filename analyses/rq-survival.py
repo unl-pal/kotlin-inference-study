@@ -39,4 +39,4 @@ fitter.fit(T[~starts_inferred], E[~starts_inferred], label='Starts Annotated')
 fitter.plot_survival_function(ax=ax)
 
 plt.title('Lifespans of items')
-save_figure(plt.gcf(), "figures/lifespans.pdf", x=7, y=4)
+save_figure(plt.gcf(), "lifespans.pdf", x=7, y=4)

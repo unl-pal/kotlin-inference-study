@@ -24,7 +24,7 @@ figure.set_xlabels("")
 figure.legend.set_title("")
 for ax in figure.axes.flat:
     ax.yaxis.set_major_formatter(PercentFormatter(100))
-save_figure(figure.figure, "figures/rq-mutability-summary.pdf", 7, 4)
+save_figure(figure.figure, "rq-mutability-summary.pdf", 7, 4)
 
 
 styler = highlight_rows(highlight_cols(get_styler(summarized[['location', 'isinferred', 'isval', 'percent']].groupby(['location', 'isinferred', 'isval']).describe())))
