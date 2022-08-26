@@ -19,10 +19,10 @@ def groupKinds(x):
     return 'OTHER'
 
 df_count = df[df.isinferred == True].drop(columns=['isinferred', 'filepath', 'class', 'count'])
-df_count['expkind'] = df_count.apply(groupKinds, axis = 1)
+df_count['expkind'] = df_count.apply(groupKinds, axis=1)
 df_count = df_count.groupby(['project', 'expkind'])['expkind'].count().reset_index(name='count')
 sums = df_count.groupby(['project']).sum()
-df_count['percent'] = df_count.apply(lambda x: x['count'] / sums.loc[x.project].iloc[0] * 100, axis = 1)
+df_count['percent'] = df_count.apply(lambda x: x['count'] / sums.loc[x.project].iloc[0] * 100, axis=1)
 print(df_count)
 print(df_count['expkind'].describe())
 #df[(df.expkind == '??') & (df.isinferred == False)]
@@ -32,8 +32,12 @@ print(df_count['expkind'].describe())
 plt.figure()
 fig, ax = plt.subplots(1,1)
 plt.xticks(rotation=20)
-df_sort = df_count.sort_values(by='percent', ascending=False)
-sns.boxplot(x='expkind', y='percent', data=df_sort, ax = ax, showfliers = False)
+
+df_count = df_count[['expkind', 'percent']]
+sorted_index = df_count.groupby('expkind').median().sort_values(by='percent', ascending=False).index
+df_sorted = df_count
+sns.boxplot(x='expkind', y='percent', data=df_sorted, ax=ax, showfliers=True)
+
 ax.set_ylabel('Percent per Project')
 ax.set_xlabel('')
 save_figure(fig, 'rq-rhs-types.pdf', 7, 4)
