@@ -29,9 +29,14 @@ def groupKinds(x):
 
 df_count = df[df.isinferred == True].drop(columns=['isinferred', 'filepath', 'class', 'count'])
 df_count['expkind'] = df_count.apply(groupKinds, axis=1)
-df_count = df_count.groupby(['project', 'expkind'])['expkind'].count().reset_index(name='count')
-sums = df_count.groupby(['project']).sum()
+df_count = df_count.groupby(['project', 'expkind'])['expkind'] \
+    .count() \
+    .reset_index(name='count')
+
+sums = df_count.groupby(['project']) \
+    .sum()
 df_count['percent'] = df_count.apply(lambda x: x['count'] / sums.loc[x.project].iloc[0] * 100, axis=1)
+
 print(df_count)
 print(df_count['expkind'].describe())
 #df[(df.expkind == '??') & (df.isinferred == False)]
@@ -43,8 +48,18 @@ fig, ax = plt.subplots(1,1)
 plt.xticks(rotation=45, horizontalalignment='right')
 
 df_sorted = df_count[['expkind', 'percent']]
-sorted_index = df_sorted.groupby('expkind').median().sort_values(by='percent', ascending=False).index
-sns.boxplot(x='expkind', y='percent', data=df_sorted, order=sorted_index, ax=ax, showfliers=False)
+sorted_index = df_sorted.groupby('expkind') \
+    .median() \
+    .sort_values(by='percent', ascending=False) \
+    .index
+
+sns.boxplot(
+    x='expkind',
+    y='percent',
+    data=df_sorted,
+    order=sorted_index,
+    ax=ax,
+    showfliers=False)
 
 ax.set_ylabel('Percent per Project')
 ax.set_xlabel('')
