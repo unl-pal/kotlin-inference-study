@@ -13,10 +13,19 @@ set_style()
 
 def groupKinds(x):
     kind = x['expkind']
-    keep = ['ARRAYACCESS', 'CAST', 'LITERAL', 'METHODCALL', 'NEW', 'STATEMENT', 'TEMPLATE', 'VARACCESS']
+    keep = ['ARRAYACCESS', 'CAST', 'LITERAL', 'METHODCALL', 'NEW', 'STATEMENT', 'VARACCESS']
     if kind in keep:
         return kind
-    return 'OTHER'
+    if kind == 'TEMPLATE':
+        return 'LITERAL'
+    if kind == '??':
+        return 'OTHER'
+    if kind.startswith('OP_') or kind.startswith('BIT_') or kind.startswith('LOGICAL_'):
+        return 'EXPRESSION'
+    keep = ['EQ', 'LTEQ', 'GTEQ', 'NEQ', 'GT', 'LT', 'PAREN', 'IN']
+    if kind in keep:
+        return 'EXPRESSION'
+    return kind
 
 df_count = df[df.isinferred == True].drop(columns=['isinferred', 'filepath', 'class', 'count'])
 df_count['expkind'] = df_count.apply(groupKinds, axis=1)
@@ -31,12 +40,11 @@ print(df_count['expkind'].describe())
 #%%
 plt.figure()
 fig, ax = plt.subplots(1,1)
-plt.xticks(rotation=20)
+plt.xticks(rotation=45, horizontalalignment='right')
 
-df_count = df_count[['expkind', 'percent']]
-sorted_index = df_count.groupby('expkind').median().sort_values(by='percent', ascending=False).index
-df_sorted = df_count
-sns.boxplot(x='expkind', y='percent', data=df_sorted, ax=ax, showfliers=True)
+df_sorted = df_count[['expkind', 'percent']]
+sorted_index = df_sorted.groupby('expkind').median().sort_values(by='percent', ascending=False).index
+sns.boxplot(x='expkind', y='percent', data=df_sorted, order=sorted_index, ax=ax, showfliers=False)
 
 ax.set_ylabel('Percent per Project')
 ax.set_xlabel('')
