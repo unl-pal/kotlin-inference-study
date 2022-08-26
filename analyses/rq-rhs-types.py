@@ -18,15 +18,15 @@ def groupKinds(x):
         return kind
     return 'OTHER'
 
-df_count = df[df.isinferred == True].drop(columns=['filepath', 'class', 'count'])
+df_count = df[df.isinferred == True].drop(columns=['isinferred', 'filepath', 'class', 'count'])
 df_count['expkind'] = df_count.apply(groupKinds, axis = 1)
-df_count = df_count.groupby(['project', 'isinferred', 'expkind'])['expkind'].count().reset_index(name='count')
-sum = df_count['count'].sum()
-df_count['percent'] = df_count.apply(lambda x: 0 if x['count'] == 0 else (x['count'] / sum) * 100, axis = 1)
+df_count = df_count.groupby(['project', 'expkind'])['expkind'].count().reset_index(name='count')
+sums = df_count.groupby(['project']).sum()
+df_count['percent'] = df_count.apply(lambda x: x['count'] / sums.loc[x.project].iloc[0] * 100, axis = 1)
 print(df_count)
 print(df_count['expkind'].describe())
-df[(df.expkind == '??') & (df.isinferred == False)]
-df[(df.expkind == '??') & (df.isinferred == True)]
+#df[(df.expkind == '??') & (df.isinferred == False)]
+#df[(df.expkind == '??') & (df.isinferred == True)]
 
 #%%
 plt.figure()
