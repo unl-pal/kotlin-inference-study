@@ -1,16 +1,17 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-#%% build the dataframe
+# %% build the dataframe
 from common.graphs import setup_plots, save_figure
 from common.local import *
 from common.tables import *
 import matplotlib.ticker as mtick
 from scipy.stats import shapiro
 
-summarized = load_pre_summarized('kotlin', ['project', 'location', 'isinferred'])
+summarized = load_pre_summarized('kotlin',
+                                 ['project', 'location', 'isinferred'])
 
-#%% generate the plot
+# %% generate the plot
 fig, ax = setup_plots()
 
 sns.boxplot(x='location',
@@ -28,9 +29,9 @@ plt.gca().legend().set_title('')
 save_figure(fig, 'rq-usage-summary.pdf', 7, 4)
 fig
 
-#%% generate the table
-
-styler = highlight_cols(highlight_rows(get_styler(summarized[['location', 'isinferred', 'percent']].groupby(['location', 'isinferred']).describe())))
+# %% generate the table
+data = summarized[['location', 'isinferred', 'percent']].groupby(['location', 'isinferred']).describe()
+styler = highlight_cols(highlight_rows(get_styler(data)))
 
 save_table(styler, 'rq-usage-summary.tex')
 

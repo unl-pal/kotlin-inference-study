@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-#%% build the dataframe
+# %% build the dataframe
 from common.graphs import setup_plots, save_figure
 from common.local import *
 from common.tables import *
@@ -16,13 +16,15 @@ print('Loading survival data', flush=True)
 df = get_df('survival', 'kotlin', header='infer')
 print('Survival data loaded', flush=True)
 
-#%% generate the table
+# %% generate the table
 print('Summarizing Time to Change by Change Kind')
-df_summarized = df.groupby(['changekind'])[['timetochange']].describe().transpose()
+df_summarized = df.groupby(['changekind'])[['timetochange']] \
+    .describe() \
+    .transpose()
 summarized_styler = highlight_cols(highlight_rows(get_styler(df_summarized)))
 save_table(summarized_styler, 'time-to-change-by-changetype.tex', 'rq-survival')
 
-#%% generate the plot
+# %% generate the plot
 print('Fitting Survival Curves')
 fitter = KaplanMeierFitter()
 fig, ax = setup_plots()
@@ -44,4 +46,4 @@ plt.title('Lifespans of items')
 save_figure(fig, 'lifespans.pdf')
 fig
 
-#%%
+# %%

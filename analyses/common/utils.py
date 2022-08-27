@@ -17,11 +17,13 @@
 import os
 from typing import Optional
 
+
 def _resolve_dir(dir: str):
     curdir = os.getcwd()
     if curdir.endswith('/analyses'):
         return '../' + dir
     return dir
+
 
 def _get_dir(subdir: Optional[str]):
     if subdir is None:

@@ -23,21 +23,23 @@ from .utils import _resolve_dir, _get_dir
 __all__ = [
     'save_figure',
     'setup_plots'
-    ]
+]
 
-def setup_plots(rcParams = None, constrained_layout=True, **subplotkw):
+
+def setup_plots(rcParams=None, constrained_layout=True, **subplotkw):
     sns.set_theme(context='paper', style='whitegrid', palette='colorblind')
-    sns.set(font_scale = 1.2)
+    sns.set(font_scale=1.2)
 
     plt.rcParams['figure.figsize'] = [7.0, 4.0]
     plt.rcParams['figure.dpi'] = 600.0
     plt.rcParams['font.size'] = 24
     if rcParams:
-        for (k,v) in rcParams.items():
+        for (k, v) in rcParams.items():
             plt.rcParams[k] = v
 
     plt.figure()
     return plt.subplots(constrained_layout=constrained_layout, **subplotkw)
+
 
 def save_figure(figure, filename, x=None, y=None, subdir=None):
     '''Save a FIGURE to FILENAME with size of X, Y inches.'''

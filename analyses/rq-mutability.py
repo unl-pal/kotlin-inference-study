@@ -1,19 +1,20 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-#%% build the dataframe
+# %% build the dataframe
 from common.graphs import setup_plots, save_figure
 from common.local import *
 from common.tables import *
 from matplotlib.ticker import PercentFormatter
 from scipy.stats import shapiro
 
-summarized = load_pre_summarized('kotlin', ['project', 'location', 'isval', 'isinferred'])
+summarized = load_pre_summarized('kotlin',
+                                 ['project', 'location', 'isval', 'isinferred'])
 summarized = summarized[summarized['location'] != 'Return Type']
 summarized = summarized[summarized['location'] != 'Lambda Args']
 summarized = summarized[summarized['location'] != 'Loop Var']
 
-#%% generate the plot
+# %% generate the plot
 setup_plots()
 
 figure = sns.catplot(x='location',
@@ -32,7 +33,7 @@ for ax in figure.axes.flat:
 save_figure(figure.figure, "rq-mutability-summary.pdf", 7, 4)
 figure.figure
 
-#%% generate the table
+# %% generate the table
 data = summarized[['location', 'isinferred', 'isval', 'percent']] \
     .groupby(['location', 'isinferred', 'isval']) \
     .describe()
