@@ -30,6 +30,9 @@ Makefile.study: study-config.json bin/build-makefile.py
 	jsonschema --instance study-config.json schemas/0.1.1/study-config.schema.json
 	$(PYTHON) bin/build-makefile.py > $@
 
+update-figures:
+	cd paper ; git pull ; rm -Rf figures/ tables/ ; cp -R ../figures . ; cp -R ../tables . ; git add figures/ tables/ ; git commit -m 'update figures/tables' ; git push
+
 
 ####################
 # packaging targets
