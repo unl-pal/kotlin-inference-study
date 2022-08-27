@@ -5,7 +5,7 @@ before node: CodeRepository -> {
         "module",
         "body",
         "loop_variable",
-        "lambda_arg",
+        "lambda_arg"
     };
     foreach (i: int; def(kinds[i])) {
         o[input.id]{@time-part@}["DUMMYDUMMYDUMMY.kt"][kinds[i]][false][false] << 0;

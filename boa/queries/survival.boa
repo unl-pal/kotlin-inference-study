@@ -2,7 +2,7 @@ type ChangeType = enum {
     OBSERVATION_ENDED = "OBSERVATION_ENDED",
     FILE_DELETED = "FILE_DELETED",
     ITEM_DISAPPEARED = "ITEM_DISAPPEARED",
-    STATE_SWITCHED = "STATE_SWITCHED",
+    STATE_SWITCHED = "STATE_SWITCHED"
 };
 
 o: output collection[project: string][file: string][item: string][location: string][startinferred: bool][changekind: ChangeType][changeobserved: bool] of int; # length_of_time
@@ -16,7 +16,7 @@ type Status = {
     file: string,
     is_inferred: bool,
     creation_time: time,
-    location: string,
+    location: string
 };
 
 status: map[string] of Status;

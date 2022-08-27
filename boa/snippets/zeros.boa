@@ -5,7 +5,7 @@ before node: Revision -> {
         "module",
         "body",
         "loop_variable",
-        "lambda_arg",
+        "lambda_arg"
     };
     foreach (i: int; def(kinds[i])) {
         o[input.id]["DUMMYDUMMYDUMMY.kt"]{@time-part@}[kinds[i]][false][false] << 0;
