@@ -43,7 +43,7 @@ name_stack: stack of string;
                 if (def(node.initializer))
                     rhskind = string(node.initializer.kind);
 
-                m[input.id][escape(filepath)][fqn][isinferred] << rhskind;
+                m[input.id][escape(filepath)][escape(fqn)][isinferred] << rhskind;
 
                 pop(name_stack);
             }

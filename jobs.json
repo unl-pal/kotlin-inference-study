@@ -17,11 +17,11 @@
     "sha256": "2284b7014c58a5a3a22579bde15c6412b6881e6d4bc6ec472f08136305ca8c54"
   },
   "kotlin/survival.txt": {
-    "job": 100969,
-    "sha256": "a2b1d2c63d7d27419988dbab8e3edfa8f9d22551c4c3bc4b1ccab28457505f97"
+    "job": 100978,
+    "sha256": "5777bbb9bce2c7d781dd4b092e6f3f1d14c42499219af418b4bae141703268db"
   },
   "kotlin/determine-rhs-expression-types.txt": {
-    "job": 100974,
-    "sha256": "9116314c8122163ac8179db60da38224d19d4eb2cd0fc5206b178e776ebc89ab"
+    "job": 100979,
+    "sha256": "43a5c0b725c65186725439d6f3ed19b5089f4d64f5c7add49997b93af42788de"
   }
 }
