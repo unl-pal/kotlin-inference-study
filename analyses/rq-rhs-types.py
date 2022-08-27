@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#coding: utf-8
+# coding: utf-8
 
 #%% build the dataframe
 import pandas as pd
@@ -37,7 +37,6 @@ sums = df_inferred.groupby(['project']) \
 df_inferred['percent'] = df_inferred.apply(lambda x: x['count'] / sums.loc[x.project].iloc[0] * 100, axis=1)
 
 print(df_inferred)
-print(df_inferred['expkind'].describe())
 
 #%% generate the boxplot
 set_style()

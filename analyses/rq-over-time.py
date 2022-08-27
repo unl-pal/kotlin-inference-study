@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+#%% build the dataframe
 from common.local import *
 from common.tables import *
 from common.df import *
@@ -14,14 +15,15 @@ def get_time_data():
     except:
         df = get_df("over-time", "kotlin", header='infer')
         df['time'] = pd.to_datetime(df['time'], unit='us', origin='unix')
-        df.to_parquet(path_to_parquet, compression = 'gzip')
+        df.to_parquet(path_to_parquet, compression='gzip')
     return df
-
-set_style()
 
 pd.set_option('display.max_columns', None)
 df = get_time_data()
 print(df.head())
+
+#%% generate the plot
+set_style()
 
 fig, ax = plt.subplots(1, 1)
 plt.figure()

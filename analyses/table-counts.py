@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+#%% build the dataframe
 import pandas as pd
 from common.tables import *
 from common.df import *
@@ -26,5 +27,6 @@ df_pivot = df_pivot.sort_index(axis='columns', level='filtered', ascending=False
 
 df_pivot = df_pivot.xs('count', axis='columns', drop_level=True)
 
+#%% generate the table
 styler = highlight_rows(highlight_cols(get_styler(df_pivot)))
 save_table(styler, "dataset-counts.tex")
