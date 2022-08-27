@@ -80,7 +80,9 @@
             "dataset": "kotlin",
             "csv": {
                 "output": "kotlin/survival.csv",
-                "drop": [0],
+                "drop": [
+                    0
+                ],
                 "header": "project,file,item,location,startinferred,changekind,observed,timetochange",
                 "test": [
                     "2,\\.kts?$"
@@ -101,9 +103,9 @@
                 "drop": [
                     0
                 ],
-                "header": "project,filepath,class,isinferred,expkind,count"
+                "header": "project,filepath,class,isinferred,expkind"
             }
-	}
+        }
     },
     "analyses": {
         "table-counts.py": {
@@ -130,10 +132,10 @@
             ]
         },
         "rq-survival.py": {
-	    "input": [
-		"kotlin/survival.csv"
-	    ]
-	},
+            "input": [
+                "kotlin/survival.csv"
+            ]
+        },
         "rq-rhs-types.py": {
             "input": [
                 "kotlin/determine-rhs-expression-types.csv"
@@ -149,10 +151,10 @@
             "target": "{@project-filter@}",
             "file": "filter.boa"
         },
-	{
-	    "target": "{@get-method-signature@}",
-	    "file": "get-method-signature.boa"
-	},
+        {
+            "target": "{@get-method-signature@}",
+            "file": "get-method-signature.boa"
+        },
         {
             "target": "{@time-out@}",
             "replacement": ""

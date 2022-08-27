@@ -27,7 +27,7 @@ def groupKinds(x):
         return 'EXPRESSION'
     return kind
 
-df_inferred = df[df.isinferred == True].drop(columns=['isinferred', 'filepath', 'class', 'count'])
+df_inferred = df[df.isinferred == True].drop(columns=['isinferred', 'filepath', 'class'])
 df_inferred['expkind'] = df_inferred.apply(groupKinds, axis=1)
 df_inferred = df_inferred.groupby(['project', 'expkind'])['expkind'] \
     .count() \

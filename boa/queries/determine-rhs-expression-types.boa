@@ -1,4 +1,4 @@
-m: output sum[project: string][filepath: string][class: string][is_inferred: bool][expkind: string] of int;
+m: output collection[project: string][filepath: string][class: string][is_inferred: bool] of string;
 
 {@escape@}
 
@@ -43,7 +43,7 @@ name_stack: stack of string;
                 if (def(node.initializer))
                     rhskind = string(node.initializer.kind);
 
-                m[input.project_url][escape(filepath)][fqn][isinferred][rhskind] << 1;
+                m[input.id][escape(filepath)][fqn][isinferred] << rhskind;
 
                 pop(name_stack);
             }

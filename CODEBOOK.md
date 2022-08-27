@@ -86,23 +86,6 @@
 8. `count` (`long`)
 : Number of declarations fitting items 1--7.
 
-### `gather-rhs-type-information.csv`
-
-1. `project` (`string`/`integer`)
-: Project ID.
-
-2. `file` (`string`)
-: Filename relative to repository root.
-
-3. `fqn` (`string`)
-: Fully qualified name.
-
-4. `isReturnType` (`boolean`)
-: Whether or not the type is a declaration type or method return type.
-
-5. `type` (`string`)
-: Return either declaration type of method return type.
-
 ### `determine-rhs-expression-types.csv`
 
 1. `project` (`string`/`integer`)
@@ -111,26 +94,14 @@
 2. `file` (`string`)
 : Filename relative to repository root.
 
-3. `class` (`string`)
-: Fully qualified name.
+3. `method` (`string`)
+: Fully qualified method name.
 
 4. `isinferred` (`boolean`)
 : Whether or not the location uses type inference.
 
-5. `isactualvar` (`boolean`)
-: `true` if initializer kind is a `VARRACCES` and not a key in the `vartypes` map (map of declarations from other nodes than the variable node), otherwise returns `false`.
-
-6. `expkind` (`string`)
+5. `expkind` (`string`)
 : `kind` of the initializer in the `Variable` node.
-
-7. `vartype` (`string`)
-: Type of `Variable`.
-
-8. `mapval` (`string`)
-: `value` (`kind` of node) that corresponds to a `key` (`Variable` name) in the map of declarations, where the declaration is made in nodes other than the `Variable` node.
-
-9. `count` (`long`)
-: Number of declarations fitting items 1--7.
 
 ### `survival.csv`
 
