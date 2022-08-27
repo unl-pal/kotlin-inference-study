@@ -6,11 +6,24 @@
 !.dir-locals.el
 
 boa-credentials.txt
-Makefile.study
+
+# data files
 data/csv/**/*.csv
 data/parquet/**/*.parquet
 data/txt/**/*.txt
-*.zip
+
+# generated files
+Makefile.study
+figures/**/*.pdf
+figures/**/*.png
+tables/**/*.tex
+replication-pkg.zip
+
+# temp files
+.DS_Store
+__pycache__/
+.*.swp
+paper/
 
 # Emacs Stuff
 *~
