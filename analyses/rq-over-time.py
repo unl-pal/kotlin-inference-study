@@ -21,7 +21,14 @@ print(df.head())
 #%% generate the plot
 fig, ax = setup_plots()
 
-sns.lineplot(x='time', y='count', style='isinferred', hue='location', data=df, ax=ax, err_style='band', sort=True)
+sns.lineplot(x='time',
+             y='count',
+             style='isinferred',
+             hue='location',
+             data=df,
+             ax=ax,
+             err_style='band',
+             sort=True)
 
 save_figure(fig, 'rq-over-time-summary.pdf')
 fig

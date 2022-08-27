@@ -13,7 +13,12 @@ summarized = load_pre_summarized('kotlin', ['project', 'location', 'isinferred']
 #%% generate the plot
 fig, ax = setup_plots()
 
-sns.boxplot(x='location', y='percent', hue='isinferred', data=summarized, ax=ax, showfliers=False)
+sns.boxplot(x='location',
+            y='percent',
+            hue='isinferred',
+            data=summarized,
+            ax=ax,
+            showfliers=False)
 
 ax.yaxis.set_major_formatter(mtick.PercentFormatter())
 ax.set_ylabel('Percent per Project')
