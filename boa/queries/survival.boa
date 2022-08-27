@@ -98,7 +98,8 @@ process_locs := function(locs: array of string, reason: ChangeType, curr_time: t
                                 foreach(j: int; def(locs[j])) {
                                     old_loc := locs[j];
                                     status_item := status[old_loc];
-                                    status_item.name = format("%s%s", node.name, substring(status_item.name, ns_len));
+                                    if (len(status_item.name) >= ns_len)
+                                        status_item.name = format("%s%s", node.name, substring(status_item.name, ns_len));
                                     status_item.file = new_file;
                                     new_loc := format("%s#%s#%s", new_file, status_item.name, status_item.location);
                                     remove(status, old_loc);
