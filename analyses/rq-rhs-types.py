@@ -41,6 +41,7 @@ print(df_inferred['expkind'].describe())
 
 #%% generate the boxplot
 set_style()
+sns.set(font_scale = 1.2)
 
 plt.figure()
 fig, ax = plt.subplots(1,1)
@@ -60,11 +61,11 @@ sns.boxplot(
     showfliers=False)
 
 ax.set_ylabel('')
-ax.set_xlabel('Percent of inferred variable assignments (per project)')
+ax.set_xlabel('Percent of inferred variable assignments\n(per project)')
 import matplotlib.ticker as mtick
 ax.xaxis.set_major_formatter(mtick.PercentFormatter())
 
-save_figure(fig, 'rq-rhs-types.pdf', 7, 4)
+save_figure(fig, 'rq-rhs-types.pdf', 7, 6)
 fig
 
 # %%
