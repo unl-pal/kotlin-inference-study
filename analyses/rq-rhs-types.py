@@ -12,17 +12,17 @@ df = get_df('determine-rhs-expression-types', 'kotlin', header='infer')
 
 def groupKinds(x):
     kind = x['expkind']
-    keep = ['ARRAYACCESS', 'CAST', 'LITERAL', 'METHODCALL', 'NEW', 'STATEMENT', 'VARACCESS']
-    if kind in keep:
+    if kind in ['ARRAYACCESS', 'CAST', 'LITERAL', 'METHODCALL', 'NEW', 'STATEMENT', 'VARACCESS']:
         return kind
     if kind == 'TEMPLATE':
         return 'LITERAL'
+    if kind in ['ASSIGN', 'ASSIGN_ADD']:
+        return 'STATEMENT'
     if kind == '??':
         return 'OTHER'
     if kind.startswith('OP_') or kind.startswith('BIT_') or kind.startswith('LOGICAL_'):
         return 'EXPRESSION'
-    keep = ['EQ', 'LTEQ', 'GTEQ', 'NEQ', 'GT', 'LT', 'PAREN', 'IN']
-    if kind in keep:
+    if kind in ['EQ', 'LTEQ', 'GTEQ', 'NEQ', 'GT', 'LT', 'PAREN', 'IN', 'NOT_IN', 'SHEQ', 'SHNEQ']:
         return 'EXPRESSION'
     return kind
 
