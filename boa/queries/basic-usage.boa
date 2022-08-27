@@ -8,7 +8,7 @@ location: stack of string;
 visit(input, visitor {
     {@time-or-snapshot@}
     before node: Namespace -> push(location, "module");
-    after  node: Namespace -> pop(location);
+    after node: Namespace -> pop(location);
     before node: Declaration -> {
         foreach (i: int; def(node.methods[i]))
             visit(node.methods[i]);

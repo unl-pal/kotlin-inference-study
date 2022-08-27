@@ -1,13 +1,19 @@
 before node: Revision -> {
     # Output zeroes as necessary
-    kinds := { "return_val", "module", "body", "loop_variable", "lambda_arg" };
+    kinds := {
+        "return_val",
+        "module",
+        "body",
+        "loop_variable",
+        "lambda_arg",
+    };
     foreach (i: int; def(kinds[i])) {
         o[input.id]["DUMMYDUMMYDUMMY.kt"]{@time-part@}[kinds[i]][false][false] << 0;
-        o[input.id]["DUMMYDUMMYDUMMY.kt"]{@time-part@}[kinds[i]][false][true]  << 0;
-        o[input.id]["DUMMYDUMMYDUMMY.kt"]{@time-part@}[kinds[i]][true][false]  << 0;
-        o[input.id]["DUMMYDUMMYDUMMY.kt"]{@time-part@}[kinds[i]][true][true]   << 0;
+        o[input.id]["DUMMYDUMMYDUMMY.kt"]{@time-part@}[kinds[i]][false][true] << 0;
+        o[input.id]["DUMMYDUMMYDUMMY.kt"]{@time-part@}[kinds[i]][true][false] << 0;
+        o[input.id]["DUMMYDUMMYDUMMY.kt"]{@time-part@}[kinds[i]][true][true] << 0;
     }
     foreach (i: int; match(`SOURCE_KOTLIN_1_`, string(node.files[i].kind)))
-        visit(node.files[i]);        
+        visit(node.files[i]);
     stop;
 }
