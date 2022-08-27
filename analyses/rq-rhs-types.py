@@ -3,9 +3,12 @@
 
 #%% build the dataframe
 import pandas as pd
+from common.graphs import setup_plots
 from common.tables import *
 from common.df import *
 from common.local import *
+from matplotlib.ticker import PercentFormatter
+
 pd.set_option('display.max_colwidth', None)
 
 df = get_df('determine-rhs-expression-types', 'kotlin', header='infer')
@@ -39,11 +42,7 @@ df_inferred['percent'] = df_inferred.apply(lambda x: x['count'] / sums.loc[x.pro
 print(df_inferred)
 
 #%% generate the boxplot
-set_style()
-sns.set(font_scale = 1.2)
-
-plt.figure()
-fig, ax = plt.subplots(1,1)
+fig, ax = setup_plots({ 'figure.figsize': [7.0, 6.0] })
 
 df_sorted = df_inferred[['expkind', 'percent']]
 sorted_index = df_sorted.groupby('expkind') \
@@ -61,10 +60,9 @@ sns.boxplot(
 
 ax.set_ylabel('')
 ax.set_xlabel('Percent of inferred variable assignments\n(per project)')
-import matplotlib.ticker as mtick
-ax.xaxis.set_major_formatter(mtick.PercentFormatter())
+ax.xaxis.set_major_formatter(PercentFormatter())
 
-save_figure(fig, 'rq-rhs-types.pdf', 7, 6)
+save_figure(fig, 'rq-rhs-types.pdf')
 fig
 
 # %%
