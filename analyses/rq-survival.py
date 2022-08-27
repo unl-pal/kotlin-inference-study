@@ -13,7 +13,7 @@ import seaborn as sns
 from lifelines import KaplanMeierFitter
 
 print('Loading survival data', flush=True)
-df = get_df('survival', 'kotlin', header='infer')
+df = get_deduped_df('survival', 'kotlin', header='infer')
 print('Survival data loaded', flush=True)
 
 # %% generate the table

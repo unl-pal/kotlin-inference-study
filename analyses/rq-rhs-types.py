@@ -11,7 +11,7 @@ from matplotlib.ticker import PercentFormatter
 
 pd.set_option('display.max_colwidth', None)
 
-df = get_df('determine-rhs-expression-types', 'kotlin', header='infer')
+df = get_deduped_df('determine-rhs-expression-types', 'kotlin', header='infer')
 
 
 def groupKinds(x):

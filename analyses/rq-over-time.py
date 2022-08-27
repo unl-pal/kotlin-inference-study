@@ -16,7 +16,7 @@ def set_time_data(df):
 
 
 pd.set_option('display.max_columns', None)
-df = get_df('over-time',
+df = get_deduped_df('over-time',
             'kotlin',
             header='infer',
             precache_function=set_time_data)

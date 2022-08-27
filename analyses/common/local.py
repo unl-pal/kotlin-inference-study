@@ -5,7 +5,7 @@ import os.path as osp
 import pandas as pd
 import seaborn as sns
 
-from .df import get_df
+from .df import get_df, get_deduped_df
 from .utils import _resolve_dir, _get_dir
 
 __all__ = [
@@ -23,7 +23,7 @@ def load_total_counts(language):
     path = _resolve_dir(f'data/parquet/{_get_dir(language)}total-counts.parquet')
     if osp.exists(path):
         return pd.read_parquet(path)
-    df = get_df('basic-usage', language, header='infer')
+    df = get_deduped_df('basic-usage', language, header='infer')
     df_counts = df.groupby(['project', 'location'], as_index=False) \
         .sum()[['project', 'location', 'count']] \
         .rename(columns={'count': 'total'})[['project', 'location', 'total']]
@@ -36,7 +36,7 @@ def load_pre_summarized(language, group_cols):
     path = _resolve_dir(f'data/parquet/{_get_dir(language)}counts-summarized-{group_cols_string}.parquet')
     if osp.exists(path):
         return pd.read_parquet(path)
-    df = get_df('basic-usage', language, header='infer')
+    df = get_deduped_df('basic-usage', language, header='infer')
     df_totals = load_total_counts(language)
     df_counted = df.groupby(group_cols, as_index=False).sum()[[*group_cols, 'count']]
     df_summarized = df_counted.merge(
