@@ -18,7 +18,7 @@ ax.yaxis.set_major_formatter(PercentFormatter(100))
 ax.set_ylabel("Percent per Project")
 ax.set_xlabel("")
 plt.gca().legend().set_title("")
-save_figure(fig, "figures/rq-usage-summary.pdf", 7, 4)
+save_figure(fig, "rq-usage-summary.pdf", 7, 4)
 
 
 styler = highlight_cols(highlight_rows(get_styler(summarized[['location', 'isinferred', 'percent']].groupby(['location', 'isinferred']).describe())))

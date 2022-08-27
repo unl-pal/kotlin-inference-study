@@ -86,7 +86,22 @@
 8. `count` (`long`)
 : Number of declarations fitting items 1--7.
 
-### `rhs.csv`
+### `determine-rhs-expression-types.csv`
+
+1. `project` (`string`/`integer`)
+: Project ID.
+
+2. `file` (`string`)
+: Filename relative to repository root.
+
+3. `method` (`string`)
+: Fully qualified method name.
+
+4. `isinferred` (`boolean`)
+: Whether or not the location uses type inference.
+
+5. `expkind` (`string`)
+: `kind` of the initializer in the `Variable` node.
 
 ### `survival.csv`
 

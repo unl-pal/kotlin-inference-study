@@ -65,24 +65,45 @@
             }
         },
         "kotlin/counts.txt": {
-	    "query": "queries/count-projects.boa",
-	    "dataset": "kotlin",
-	    "csv": {
-		"output": "kotlin/counts.csv",
-		"drop": [ 0 ],
-		"header": "type,filtered,count"
-	    }
-	},
+            "query": "queries/count-projects.boa",
+            "dataset": "kotlin",
+            "csv": {
+                "output": "kotlin/counts.csv",
+                "drop": [
+                    0
+                ],
+                "header": "type,filtered,count"
+            }
+        },
         "kotlin/survival.txt": {
             "query": "queries/survival.boa",
             "dataset": "kotlin",
             "csv": {
                 "output": "kotlin/survival.csv",
-                "drop": [0],
+                "drop": [
+                    0
+                ],
                 "header": "project,file,item,location,startinferred,changekind,observed,timetochange",
                 "test": [
                     "2,\\.kts?$"
                 ]
+            }
+        },
+        "kotlin/determine-rhs-expression-types.txt": {
+            "query": "queries/determine-rhs-expression-types.boa",
+            "dataset": "kotlin",
+            "substitutions": [
+                {
+                    "target": "{@time-or-snapshot@}",
+                    "file": "snapshot-with-zeros.boa"
+                }
+            ],
+            "csv": {
+                "output": "kotlin/determine-rhs-expression-types.csv",
+                "drop": [
+                    0
+                ],
+                "header": "project,filepath,class,isinferred,expkind"
             }
         }
     },
@@ -110,11 +131,16 @@
                 "kotlin/dupes.csv"
             ]
         },
-	"rq-survival.py": {
-	    "input": [
-		"kotlin/survival.csv"
-	    ]
-	}
+        "rq-survival.py": {
+            "input": [
+                "kotlin/survival.csv"
+            ]
+        },
+        "rq-rhs-types.py": {
+            "input": [
+                "kotlin/determine-rhs-expression-types.csv"
+            ]
+        }
     },
     "substitutions": [
         {
@@ -125,10 +151,10 @@
             "target": "{@project-filter@}",
             "file": "filter.boa"
         },
-	{
-	    "target": "{@get-method-signature@}",
-	    "file": "get-method-signature.boa"
-	},
+        {
+            "target": "{@get-method-signature@}",
+            "file": "get-method-signature.boa"
+        },
         {
             "target": "{@time-out@}",
             "replacement": ""
