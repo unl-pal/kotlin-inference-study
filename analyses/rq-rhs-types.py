@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 #coding: utf-8
-#%%
+
+#%% build the dataframe
 import pandas as pd
 from common.tables import *
 from common.df import *
@@ -8,8 +9,6 @@ from common.local import *
 pd.set_option('display.max_colwidth', None)
 
 df = get_df('determine-rhs-expression-types', 'kotlin', header='infer')
-
-set_style()
 
 def groupKinds(x):
     kind = x['expkind']
@@ -40,7 +39,9 @@ df_inferred['percent'] = df_inferred.apply(lambda x: x['count'] / sums.loc[x.pro
 print(df_inferred)
 print(df_inferred['expkind'].describe())
 
-#%%
+#%% generate the boxplot
+set_style()
+
 plt.figure()
 fig, ax = plt.subplots(1,1)
 
