@@ -2,7 +2,7 @@
 # coding: utf-8
 
 #%% build the dataframe
-from common.graphs import setup_plots
+from common.graphs import setup_plots, save_figure
 from common.local import *
 from common.tables import *
 from common.df import *

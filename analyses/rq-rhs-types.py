@@ -3,7 +3,7 @@
 
 #%% build the dataframe
 import pandas as pd
-from common.graphs import setup_plots
+from common.graphs import setup_plots, save_figure
 from common.tables import *
 from common.df import *
 from common.local import *
