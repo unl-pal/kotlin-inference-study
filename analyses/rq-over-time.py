@@ -9,9 +9,8 @@ from common.df import *
 import pandas as pd
 from matplotlib.ticker import PercentFormatter
 
-def set_time_data():
+def set_time_data(df):
     df['time'] = pd.to_datetime(df['time'], unit='us', origin='unix')
-    df.to_parquet(path_to_parquet, compression='gzip')
     return df
 
 pd.set_option('display.max_columns', None)
