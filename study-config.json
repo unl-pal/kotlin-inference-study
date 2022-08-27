@@ -103,7 +103,10 @@
                 "drop": [
                     0
                 ],
-                "header": "project,filepath,class,isinferred,expkind"
+                "header": "project,filepath,class,isinferred,expkind",
+		"test": [
+                    "2,\\.kts?$"
+                ]
             }
         }
     },
