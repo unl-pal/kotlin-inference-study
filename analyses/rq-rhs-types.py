@@ -27,42 +27,42 @@ def groupKinds(x):
         return 'EXPRESSION'
     return kind
 
-df_count = df[df.isinferred == True].drop(columns=['isinferred', 'filepath', 'class', 'count'])
-df_count['expkind'] = df_count.apply(groupKinds, axis=1)
-df_count = df_count.groupby(['project', 'expkind'])['expkind'] \
+df_inferred = df[df.isinferred == True].drop(columns=['isinferred', 'filepath', 'class', 'count'])
+df_inferred['expkind'] = df_inferred.apply(groupKinds, axis=1)
+df_inferred = df_inferred.groupby(['project', 'expkind'])['expkind'] \
     .count() \
     .reset_index(name='count')
 
-sums = df_count.groupby(['project']) \
+sums = df_inferred.groupby(['project']) \
     .sum()
-df_count['percent'] = df_count.apply(lambda x: x['count'] / sums.loc[x.project].iloc[0] * 100, axis=1)
+df_inferred['percent'] = df_inferred.apply(lambda x: x['count'] / sums.loc[x.project].iloc[0] * 100, axis=1)
 
-print(df_count)
-print(df_count['expkind'].describe())
-#df[(df.expkind == '??') & (df.isinferred == False)]
-#df[(df.expkind == '??') & (df.isinferred == True)]
+print(df_inferred)
+print(df_inferred['expkind'].describe())
 
 #%%
 plt.figure()
 fig, ax = plt.subplots(1,1)
-plt.xticks(rotation=45, horizontalalignment='right')
 
-df_sorted = df_count[['expkind', 'percent']]
+df_sorted = df_inferred[['expkind', 'percent']]
 sorted_index = df_sorted.groupby('expkind') \
     .median() \
     .sort_values(by='percent', ascending=False) \
     .index
 
 sns.boxplot(
-    x='expkind',
-    y='percent',
+    y='expkind',
+    x='percent',
     data=df_sorted,
     order=sorted_index,
     ax=ax,
     showfliers=False)
 
-ax.set_ylabel('Percent per Project')
-ax.set_xlabel('')
+ax.set_ylabel('')
+ax.set_xlabel('Percent of inferred variable assignments (per project)')
+import matplotlib.ticker as mtick
+ax.xaxis.set_major_formatter(mtick.PercentFormatter())
+
 save_figure(fig, 'rq-rhs-types.pdf', 7, 4)
 fig
 
