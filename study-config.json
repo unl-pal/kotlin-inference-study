@@ -104,7 +104,7 @@
                     0
                 ],
                 "header": "project,filepath,class,isinferred,expkind",
-		"test": [
+                "test": [
                     "2,\\.kts?$"
                 ]
             }
