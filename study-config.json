@@ -92,12 +92,6 @@
         "kotlin/determine-rhs-expression-types.txt": {
             "query": "queries/determine-rhs-expression-types.boa",
             "dataset": "kotlin",
-            "substitutions": [
-                {
-                    "target": "{@time-or-snapshot@}",
-                    "file": "snapshot-with-zeros.boa"
-                }
-            ],
             "csv": {
                 "output": "kotlin/determine-rhs-expression-types.csv",
                 "drop": [
