@@ -65,6 +65,8 @@ def save_table(styler, filename: str, subdir: Optional[str]=None, decimals: Opti
         styler = styler.format_index(None, escape='latex', axis='index')
         tab1 = styler.format(None, precision=decimals, thousands=thousands, escape='latex').to_latex(**kwargs)
 
+    print(tab1)
+
     os.makedirs(_resolve_dir(f'tables/{_get_dir(subdir)}'), 0o755, True)
     with open(_resolve_dir(f'tables/{_get_dir(subdir)}{filename}'), 'w', encoding='utf-8') as f:
         f.write('% DO NOT EDIT\n')
