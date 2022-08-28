@@ -31,7 +31,7 @@ Makefile.study: study-config.json bin/build-makefile.py
 	$(PYTHON) bin/build-makefile.py > $@
 
 update-figures:
-	cd paper ; git pull ; rm -Rf figures/ tables/ ; cp -R ../figures . ; cp -R ../tables . ; git add figures/ tables/ ; git commit -m 'update figures/tables' ; git push
+	cd paper ; git pull ; rm -Rf figures/ tables/ ; cp -R ../figures . ; cp -R ../tables . ; git add -f figures/ tables/ ; git commit -m 'update figures/tables' ; git push
 
 
 ####################

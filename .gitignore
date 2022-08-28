@@ -8,22 +8,22 @@
 boa-credentials.txt
 
 # data files
-data/csv/**/*.csv
-data/parquet/**/*.parquet
-data/txt/**/*.txt
+/data/csv/**/*.csv
+/data/parquet/**/*.parquet
+/data/txt/**/*.txt
 
 # generated files
 Makefile.study
-figures/**/*.pdf
-figures/**/*.png
-tables/**/*.tex
+/figures/**/*.pdf
+/figures/**/*.png
+/tables/**/*.tex
 replication-pkg.zip
 
 # temp files
 .DS_Store
 __pycache__/
 .*.swp
-paper/
+/paper/
 
 # Emacs Stuff
 *~
