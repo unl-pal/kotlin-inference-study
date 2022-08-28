@@ -130,7 +130,8 @@
         },
         "rq-survival.py": {
             "input": [
-                "kotlin/survival.csv"
+                "kotlin/survival.csv",
+		"kotlin/dupes.csv"
             ]
         },
         "rq-rhs-types.py": {

@@ -16,6 +16,9 @@ print('Loading survival data', flush=True)
 df = get_deduped_df('survival', 'kotlin', header='infer')
 print('Survival data loaded', flush=True)
 
+bad_projects = df[df['timetochange'] < 0]['project'].unique()
+df = df[~df['project'].isin(bad_projects)]
+
 # %% generate the table
 print('Summarizing Time to Change by Change Kind')
 df_summarized = df.groupby(['changekind'])[['timetochange']] \
