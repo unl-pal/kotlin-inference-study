@@ -313,6 +313,7 @@
             ]
         },
         "kotlin/rq-over-time.py": {
+            "disabled": true,
             "input": [
                 "kotlin/over-time.csv",
                 "kotlin/dupes.csv"
@@ -353,6 +354,7 @@
             ]
         },
         "java/rq-over-time.py": {
+            "disabled": true,
             "input": [
                 "java/over-time.csv",
                 "java/dupes.csv"
