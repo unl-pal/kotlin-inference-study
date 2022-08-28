@@ -65,7 +65,7 @@
                 },
                 {
                     "target": "{@random-sample@}",
-                    "replacement": "if ((nrand(100) % 5) != 0) keep = false;"
+                    "replacement": "20"
                 },
                 {
                     "target": "{@dummy-name@}",
@@ -206,7 +206,7 @@
                 },
                 {
                     "target": "{@random-sample@}",
-                    "replacement": "if ((nrand(100) % 5) != 0) keep = false;"
+                    "replacement": "20"
                 },
                 {
                     "target": "{@dummy-name@}",
@@ -393,7 +393,7 @@
         },
         {
             "target": "{@random-sample@}",
-            "replacement": ""
+            "replacement": "100"
         },
         {
             "target": "{@dummy-name@}",
