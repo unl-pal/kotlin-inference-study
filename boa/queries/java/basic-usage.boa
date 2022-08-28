@@ -4,6 +4,7 @@ o: output sum[project: string][file: string]{@time-out@}[location: string][isval
 
 location: stack of string;
 
+{@project-filter@}
 visit(input, visitor {
     before node: CodeRepository -> {
         # Output zeroes as necessary
