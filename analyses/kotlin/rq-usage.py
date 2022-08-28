@@ -2,8 +2,9 @@
 # coding: utf-8
 
 # %% build the dataframe
+from pathlib import Path
 import sys
-sys.path.append('..')
+sys.path.append(str(Path(__file__).resolve().parent.parent))
 
 from common.graphs import setup_plots, save_figure
 from common.local import *
