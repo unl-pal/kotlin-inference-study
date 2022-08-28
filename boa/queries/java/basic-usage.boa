@@ -54,6 +54,6 @@ visit(input, visitor {
         file := current(ChangedFile).name;
         place := peek(location);
         isinferred := node.variable_type.name == "var";
-        o[input.id][escape(file)][place][false][isinferred] << 1;
+        o[input.id][escape(file)][place][has_modifier(node, ModifierKind.FINAL)][isinferred] << 1;
     }
 });
