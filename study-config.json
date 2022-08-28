@@ -306,6 +306,12 @@
                 "kotlin/dupes.csv"
             ]
         },
+        "kotlin/rq-usage-2.py": {
+            "input": [
+                "kotlin/basic-usage.csv",
+                "kotlin/dupes.csv"
+            ]
+        },
         "kotlin/rq-over-time.py": {
             "input": [
                 "kotlin/over-time.csv",
