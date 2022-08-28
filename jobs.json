@@ -23,5 +23,9 @@
   "kotlin/determine-rhs-expression-types.txt": {
     "job": 100987,
     "sha256": "cc4583468d93033a52e6dbe9776eab8bb9241ab15d62cc597e1212bbc3ddbbdd"
+  },
+  "kotlin/method-calls-maybe-local.txt": {
+    "job": 100996,
+    "sha256": "d139eb11ec1a0e6387a33105439ac4dd9d31727aebc7d59f55e8740d338f16e3"
   }
 }

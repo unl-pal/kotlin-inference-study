@@ -102,7 +102,21 @@
                     "2,\\.kts?$"
                 ]
             }
-        }
+        },
+	"kotlin/method-calls-maybe-local.txt": {
+	    "query": "queries/method-calls-maybe-local.boa",
+	    "dataset": "kotlin",
+	    "csv": {
+		"output": "kotlin/method-calls-maybe-local.csv",
+		"drop": [
+		    0
+		],
+		"header": "project,file,item,maybelocal",
+		"test": [
+		    "2,\\.kts?$"
+		]
+	    }
+	}
     },
     "analyses": {
         "table-counts.py": {
@@ -138,7 +152,13 @@
             "input": [
                 "kotlin/determine-rhs-expression-types.csv"
             ]
-        }
+        },
+	"rq-rhs-methodcalls.py": {
+	    "input": [
+		"kotlin/method-calls-maybe-local.csv",
+		"kotlin/dupes.txt"
+	    ]
+	}
     },
     "substitutions": [
         {
