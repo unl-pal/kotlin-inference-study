@@ -72,8 +72,14 @@
             }
         },
         "kotlin/counts.txt": {
-            "query": "queries/kotlin/count-projects.boa",
+            "query": "queries/common/count-projects.boa",
             "dataset": "kotlin",
+            "substitutions": [
+                {
+                    "target": "{@file-selector@}",
+                    "replacement": "SOURCE_KOTLIN_1_"
+                }
+            ],
             "csv": {
                 "output": "kotlin/counts.csv",
                 "drop": [
@@ -187,8 +193,14 @@
             }
         },
         "java/counts.txt": {
-            "query": "queries/java/count-projects.boa",
+            "query": "queries/common/count-projects.boa",
             "dataset": "java",
+            "substitutions": [
+                {
+                    "target": "{@file-selector@}",
+                    "replacement": "SOURCE_JAVA_JLS"
+                }
+            ],
             "csv": {
                 "output": "java/counts.csv",
                 "drop": [

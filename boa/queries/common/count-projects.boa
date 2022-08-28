@@ -19,7 +19,7 @@ visit(input, visitor {
         o["total_files_head"][false] << 1;
         if (keep)
             o["total_files_head"][true] << 1;
-        if (iskind("SOURCE_KOTLIN_1_", node.kind)) {
+        if (iskind("{@file-selector@}", node.kind)) {
             o["analyzed_files_head"][false] << 1;
             if (keep)
                 o["analyzed_files_head"][true] << 1;
