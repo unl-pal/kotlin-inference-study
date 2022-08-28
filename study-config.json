@@ -5,7 +5,7 @@
     },
     "queries": {
         "kotlin/hashes.txt": {
-            "query": "queries/hashes.boa",
+            "query": "queries/kotlin/hashes.boa",
             "dataset": "kotlin",
             "gendupes": {
                 "output": "kotlin/dupes.txt",
@@ -13,7 +13,7 @@
             }
         },
         "kotlin/basic-usage.txt": {
-            "query": "queries/basic-usage.boa",
+            "query": "queries/kotlin/basic-usage.boa",
             "dataset": "kotlin",
             "substitutions": [
                 {
@@ -33,7 +33,7 @@
             }
         },
         "kotlin/over-time.txt": {
-            "query": "queries/basic-usage.boa",
+            "query": "queries/kotlin/basic-usage.boa",
             "dataset": "kotlin",
             "substitutions": [
                 {
@@ -65,7 +65,7 @@
             }
         },
         "kotlin/counts.txt": {
-            "query": "queries/count-projects.boa",
+            "query": "queries/kotlin/count-projects.boa",
             "dataset": "kotlin",
             "csv": {
                 "output": "kotlin/counts.csv",
@@ -76,7 +76,7 @@
             }
         },
         "kotlin/survival.txt": {
-            "query": "queries/survival.boa",
+            "query": "queries/kotlin/survival.boa",
             "dataset": "kotlin",
             "csv": {
                 "output": "kotlin/survival.csv",
@@ -90,7 +90,7 @@
             }
         },
         "kotlin/determine-rhs-expression-types.txt": {
-            "query": "queries/determine-rhs-expression-types.boa",
+            "query": "queries/kotlin/determine-rhs-expression-types.boa",
             "dataset": "kotlin",
             "csv": {
                 "output": "kotlin/determine-rhs-expression-types.csv",
@@ -104,7 +104,7 @@
             }
         },
         "kotlin/method-calls-maybe-local.txt": {
-            "query": "queries/method-calls-maybe-local.boa",
+            "query": "queries/kotlin/method-calls-maybe-local.boa",
             "dataset": "kotlin",
             "csv": {
                 "output": "kotlin/method-calls-maybe-local.csv",
