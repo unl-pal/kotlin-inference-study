@@ -4,23 +4,14 @@ o: output sum[project: string][file: string]{@time-out@}[location: string][isval
 
 location: stack of string;
 
+kinds := {
+    "body",
+    "lambda_arg"
+};
+
 {@project-filter@}
 visit(input, visitor {
-    before node: CodeRepository -> {
-        # Output zeroes as necessary
-        kinds := {
-            "body",
-            "lambda_arg"
-        };
-        foreach (i: int; def(kinds[i])) {
-            o[input.id]["DUMMYDUMMYDUMMY.java"]{@time-part@}[kinds[i]][true][false] << 0;
-            o[input.id]["DUMMYDUMMYDUMMY.java"]{@time-part@}[kinds[i]][true][true] << 0;
-        }
-        snapshot := getsnapshot(node, "SOURCE_JAVA_JLS");
-        foreach (i: int; def(snapshot[i]))
-            visit(snapshot[i]);
-        stop;
-    }
+    {@time-or-snapshot@}
     before node: Declaration -> {
         foreach (i: int; def(node.methods[i]))
             visit(node.methods[i]);

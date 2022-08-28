@@ -26,6 +26,14 @@
                 {
                     "target": "{@time-or-snapshot@}",
                     "file": "snapshot-with-zeros.boa"
+                },
+                {
+                    "target": "{@dummy-name@}",
+                    "replacement": "DUMMYDUMMYDUMMY.kt"
+                },
+                {
+                    "target": "{@file-selector@}",
+                    "replacement": "SOURCE_KOTLIN_1_"
                 }
             ],
             "csv": {
@@ -58,6 +66,14 @@
                 {
                     "target": "{@random-sample@}",
                     "replacement": "if ((nrand(100) % 5) != 0) keep = false;"
+                },
+                {
+                    "target": "{@dummy-name@}",
+                    "replacement": "DUMMYDUMMYDUMMY.kt"
+                },
+                {
+                    "target": "{@file-selector@}",
+                    "replacement": "SOURCE_KOTLIN_1_"
                 }
             ],
             "csv": {

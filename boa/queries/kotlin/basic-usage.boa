@@ -4,6 +4,14 @@ o: output sum[project: string][file: string]{@time-out@}[location: string][isval
 
 location: stack of string;
 
+kinds := {
+    "return_val",
+    "module",
+    "body",
+    "loop_variable",
+    "lambda_arg"
+};
+
 {@project-filter@}
 visit(input, visitor {
     {@time-or-snapshot@}
