@@ -1,0 +1,14 @@
+o: output collection[hash: int][proj: string] of url: string;
+
+{@escape@}
+
+visit(input, visitor {
+    before cr: CodeRepository -> {
+        snapshot := getsnapshot(cr, "SOURCE_JAVA_JLS");
+        foreach (i: int; def(snapshot[i]))
+            visit(snapshot[i]);
+        stop;
+    }
+    before ast: ASTRoot ->
+        o[hash(string(ast, true))][input.id] << escape(current(ChangedFile).name);
+});

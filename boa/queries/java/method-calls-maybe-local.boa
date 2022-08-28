@@ -1,0 +1,79 @@
+o: output collection[project: string][file: string][item: string] of maybelocal: bool;
+
+{@escape@}
+
+type VarMethod = {
+    var: string,
+    method: string
+};
+
+name_stack: stack of string;
+
+methodNames: map[string] of set of string;
+missing_file_items: map[string] of set of VarMethod;
+
+visit(input, visitor {
+    before node: CodeRepository -> {
+        snapshot := getsnapshot(node, "SOURCE_JAVA_JLS");
+        foreach (i: int; def(snapshot[i]))
+            visit(snapshot[i]);
+        stop;
+    }
+
+    before node: ChangedFile -> {
+        if (!haskey(methodNames, node.name)) {
+            empty_string_set: set of string;
+            methodNames[node.name] = empty_string_set;
+
+            empty_var_mtd_set: set of VarMethod;
+            missing_file_items[node.name] = empty_var_mtd_set;
+        }
+    }
+
+    before node: Namespace -> push(name_stack, node.name);
+    after Namespace, Method, Variable -> pop(name_stack);
+
+    before node: Declaration -> {
+        push(name_stack, node.name);
+        foreach (i: int; def(node.methods[i]))
+            visit(node.methods[i]);
+        foreach (i: int; def(node.nested_declarations[i]))
+            visit(node.nested_declarations[i]);
+        pop(name_stack);
+        stop;
+    }
+
+    before node: Method -> {
+        push(name_stack, node.name);
+        add(methodNames[current(ChangedFile).name], node.name);
+    }
+
+    before node: Variable -> {
+        push(name_stack, node.name);
+        isinferred := node.variable_type.name == "var";
+        if (isinferred) {
+            if (def(node.initializer) && node.initializer.kind == ExpressionKind.METHODCALL) {
+                variableName := join(".", name_stack);
+                calledName := node.initializer.method;
+                if (contains(methodNames[current(ChangedFile).name], calledName)) {
+                    o[input.id][escape(current(ChangedFile).name)][escape(variableName)] << true;
+                } else {
+                    item: VarMethod = {
+                        variableName,
+                        calledName
+                    };
+                    add(missing_file_items[current(ChangedFile).name], item);
+                }
+            }
+        }
+    }
+});
+
+files := keys(missing_file_items);
+foreach (i: int; def(files[i])) {
+    file := files[i];
+
+    items := values(missing_file_items[file]);
+    foreach (j: int; def(items[j]))
+        o[input.id][escape(file)][escape(items[j].var)] << contains(methodNames[file], items[j].method);
+}
