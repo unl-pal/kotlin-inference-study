@@ -289,7 +289,6 @@
             ]
         },
         "java/rq-survival.py": {
-            "disabled": true,
             "input": [
                 "java/survival.csv",
                 "java/dupes.csv"
