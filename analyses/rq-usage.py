@@ -21,9 +21,6 @@ sns.boxplot(x='location',
             ax=ax,
             showfliers=False)
 
-ax.set_yscale('log')
-ax.set_yticks([0, 10, 100])
-
 ax.yaxis.set_major_formatter(mtick.PercentFormatter())
 ax.set_ylabel('Percent per Project')
 ax.set_xlabel('')
