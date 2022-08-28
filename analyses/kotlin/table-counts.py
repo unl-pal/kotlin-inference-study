@@ -2,7 +2,9 @@
 # coding: utf-8
 
 # %% build the dataframe
-import pandas as pd
+import sys
+sys.path.append('..')
+
 from common.tables import *
 from common.df import *
 

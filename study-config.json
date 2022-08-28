@@ -119,41 +119,41 @@
         }
     },
     "analyses": {
-        "table-counts.py": {
+        "kotlin/table-counts.py": {
             "input": [
                 "kotlin/counts.csv"
             ]
         },
-        "rq-mutability.py": {
+        "kotlin/rq-mutability.py": {
             "input": [
                 "kotlin/basic-usage.csv",
                 "kotlin/dupes.csv"
             ]
         },
-        "rq-usage.py": {
+        "kotlin/rq-usage.py": {
             "input": [
                 "kotlin/basic-usage.csv",
                 "kotlin/dupes.csv"
             ]
         },
-        "rq-over-time.py": {
+        "kotlin/rq-over-time.py": {
             "input": [
                 "kotlin/over-time.csv",
                 "kotlin/dupes.csv"
             ]
         },
-        "rq-survival.py": {
+        "kotlin/rq-survival.py": {
             "input": [
                 "kotlin/survival.csv",
                 "kotlin/dupes.csv"
             ]
         },
-        "rq-rhs-types.py": {
+        "kotlin/rq-rhs-types.py": {
             "input": [
                 "kotlin/determine-rhs-expression-types.csv"
             ]
         },
-        "rq-rhs-methodcalls.py": {
+        "kotlin/rq-rhs-methodcalls.py": {
             "input": [
                 "kotlin/method-calls-maybe-local.csv",
                 "kotlin/dupes.csv"

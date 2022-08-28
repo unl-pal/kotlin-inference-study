@@ -2,12 +2,14 @@
 # coding: utf-8
 
 # %% build the dataframe
+import sys
+sys.path.append('..')
+
 from common.graphs import setup_plots, save_figure
 from common.local import *
 from common.tables import *
 from common.df import *
 import pandas as pd
-from matplotlib.ticker import PercentFormatter
 
 
 def set_time_data(df):

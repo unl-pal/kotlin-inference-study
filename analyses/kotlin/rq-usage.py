@@ -2,11 +2,13 @@
 # coding: utf-8
 
 # %% build the dataframe
+import sys
+sys.path.append('..')
+
 from common.graphs import setup_plots, save_figure
 from common.local import *
 from common.tables import *
 import matplotlib.ticker as mtick
-from scipy.stats import shapiro
 
 summarized = load_pre_summarized('kotlin',
                                  ['project', 'location', 'isinferred'])

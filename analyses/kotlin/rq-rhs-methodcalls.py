@@ -2,6 +2,9 @@
 # coding: utf-8
 
 # %% build the dataframe
+import sys
+sys.path.append('..')
+
 import pandas as pd
 
 from common.df import get_deduped_df

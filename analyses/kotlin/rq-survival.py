@@ -2,15 +2,16 @@
 # coding: utf-8
 
 # %% build the dataframe
+import sys
+sys.path.append('..')
+
 from common.graphs import setup_plots, save_figure
 from common.local import *
 from common.tables import *
 from common.df import *
 
-from matplotlib import pyplot as plt
-import seaborn as sns
-
 from lifelines import KaplanMeierFitter
+from matplotlib import pyplot as plt
 
 print('Loading survival data', flush=True)
 df = get_deduped_df('survival', 'kotlin', header='infer')
