@@ -1,7 +1,8 @@
 {
     "$schema": "schemas/0.1.1/study-config.schema.json",
     "datasets": {
-        "kotlin": "2021 Aug/Kotlin"
+        "kotlin": "2021 Aug/Kotlin",
+        "java": "2022 Jan/Java"
     },
     "queries": {
         "kotlin/hashes.txt": {
@@ -116,6 +117,119 @@
                     "2,\\.kts?$"
                 ]
             }
+        },
+        "java/hashes.txt": {
+            "query": "queries/java/hashes.boa",
+            "dataset": "java",
+            "gendupes": {
+                "output": "java/dupes.txt",
+                "csv": "java/dupes.csv"
+            }
+        },
+        "java/basic-usage.txt": {
+            "query": "queries/java/basic-usage.boa",
+            "dataset": "java",
+            "substitutions": [
+                {
+                    "target": "{@time-or-snapshot@}",
+                    "file": "snapshot-with-zeros.boa"
+                }
+            ],
+            "csv": {
+                "output": "java/basic-usage.csv",
+                "drop": [
+                    0
+                ],
+                "header": "project,file,location,isval,isinferred,count",
+                "test": [
+                    "2,\\.kts?$"
+                ]
+            }
+        },
+        "java/over-time.txt": {
+            "query": "queries/java/basic-usage.boa",
+            "dataset": "java",
+            "substitutions": [
+                {
+                    "target": "{@time-out@}",
+                    "replacement": "[revision: string][outtime: time]"
+                },
+                {
+                    "target": "{@time-part@}",
+                    "replacement": "[current(Revision).id][current(Revision).commit_date]"
+                },
+                {
+                    "target": "{@time-or-snapshot@}",
+                    "file": "zeros.boa"
+                },
+                {
+                    "target": "{@project-filter@}",
+                    "replacement": "if ((nrand(100) % 5) == 0)"
+                }
+            ],
+            "csv": {
+                "output": "java/over-time.csv",
+                "drop": [
+                    0
+                ],
+                "header": "project,file,revision,time,location,isval,isinferred,count",
+                "test": [
+                    "2,\\.kts?$"
+                ]
+            }
+        },
+        "java/counts.txt": {
+            "query": "queries/java/count-projects.boa",
+            "dataset": "java",
+            "csv": {
+                "output": "java/counts.csv",
+                "drop": [
+                    0
+                ],
+                "header": "type,filtered,count"
+            }
+        },
+        "java/survival.txt": {
+            "query": "queries/java/survival.boa",
+            "dataset": "java",
+            "csv": {
+                "output": "java/survival.csv",
+                "drop": [
+                    0
+                ],
+                "header": "project,file,item,location,startinferred,changekind,observed,timetochange",
+                "test": [
+                    "2,\\.kts?$"
+                ]
+            }
+        },
+        "java/determine-rhs-expression-types.txt": {
+            "query": "queries/java/determine-rhs-expression-types.boa",
+            "dataset": "java",
+            "csv": {
+                "output": "java/determine-rhs-expression-types.csv",
+                "drop": [
+                    0
+                ],
+                "header": "project,file,class,isinferred,expkind",
+                "test": [
+                    "2,\\.kts?$"
+                ]
+            }
+        },
+        "java/method-calls-maybe-local.txt": {
+            "query": "queries/java/method-calls-maybe-local.boa",
+            "dataset": "java",
+            "csv": {
+                "output": "java/method-calls-maybe-local.csv",
+                "drop": [
+                    0
+                ],
+                "header": "project,file,item,maybelocal",
+                "test": [
+                    "2,\\.kts?$"
+                ]
+            }
         }
     },
     "analyses": {
@@ -157,6 +271,47 @@
             "input": [
                 "kotlin/method-calls-maybe-local.csv",
                 "kotlin/dupes.csv"
+            ]
+        },
+        "java/table-counts.py": {
+            "input": [
+                "java/counts.csv"
+            ]
+        },
+        "java/rq-mutability.py": {
+            "input": [
+                "java/basic-usage.csv",
+                "java/dupes.csv"
+            ]
+        },
+        "java/rq-usage.py": {
+            "input": [
+                "java/basic-usage.csv",
+                "java/dupes.csv"
+            ]
+        },
+        "java/rq-over-time.py": {
+            "input": [
+                "java/over-time.csv",
+                "java/dupes.csv"
+            ]
+        },
+        "java/rq-survival.py": {
+            "disabled": true,
+            "input": [
+                "java/survival.csv",
+                "java/dupes.csv"
+            ]
+        },
+        "java/rq-rhs-types.py": {
+            "input": [
+                "java/determine-rhs-expression-types.csv"
+            ]
+        },
+        "java/rq-rhs-methodcalls.py": {
+            "input": [
+                "java/method-calls-maybe-local.csv",
+                "java/dupes.csv"
             ]
         }
     },
