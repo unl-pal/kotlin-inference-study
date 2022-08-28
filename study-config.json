@@ -50,8 +50,8 @@
                     "file": "zeros.boa"
                 },
                 {
-                    "target": "{@project-filter@}",
-                    "replacement": "if ((nrand(100) % 5) == 0)"
+                    "target": "{@random-sample@}",
+                    "replacement": "if ((nrand(100) % 5) != 0) keep = false;"
                 }
             ],
             "csv": {
@@ -157,6 +157,10 @@
                 {
                     "target": "{@time-part@}",
                     "replacement": "[current(Revision).id][current(Revision).commit_date]"
+                },
+                {
+                    "target": "{@random-sample@}",
+                    "replacement": "if ((nrand(100) % 5) != 0) keep = false;"
                 }
             ],
             "csv": {
@@ -325,6 +329,10 @@
         },
         {
             "target": "{@time-part@}",
+            "replacement": ""
+        },
+        {
+            "target": "{@random-sample@}",
             "replacement": ""
         }
     ]
