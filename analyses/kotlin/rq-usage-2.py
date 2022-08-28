@@ -14,25 +14,27 @@ import matplotlib.ticker as mtick
 summarized = load_pre_summarized('kotlin',
                                  ['project', 'location', 'isinferred'])
 
+summarized_sum = summarized.groupby(['project'])[['count']].sum().rename(columns={'count': 'total'})
+summarized = summarized.drop(columns={'total'}).merge(summarized_sum, on=['project'], how='left')
+summarized['percent'] = summarized.apply(
+    lambda x: 0 if x['total'] == 0 else (x['count'] / x['total']) * 100,
+    axis=1)
+
 # %% generate the plot
 fig, ax = setup_plots()
-
 sns.boxplot(x='location',
             y='percent',
             hue='isinferred',
             data=summarized,
             ax=ax,
             showfliers=False)
-
-ax.yaxis.set_major_formatter(mtick.PercentFormatter())
 ax.set_ylabel('Percent per Project')
 ax.set_xlabel('')
-
-save_figure(fig, 'rq-usage-summary.pdf', subdir='kotlin')
+save_figure(fig, 'rq-usage-summary-2.pdf', subdir='kotlin')
 fig
 
 # %% generate the table
 data = summarized[['location', 'isinferred', 'percent']].groupby(['location', 'isinferred']).describe()
 styler = highlight_cols(highlight_rows(get_styler(data)))
 
-save_table(styler, 'rq-usage-summary.tex', subdir='kotlin')
+save_table(styler, 'rq-usage-summary-2.tex', subdir='kotlin')
