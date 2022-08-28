@@ -167,6 +167,14 @@
                 {
                     "target": "{@time-or-snapshot@}",
                     "file": "snapshot-with-zeros.boa"
+                },
+                {
+                    "target": "{@dummy-name@}",
+                    "replacement": "DUMMYDUMMYDUMMY.java"
+                },
+                {
+                    "target": "{@file-selector@}",
+                    "replacement": "SOURCE_JAVA_JLS"
                 }
             ],
             "csv": {
@@ -195,6 +203,14 @@
                 {
                     "target": "{@random-sample@}",
                     "replacement": "if ((nrand(100) % 5) != 0) keep = false;"
+                },
+                {
+                    "target": "{@dummy-name@}",
+                    "replacement": "DUMMYDUMMYDUMMY.java"
+                },
+                {
+                    "target": "{@file-selector@}",
+                    "replacement": "SOURCE_JAVA_JLS"
                 }
             ],
             "csv": {
