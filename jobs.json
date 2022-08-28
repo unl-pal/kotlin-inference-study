@@ -1,20 +1,20 @@
 {
   "$schema": "schemas/0.1.0/jobs.schema.json",
   "kotlin/hashes.txt": {
-    "job": 100981,
-    "sha256": "11bbfe78142f2e5cc14422650d098faa936a2862c2ca56935661a85188aa34f7"
+    "job": 101042,
+    "sha256": "34833ec0dcdf5dcc0957278ff9105f54079234b4faf70d5f5836fa50a53b3f24"
   },
   "kotlin/basic-usage.txt": {
-    "job": 101018,
-    "sha256": "101140a00caf6c48b0fa2c0643408ce8533dd2a0b6ba7001ae61829e9b60ea23"
+    "job": 101038,
+    "sha256": "7c48283e4dfb4d8fcdc9085a94850ca31bcf4cfc4a951b8e57311e005014c19f"
   },
   "kotlin/over-time.txt": {
-    "job": 101021,
-    "sha256": "d100e8e4eaa766871971048d907ebe6da61ad567ed87e4ba6d15e17b66bd6f89"
+    "job": 101041,
+    "sha256": "08c5cadf4a40f2150b58f520bc83a820e94f47b202632047394df62067d38e34"
   },
   "kotlin/counts.txt": {
-    "job": 100985,
-    "sha256": "5e8ce19842e82e67fbf599ed9e2a79e330a0e706990f78d8e360336428b7f8b5"
+    "job": 101043,
+    "sha256": "b231d3e5682e12ad582f6a3da460578e44fdcffaf358a8aaada3b364f4a43b60"
   },
   "kotlin/survival.txt": {
     "job": 101020,
