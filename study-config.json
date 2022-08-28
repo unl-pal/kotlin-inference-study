@@ -291,6 +291,7 @@
             ]
         },
         "java/rq-over-time.py": {
+            "disabled": true,
             "input": [
                 "java/over-time.csv",
                 "java/dupes.csv"
