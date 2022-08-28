@@ -58,8 +58,8 @@ def load_pre_summarized(language, group_cols):
 
 def location_map(name):
     return {'return_val': 'Return Type',
-            'body': 'Body',
-            'module': 'Top Level',
+            'body': 'Local Variable',
+            'module': 'Global Variable',
             'lambda_arg': 'Lambda Args',
             'loop_variable': 'Loop Var'}[name]
 
