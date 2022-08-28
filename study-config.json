@@ -6,8 +6,14 @@
     },
     "queries": {
         "kotlin/hashes.txt": {
-            "query": "queries/kotlin/hashes.boa",
+            "query": "queries/common/hashes.boa",
             "dataset": "kotlin",
+            "substitutions": [
+                {
+                    "target": "{@file-selector@}",
+                    "replacement": "SOURCE_KOTLIN_1_"
+                }
+            ],
             "gendupes": {
                 "output": "kotlin/dupes.txt",
                 "csv": "kotlin/dupes.csv"
@@ -119,8 +125,14 @@
             }
         },
         "java/hashes.txt": {
-            "query": "queries/java/hashes.boa",
+            "query": "queries/common/hashes.boa",
             "dataset": "java",
+            "substitutions": [
+                {
+                    "target": "{@file-selector@}",
+                    "replacement": "SOURCE_JAVA_JLS"
+                }
+            ],
             "gendupes": {
                 "output": "java/dupes.txt",
                 "csv": "java/dupes.csv"

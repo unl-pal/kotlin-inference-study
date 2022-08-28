@@ -2,9 +2,10 @@ o: output collection[hash: int][proj: string] of url: string;
 
 {@escape@}
 
+{@project-filter@}
 visit(input, visitor {
     before cr: CodeRepository -> {
-        snapshot := getsnapshot(cr, "SOURCE_JAVA_JLS");
+        snapshot := getsnapshot(cr, "{@file-selector@}");
         foreach (i: int; def(snapshot[i]))
             visit(snapshot[i]);
         stop;

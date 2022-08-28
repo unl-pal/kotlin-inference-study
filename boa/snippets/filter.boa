@@ -4,18 +4,29 @@ keep := false;
 # memory than is available for use on the Boa runners.
 exclude_set: set of string;
 
-if (!contains(exclude_set, input.id))
-    visit(input, visitor {
-        before node: CodeRepository -> {
-            snapshot := getsnapshot(node, "SOURCE_KOTLIN_1");
-            foreach (i: int; !keep && def(snapshot[i]))
-                visit(snapshot[i]);
-            stop;
-        }
-        before node: ChangedFile ->
-            if (!match(`build\.gradle\.kts`, node.name))
-                keep = true;
-    });
+if (!contains(exclude_set, input.id)) {
+    if (lowercase(input.programming_languages[0]) == "kotlin") {
+        visit(input, visitor {
+            before node: CodeRepository -> {
+                snapshot := getsnapshot(node, "SOURCE_KOTLIN_1");
+                foreach (i: int; !keep && def(snapshot[i]))
+                    visit(snapshot[i]);
+                stop;
+            }
+            before node: ChangedFile ->
+                if (!match(`build\.gradle\.kts`, node.name))
+                    keep = true;
+        });
+    } else if (lowercase(input.programming_languages[0]) == "java") {
+        visit(input, visitor {
+            before node: CodeRepository -> {
+                snapshot := getsnapshot(node, "SOURCE_JAVA_JLS");
+                keep = len(snapshot) > 0;
+                stop;
+            }
+        });
+    }
+}
 
 {@random-sample@}
 
