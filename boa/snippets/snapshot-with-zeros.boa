@@ -1,10 +1,10 @@
 before node: CodeRepository -> {
     # Output zeroes as necessary
     foreach (i: int; def(kinds[i])) {
-        o[input.id]{@time-part@}["{@dummy-name@}"][kinds[i]][false][false] << 0;
-        o[input.id]{@time-part@}["{@dummy-name@}"][kinds[i]][false][true] << 0;
-        o[input.id]{@time-part@}["{@dummy-name@}"][kinds[i]][true][false] << 0;
-        o[input.id]{@time-part@}["{@dummy-name@}"][kinds[i]][true][true] << 0;
+        o[input.id]["{@dummy-name@}"]{@time-part@}[kinds[i]][false][false] << 0;
+        o[input.id]["{@dummy-name@}"]{@time-part@}[kinds[i]][false][true] << 0;
+        o[input.id]["{@dummy-name@}"]{@time-part@}[kinds[i]][true][false] << 0;
+        o[input.id]["{@dummy-name@}"]{@time-part@}[kinds[i]][true][true] << 0;
     }
     snapshot := getsnapshot(node, "{@file-selector@}");
     foreach (i: int; def(snapshot[i]))
