@@ -34,7 +34,7 @@ sns.lineplot(x='time',
              err_style='band',
              sort=True)
 
-save_figure(fig, 'rq-over-time-summary.pdf')
+save_figure(fig, 'rq-over-time-summary.pdf', subdir='kotlin')
 fig
 
 # %%

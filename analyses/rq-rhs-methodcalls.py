@@ -16,6 +16,6 @@ df2 = df2.rename(columns={'project': 'Number of Calls'})
 
 # %% generate the table
 styler = highlight_rows(highlight_cols(get_styler(df2)))
-save_table(styler, 'rq-rhs-methodcalls.tex')
+save_table(styler, 'rq-rhs-methodcalls.tex', subdir='kotlin')
 
 # %%

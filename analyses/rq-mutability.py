@@ -25,12 +25,12 @@ figure = sns.catplot(x='location',
                      sharey=True,
                      showfliers=False,
                      kind='box')
-figure.set_axis_labels("", "Percent per Project")
-figure.legend.set_title("")
+figure.set_axis_labels('', 'Percent per Project')
+figure.legend.set_title('')
 for ax in figure.axes.flat:
     ax.yaxis.set_major_formatter(PercentFormatter())
 
-save_figure(figure.figure, "rq-mutability-summary.pdf", 7, 4)
+save_figure(figure.figure, 'rq-mutability-summary.pdf', subdir='kotlin')
 figure.figure
 
 # %% generate the table
@@ -39,6 +39,6 @@ data = summarized[['location', 'isinferred', 'isval', 'percent']] \
     .describe()
 styler = highlight_rows(highlight_cols(get_styler(data)))
 
-save_table(styler, "rq-mutability-summary.tex")
+save_table(styler, 'rq-mutability-summary.tex', subdir='kotlin')
 
 # %%

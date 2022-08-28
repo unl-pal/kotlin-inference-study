@@ -25,7 +25,7 @@ df_summarized = df.groupby(['changekind'])[['timetochange']] \
     .describe() \
     .transpose()
 summarized_styler = highlight_cols(highlight_rows(get_styler(df_summarized)))
-save_table(summarized_styler, 'time-to-change-by-changetype.tex', 'rq-survival')
+save_table(summarized_styler, 'time-to-change-by-changetype.tex', subdir='kotlin/rq-survival')
 
 # %% generate the plot
 print('Fitting Survival Curves')
@@ -46,7 +46,7 @@ fitter.fit(T[~starts_inferred], E[~starts_inferred], label='Starts Annotated')
 fitter.plot_survival_function(ax=ax)
 
 plt.title('Lifespans of items')
-save_figure(fig, 'lifespans.pdf')
+save_figure(fig, 'lifespans.pdf', subdir='kotlin')
 fig
 
 # %%

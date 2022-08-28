@@ -26,13 +26,13 @@ ax.set_ylabel('Percent per Project')
 ax.set_xlabel('')
 fig.legend().set_title('')
 
-save_figure(fig, 'rq-usage-summary.pdf', 7, 4)
+save_figure(fig, 'rq-usage-summary.pdf', subdir='kotlin')
 fig
 
 # %% generate the table
 data = summarized[['location', 'isinferred', 'percent']].groupby(['location', 'isinferred']).describe()
 styler = highlight_cols(highlight_rows(get_styler(data)))
 
-save_table(styler, 'rq-usage-summary.tex')
+save_table(styler, 'rq-usage-summary.tex', subdir='kotlin')
 
 # %%

@@ -65,7 +65,7 @@ ax.set_ylabel('')
 ax.set_xlabel('Percent of inferred variable assignments\n(per project)')
 ax.xaxis.set_major_formatter(PercentFormatter())
 
-save_figure(fig, 'rq-rhs-types.pdf')
+save_figure(fig, 'rq-rhs-types.pdf', subdir='kotlin')
 fig
 
 # %%

@@ -31,6 +31,6 @@ df_pivot = df_pivot.xs('count', axis='columns', drop_level=True)
 
 # %% generate the table
 styler = highlight_rows(highlight_cols(get_styler(df_pivot)))
-save_table(styler, 'dataset-counts.tex')
+save_table(styler, 'dataset-counts.tex', subdir='kotlin')
 
 # %%
