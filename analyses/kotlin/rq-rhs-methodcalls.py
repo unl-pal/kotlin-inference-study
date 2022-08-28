@@ -17,6 +17,7 @@ pd.set_option('display.max_colwidth', None)
 df = get_deduped_df('method-calls-maybe-local', 'kotlin', header='infer')
 df2 = df[['project', 'maybelocal']].groupby('maybelocal').count()
 df2 = df2.rename(columns={'project': 'Number of Calls'})
+df2 = df2.rename(index={False: 'Not Local', True: 'Probably Local'})
 
 # %% generate the table
 styler = highlight_rows(highlight_cols(get_styler(df2)))
