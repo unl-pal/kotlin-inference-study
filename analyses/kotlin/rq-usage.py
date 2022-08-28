@@ -27,7 +27,6 @@ sns.boxplot(x='location',
 ax.yaxis.set_major_formatter(mtick.PercentFormatter())
 ax.set_ylabel('Percent per Project')
 ax.set_xlabel('')
-fig.legend().set_title('')
 
 save_figure(fig, 'rq-usage-summary.pdf', subdir='kotlin')
 fig
@@ -37,5 +36,3 @@ data = summarized[['location', 'isinferred', 'percent']].groupby(['location', 'i
 styler = highlight_cols(highlight_rows(get_styler(data)))
 
 save_table(styler, 'rq-usage-summary.tex', subdir='kotlin')
-
-# %%
