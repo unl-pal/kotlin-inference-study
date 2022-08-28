@@ -1,4 +1,4 @@
-o: output sum[project: string][file: string][location: string][isval: bool][isinferred: bool] of int; # Count
+o: output sum[project: string][file: string]{@time-out@}[location: string][isval: bool][isinferred: bool] of int; # Count
 
 {@escape@}
 
@@ -12,8 +12,8 @@ visit(input, visitor {
             "lambda_arg"
         };
         foreach (i: int; def(kinds[i])) {
-            o[input.id]["DUMMYDUMMYDUMMY.java"][kinds[i]][true][false] << 0;
-            o[input.id]["DUMMYDUMMYDUMMY.java"][kinds[i]][true][true] << 0;
+            o[input.id]["DUMMYDUMMYDUMMY.java"]{@time-part@}[kinds[i]][true][false] << 0;
+            o[input.id]["DUMMYDUMMYDUMMY.java"]{@time-part@}[kinds[i]][true][true] << 0;
         }
         snapshot := getsnapshot(node, "SOURCE_JAVA_JLS");
         foreach (i: int; def(snapshot[i]))
@@ -54,6 +54,6 @@ visit(input, visitor {
         file := current(ChangedFile).name;
         place := peek(location);
         isinferred := node.variable_type.name == "var";
-        o[input.id][escape(file)][place][has_modifier(node, ModifierKind.FINAL)][isinferred] << 1;
+        o[input.id][escape(file)]{@time-part@}[place][has_modifier(node, ModifierKind.FINAL)][isinferred] << 1;
     }
 });

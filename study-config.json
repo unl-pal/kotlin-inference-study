@@ -157,14 +157,6 @@
                 {
                     "target": "{@time-part@}",
                     "replacement": "[current(Revision).id][current(Revision).commit_date]"
-                },
-                {
-                    "target": "{@time-or-snapshot@}",
-                    "file": "zeros.boa"
-                },
-                {
-                    "target": "{@project-filter@}",
-                    "replacement": "if ((nrand(100) % 5) == 0)"
                 }
             ],
             "csv": {
@@ -291,7 +283,6 @@
             ]
         },
         "java/rq-over-time.py": {
-            "disabled": true,
             "input": [
                 "java/over-time.csv",
                 "java/dupes.csv"
