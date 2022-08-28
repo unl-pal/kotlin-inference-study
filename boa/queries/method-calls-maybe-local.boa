@@ -33,7 +33,7 @@ missing_file_items: map[string] of set of VarMethod;
         }
 
         before node: Namespace -> push(name_stack, node.name);
-        after Namespace, Declaration, Method, Variable -> pop(name_stack);
+        after Namespace, Method, Variable -> pop(name_stack);
 
         before node: Declaration -> {
             push(name_stack, node.name);
