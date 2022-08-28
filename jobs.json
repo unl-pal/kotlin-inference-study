@@ -5,27 +5,27 @@
     "sha256": "11bbfe78142f2e5cc14422650d098faa936a2862c2ca56935661a85188aa34f7"
   },
   "kotlin/basic-usage.txt": {
-    "job": 100983,
-    "sha256": "5a171dffd3d5da0593bfaaf8fb71f3b27a68aa465511cf06f5e77e8a2cd242fe"
+    "job": 101018,
+    "sha256": "101140a00caf6c48b0fa2c0643408ce8533dd2a0b6ba7001ae61829e9b60ea23"
   },
   "kotlin/over-time.txt": {
-    "job": 100984,
-    "sha256": "f4af0753c4bb22b29a51281de78e0f6f7f778b6c2b09a845d1c293b69ff9bea3"
+    "job": 101021,
+    "sha256": "d100e8e4eaa766871971048d907ebe6da61ad567ed87e4ba6d15e17b66bd6f89"
   },
   "kotlin/counts.txt": {
     "job": 100985,
     "sha256": "5e8ce19842e82e67fbf599ed9e2a79e330a0e706990f78d8e360336428b7f8b5"
   },
   "kotlin/survival.txt": {
-    "job": 100986,
-    "sha256": "89e7a2f946f059b332504b6491bac0f9c75baef1e5011ef7b602457581aef787"
+    "job": 101020,
+    "sha256": "aed4e1397b80e1d154aed462cb087bdab1c28b6fbca361be95ce822ca6c02963"
   },
   "kotlin/determine-rhs-expression-types.txt": {
     "job": 100987,
     "sha256": "cc4583468d93033a52e6dbe9776eab8bb9241ab15d62cc597e1212bbc3ddbbdd"
   },
   "kotlin/method-calls-maybe-local.txt": {
-    "job": 100996,
-    "sha256": "d139eb11ec1a0e6387a33105439ac4dd9d31727aebc7d59f55e8740d338f16e3"
+    "job": 101019,
+    "sha256": "99b120d9e43861c8da70252105eaf37f0ff0ec671d340dd57b7783e8ccb6e6ce"
   }
 }
