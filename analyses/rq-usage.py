@@ -21,10 +21,13 @@ sns.boxplot(x='location',
             ax=ax,
             showfliers=False)
 
+ax.set_yscale('log')
+ax.set_yticks([0, 10, 100])
+
 ax.yaxis.set_major_formatter(mtick.PercentFormatter())
 ax.set_ylabel('Percent per Project')
 ax.set_xlabel('')
-plt.gca().legend().set_title('')
+fig.legend().set_title('')
 
 save_figure(fig, 'rq-usage-summary.pdf', 7, 4)
 fig

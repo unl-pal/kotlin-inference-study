@@ -31,7 +31,7 @@ visit(input, visitor {
         stop;
     }
     before node: Statement -> {
-        if (node.kind == StatementKind.FOR) {
+        if (node.kind == StatementKind.FOREACH) {
             push(location, "loop_variable");
             if (def(node.variable_declaration))
                 visit(node.variable_declaration);
