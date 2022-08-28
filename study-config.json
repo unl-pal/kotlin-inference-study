@@ -201,6 +201,10 @@
                     "replacement": "[current(Revision).id][current(Revision).commit_date]"
                 },
                 {
+                    "target": "{@time-or-snapshot@}",
+                    "file": "zeros.boa"
+                },
+                {
                     "target": "{@random-sample@}",
                     "replacement": "if ((nrand(100) % 5) != 0) keep = false;"
                 },
