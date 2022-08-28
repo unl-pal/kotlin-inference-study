@@ -184,8 +184,8 @@ process_locs := function(locs: array of string, reason: ChangeType, curr_time: t
             before node: Statement -> {
                 if (node.kind == StatementKind.FOREACH) {
                     push(location, "LOOP_VAR");
-                    if (def(node.variable_declaration))
-                        visit(node.variable_declaration);
+                    foreach (i: int; def(node.variable_declarations[i]))
+                        visit(node.variable_declarations[i]);
                     pop(location);
                     foreach (i: int; def(node.expressions[i]))
                         visit(node.expressions[i]);
