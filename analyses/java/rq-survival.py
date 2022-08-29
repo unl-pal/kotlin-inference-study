@@ -24,7 +24,6 @@ print('Converting to duration...', flush=True)
 df['timetochange'] = pd.to_timedelta(df['timetochange'], unit='us')
 print('Converted to duration.', flush=True)
 
-
 bad_projects = df[df['timetochange'] < np.timedelta64(0, 's')]['project'].unique()
 df = df[~df['project'].isin(bad_projects)]
 
@@ -41,6 +40,8 @@ print('Fitting Survival Curves')
 fitter = KaplanMeierFitter()
 fig, ax = setup_plots()
 
+df['timetochange'] = df['timetochange'].apply(lambda x: x.days)
+
 starts_inferred = df['startinferred']
 
 T = df['timetochange']
@@ -54,7 +55,11 @@ print('Fitting starting annotated')
 fitter.fit(T[~starts_inferred], E[~starts_inferred], label='Starts Annotated')
 fitter.plot_survival_function(ax=ax)
 
-plt.title('Lifespans of items')
+ax.set_ylabel('Estimated probability of staying in state ($\hat{S}(t)$)')
+ax.set_xlabel('time $t$ (days)')
+ax.set_xscale('log')
+
+# plt.title('Lifespans of items')
 save_figure(fig, 'lifespans.pdf', subdir='java')
 fig
 
