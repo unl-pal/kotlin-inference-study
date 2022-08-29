@@ -28,6 +28,7 @@ sns.boxplot(x='location',
 ax.yaxis.set_major_formatter(mtick.PercentFormatter())
 ax.set_ylabel('Percent per Project')
 ax.set_xlabel('')
+ax.get_legend().set_title('')
 
 save_figure(fig, 'rq-usage-summary.pdf', subdir='java')
 fig

@@ -30,6 +30,8 @@ sns.boxplot(x='location',
             showfliers=False)
 ax.set_ylabel('Percent per Project')
 ax.set_xlabel('')
+ax.get_legend().set_title('')
+
 save_figure(fig, 'rq-usage-summary-2.pdf', subdir='java')
 fig
 
