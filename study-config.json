@@ -187,7 +187,7 @@
                 ],
                 "header": "project,file,location,isval,isinferred,count",
                 "test": [
-                    "2,\\.kts?$"
+                    "2,\\.java?$"
                 ]
             }
         },
@@ -227,7 +227,7 @@
                 ],
                 "header": "project,file,revision,time,location,isval,isinferred,count",
                 "test": [
-                    "2,\\.kts?$"
+                    "2,\\.java?$"
                 ]
             }
         },
@@ -264,7 +264,7 @@
                 ],
                 "header": "project,file,item,location,startinferred,changekind,observed,timetochange",
                 "test": [
-                    "2,\\.kts?$"
+                    "2,\\.java?$"
                 ]
             }
         },
@@ -278,7 +278,7 @@
                 ],
                 "header": "project,isinferred,expkind",
                 "test": [
-                    "2,\\.kts?$"
+                    "2,\\.java?$"
                 ]
             }
         },
@@ -292,7 +292,7 @@
                 ],
                 "header": "project,file,item,maybelocal",
                 "test": [
-                    "2,\\.kts?$"
+                    "2,\\.java?$"
                 ]
             }
         }
