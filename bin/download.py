@@ -92,12 +92,12 @@ def verifyDownload(target):
         target_path.unlink()
         return False
 
-    actual_hash = job.output_hash()
+    expected_hash = job.output_hash()
     with target_path.open(mode='r') as fh:
-        data = fh.read(actual_hash[0])
-    expected_hash = md5(str.encode(data)).hexdigest()
-    if actual_hash[1] != expected_hash:
-        logger.warning(f"Downloaded output of {target} has bad hash, deleting.")
+        data = fh.read(expected_hash[0])
+    actual_hash = md5(str.encode(data)).hexdigest()
+    if expected_hash[1] != actual_hash:
+        logger.warning(f"Downloaded output of {target} has bad hash ({actual_hash}, was expecting {expected_hash[1]}), deleting.")
         target_path.unlink()
         return False
 
