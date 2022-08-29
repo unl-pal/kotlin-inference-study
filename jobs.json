@@ -45,8 +45,8 @@
     "sha256": "a491872379997419209430f6883685bcf83e050a83b3988b58106a061462cb03"
   },
   "java/method-calls-maybe-local.txt": {
-    "job": 101027,
-    "sha256": "8e8e01314167903d9717c73c63600664dc65bcba76e9cbf0be82826c80c3099c"
+    "job": 101098,
+    "sha256": "dab5668cdabd49acd2e6a5c79844c513f54c1442a54bce28ac9026d1b28447ac"
   },
   "java/survival.txt": {
     "job": 101097,
