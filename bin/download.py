@@ -65,13 +65,7 @@ def download_query(target):
         with target_path.open(mode='w') as fh:
             fh.write(job.output())
     finally:
-        if not target_path.exists():
-            logger.error(f"Downloaded output of {target} is missing.")
-            exit(23)
-        elif target_path.stat().st_size != int(job.output_size()):
-            logger.error(f"Downloaded output of {target} is {target_path.stat().st_size}, should be {job.output_size()}, deleting.")
-            target_path.unlink()
-            exit(24)
+        verify_download(target)
 
 
 def verifyDownload(target):
