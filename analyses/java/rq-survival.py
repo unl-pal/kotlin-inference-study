@@ -11,6 +11,8 @@ from common.local import *
 from common.tables import *
 from common.df import *
 
+import pandas as pd
+import numpy as np
 from lifelines import KaplanMeierFitter
 from matplotlib import pyplot as plt
 
@@ -18,7 +20,12 @@ print('Loading survival data', flush=True)
 df = get_deduped_df('survival', 'java', header='infer')
 print('Survival data loaded', flush=True)
 
-bad_projects = df[df['timetochange'] < 0]['project'].unique()
+print('Converting to duration...', flush=True)
+df['timetochange'] = pd.to_timedelta(df['timetochange'], unit='us')
+print('Converted to duration.', flush=True)
+
+
+bad_projects = df[df['timetochange'] < np.timedelta64(0, 's')]['project'].unique()
 df = df[~df['project'].isin(bad_projects)]
 
 # %% generate the table
