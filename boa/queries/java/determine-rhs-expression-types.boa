@@ -25,13 +25,14 @@ m: output collection[project: string] of string;
         }
 
         before node: Variable -> {
-            isinferred := node.variable_type.name == "var";
-            rhskind := "??";
-            if (def(node.initializer))
-                rhskind = string(node.initializer.kind);
+            if (isinferred) {
+                isinferred := node.variable_type.name == "var";
+                rhskind := "??";
+                if (def(node.initializer))
+                    rhskind = string(node.initializer.kind);
 
-            if (isinferred)
                 m[input.id] << rhskind;
+            }
         }
     });
 }
