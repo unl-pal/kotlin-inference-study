@@ -33,19 +33,19 @@
     "sha256": "04987108d079d4ab2be36ac0adf134d2ba228bce7a33c7c211cfb7e53106a6e4"
   },
   "java/determine-rhs-expression-types.txt": {
-    "job": 101023,
-    "sha256": "a2bb2113227b7ee17bf58081ca37781885327638d0fa3cd02a15762e7fd82aaf"
+    "job": 101081,
+    "sha256": "668a74278f865d609d2ff74870c21e1aab463482a753c4dc1ed3e2f3328201bd"
   },
   "java/basic-usage.txt": {
-    "job": 101025,
-    "sha256": "cea4979f1b1c78d6481f201b0a55833c73ec77c52dc4b327833fcc6f546674a2"
+    "job": 101078,
+    "sha256": "9741c100615ed17cd4482be912ba867d58be0b0c4d18f310d01e469d1221ef3a"
   },
   "java/hashes.txt": {
     "job": 101026,
     "sha256": "20e66c79fa5e1351f84daa2c8fba7fe4041a18a15d984a078073a670951a27bf"
   },
   "java/method-calls-maybe-local.txt": {
-    "job": 101027,
-    "sha256": "8e8e01314167903d9717c73c63600664dc65bcba76e9cbf0be82826c80c3099c"
+    "job": 101080,
+    "sha256": "dab5668cdabd49acd2e6a5c79844c513f54c1442a54bce28ac9026d1b28447ac"
   }
 }
