@@ -107,6 +107,12 @@
         "kotlin/survival.txt": {
             "query": "queries/kotlin/survival.boa",
             "dataset": "kotlin",
+            "substitutions": [
+                {
+                    "target": "{@random-sample@}",
+                    "replacement": "20"
+                }
+            ],
             "csv": {
                 "output": "kotlin/survival.csv",
                 "drop": [
@@ -206,7 +212,7 @@
                 },
                 {
                     "target": "{@random-sample@}",
-                    "replacement": "20"
+                    "replacement": "5"
                 },
                 {
                     "target": "{@dummy-name@}",
@@ -248,6 +254,12 @@
         "java/survival.txt": {
             "query": "queries/java/survival.boa",
             "dataset": "java",
+            "substitutions": [
+                {
+                    "target": "{@random-sample@}",
+                    "replacement": "5"
+                }
+            ],
             "csv": {
                 "output": "java/survival.csv",
                 "drop": [
