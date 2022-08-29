@@ -262,7 +262,7 @@
                 "drop": [
                     0
                 ],
-                "header": "project,isinferred,expkind",
+                "header": "project,expkind",
                 "test": [
                     "2,\\.java?$"
                 ]
