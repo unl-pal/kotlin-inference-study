@@ -15,7 +15,7 @@ from matplotlib.ticker import PercentFormatter
 
 pd.set_option('display.max_colwidth', None)
 
-df = get_deduped_df('determine-rhs-expression-types', 'kotlin', header='infer')
+df = get_df('determine-rhs-expression-types', 'kotlin', header='infer')
 
 
 def groupKinds(x):
@@ -35,7 +35,7 @@ def groupKinds(x):
     return kind
 
 
-df_inferred = df[df.isinferred == True].drop(columns=['isinferred', 'file', 'class'])
+df_inferred = df[df.isinferred == True].drop(columns=['isinferred'])
 df_inferred['expkind'] = df_inferred.apply(groupKinds, axis=1)
 df_inferred = df_inferred.groupby(['project', 'expkind'])['expkind'] \
     .count() \
@@ -66,7 +66,7 @@ sns.boxplot(
     showfliers=False)
 
 ax.set_ylabel('')
-ax.set_xlabel('Percent of inferred variable assignments\n(per project)')
+ax.set_xlabel('Inferred variable assignments\n(% per project)')
 ax.xaxis.set_major_formatter(PercentFormatter())
 
 save_figure(fig, 'rq-rhs-types.pdf', subdir='kotlin')
