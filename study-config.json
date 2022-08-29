@@ -19,6 +19,20 @@
                 "csv": "kotlin/dupes.csv"
             }
         },
+        "java/hashes.txt": {
+            "query": "queries/common/hashes.boa",
+            "dataset": "java",
+            "substitutions": [
+                {
+                    "target": "{@file-selector@}",
+                    "replacement": "SOURCE_JAVA_JLS"
+                }
+            ],
+            "gendupes": {
+                "output": "java/dupes.txt",
+                "csv": "java/dupes.csv"
+            }
+        },
         "kotlin/basic-usage.txt": {
             "query": "queries/kotlin/basic-usage.boa",
             "dataset": "kotlin",
@@ -44,6 +58,34 @@
                 "header": "project,file,location,isval,isinferred,count",
                 "test": [
                     "2,\\.kts?$"
+                ]
+            }
+        },
+        "java/basic-usage.txt": {
+            "query": "queries/java/basic-usage.boa",
+            "dataset": "java",
+            "substitutions": [
+                {
+                    "target": "{@time-or-snapshot@}",
+                    "file": "snapshot-with-zeros.boa"
+                },
+                {
+                    "target": "{@dummy-name@}",
+                    "replacement": "DUMMYDUMMYDUMMY.java"
+                },
+                {
+                    "target": "{@file-selector@}",
+                    "replacement": "SOURCE_JAVA_JLS"
+                }
+            ],
+            "csv": {
+                "output": "java/basic-usage.csv",
+                "drop": [
+                    0
+                ],
+                "header": "project,file,location,isval,isinferred,count",
+                "test": [
+                    "2,\\.java?$"
                 ]
             }
         },
@@ -87,110 +129,6 @@
                 ]
             }
         },
-        "kotlin/counts.txt": {
-            "query": "queries/common/count-projects.boa",
-            "dataset": "kotlin",
-            "substitutions": [
-                {
-                    "target": "{@file-selector@}",
-                    "replacement": "SOURCE_KOTLIN_1_"
-                }
-            ],
-            "csv": {
-                "output": "kotlin/counts.csv",
-                "drop": [
-                    0
-                ],
-                "header": "type,filtered,count"
-            }
-        },
-        "kotlin/survival.txt": {
-            "query": "queries/kotlin/survival.boa",
-            "dataset": "kotlin",
-            "substitutions": [
-                {
-                    "target": "{@random-sample@}",
-                    "replacement": "20"
-                }
-            ],
-            "csv": {
-                "output": "kotlin/survival.csv",
-                "drop": [
-                    0
-                ],
-                "header": "project,file,item,location,startinferred,changekind,observed,timetochange",
-                "test": [
-                    "2,\\.kts?$"
-                ]
-            }
-        },
-        "kotlin/determine-rhs-expression-types.txt": {
-            "query": "queries/kotlin/determine-rhs-expression-types.boa",
-            "dataset": "kotlin",
-            "csv": {
-                "output": "kotlin/determine-rhs-expression-types.csv",
-                "drop": [
-                    0
-                ],
-                "header": "project,isinferred,expkind"
-            }
-        },
-        "kotlin/method-calls-maybe-local.txt": {
-            "query": "queries/kotlin/method-calls-maybe-local.boa",
-            "dataset": "kotlin",
-            "csv": {
-                "output": "kotlin/method-calls-maybe-local.csv",
-                "drop": [
-                    0
-                ],
-                "header": "project,file,item,maybelocal",
-                "test": [
-                    "2,\\.kts?$"
-                ]
-            }
-        },
-        "java/hashes.txt": {
-            "query": "queries/common/hashes.boa",
-            "dataset": "java",
-            "substitutions": [
-                {
-                    "target": "{@file-selector@}",
-                    "replacement": "SOURCE_JAVA_JLS"
-                }
-            ],
-            "gendupes": {
-                "output": "java/dupes.txt",
-                "csv": "java/dupes.csv"
-            }
-        },
-        "java/basic-usage.txt": {
-            "query": "queries/java/basic-usage.boa",
-            "dataset": "java",
-            "substitutions": [
-                {
-                    "target": "{@time-or-snapshot@}",
-                    "file": "snapshot-with-zeros.boa"
-                },
-                {
-                    "target": "{@dummy-name@}",
-                    "replacement": "DUMMYDUMMYDUMMY.java"
-                },
-                {
-                    "target": "{@file-selector@}",
-                    "replacement": "SOURCE_JAVA_JLS"
-                }
-            ],
-            "csv": {
-                "output": "java/basic-usage.csv",
-                "drop": [
-                    0
-                ],
-                "header": "project,file,location,isval,isinferred,count",
-                "test": [
-                    "2,\\.java?$"
-                ]
-            }
-        },
         "java/over-time.txt": {
             "query": "queries/java/basic-usage.boa",
             "dataset": "java",
@@ -231,6 +169,23 @@
                 ]
             }
         },
+        "kotlin/counts.txt": {
+            "query": "queries/common/count-projects.boa",
+            "dataset": "kotlin",
+            "substitutions": [
+                {
+                    "target": "{@file-selector@}",
+                    "replacement": "SOURCE_KOTLIN_1_"
+                }
+            ],
+            "csv": {
+                "output": "kotlin/counts.csv",
+                "drop": [
+                    0
+                ],
+                "header": "type,filtered,count"
+            }
+        },
         "java/counts.txt": {
             "query": "queries/common/count-projects.boa",
             "dataset": "java",
@@ -246,6 +201,26 @@
                     0
                 ],
                 "header": "type,filtered,count"
+            }
+        },
+        "kotlin/survival.txt": {
+            "query": "queries/kotlin/survival.boa",
+            "dataset": "kotlin",
+            "substitutions": [
+                {
+                    "target": "{@random-sample@}",
+                    "replacement": "20"
+                }
+            ],
+            "csv": {
+                "output": "kotlin/survival.csv",
+                "drop": [
+                    0
+                ],
+                "header": "project,file,item,location,startinferred,changekind,observed,timetochange",
+                "test": [
+                    "2,\\.kts?$"
+                ]
             }
         },
         "java/survival.txt": {
@@ -268,6 +243,17 @@
                 ]
             }
         },
+        "kotlin/determine-rhs-expression-types.txt": {
+            "query": "queries/kotlin/determine-rhs-expression-types.boa",
+            "dataset": "kotlin",
+            "csv": {
+                "output": "kotlin/determine-rhs-expression-types.csv",
+                "drop": [
+                    0
+                ],
+                "header": "project,isinferred,expkind"
+            }
+        },
         "java/determine-rhs-expression-types.txt": {
             "query": "queries/java/determine-rhs-expression-types.boa",
             "dataset": "java",
@@ -279,6 +265,20 @@
                 "header": "project,isinferred,expkind",
                 "test": [
                     "2,\\.java?$"
+                ]
+            }
+        },
+        "kotlin/method-calls-maybe-local.txt": {
+            "query": "queries/kotlin/method-calls-maybe-local.boa",
+            "dataset": "kotlin",
+            "csv": {
+                "output": "kotlin/method-calls-maybe-local.csv",
+                "drop": [
+                    0
+                ],
+                "header": "project,file,item,maybelocal",
+                "test": [
+                    "2,\\.kts?$"
                 ]
             }
         },
