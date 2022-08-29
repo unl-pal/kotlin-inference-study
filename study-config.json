@@ -294,10 +294,21 @@
                 "kotlin/counts.csv"
             ]
         },
+        "java/table-counts.py": {
+            "input": [
+                "java/counts.csv"
+            ]
+        },
         "kotlin/rq-mutability.py": {
             "input": [
                 "kotlin/basic-usage.csv",
                 "kotlin/dupes.csv"
+            ]
+        },
+        "java/rq-mutability.py": {
+            "input": [
+                "java/basic-usage.csv",
+                "java/dupes.csv"
             ]
         },
         "kotlin/rq-usage.py": {
@@ -306,10 +317,22 @@
                 "kotlin/dupes.csv"
             ]
         },
+        "java/rq-usage.py": {
+            "input": [
+                "java/basic-usage.csv",
+                "java/dupes.csv"
+            ]
+        },
         "kotlin/rq-usage-2.py": {
             "input": [
                 "kotlin/basic-usage.csv",
                 "kotlin/dupes.csv"
+            ]
+        },
+        "java/rq-usage-2.py": {
+            "input": [
+                "java/basic-usage.csv",
+                "java/dupes.csv"
             ]
         },
         "kotlin/rq-over-time.py": {
@@ -319,45 +342,17 @@
                 "kotlin/dupes.csv"
             ]
         },
-        "kotlin/rq-survival.py": {
-            "input": [
-                "kotlin/survival.csv",
-                "kotlin/dupes.csv"
-            ]
-        },
-        "kotlin/rq-rhs-types.py": {
-            "input": [
-                "kotlin/determine-rhs-expression-types.csv"
-            ]
-        },
-        "kotlin/rq-rhs-methodcalls.py": {
-            "input": [
-                "kotlin/method-calls-maybe-local.csv",
-                "kotlin/dupes.csv"
-            ]
-        },
-        "java/table-counts.py": {
-            "input": [
-                "java/counts.csv"
-            ]
-        },
-        "java/rq-mutability.py": {
-            "input": [
-                "java/basic-usage.csv",
-                "java/dupes.csv"
-            ]
-        },
-        "java/rq-usage.py": {
-            "input": [
-                "java/basic-usage.csv",
-                "java/dupes.csv"
-            ]
-        },
         "java/rq-over-time.py": {
             "disabled": true,
             "input": [
                 "java/over-time.csv",
                 "java/dupes.csv"
+            ]
+        },
+        "kotlin/rq-survival.py": {
+            "input": [
+                "kotlin/survival.csv",
+                "kotlin/dupes.csv"
             ]
         },
         "java/rq-survival.py": {
@@ -366,9 +361,20 @@
                 "java/dupes.csv"
             ]
         },
+        "kotlin/rq-rhs-types.py": {
+            "input": [
+                "kotlin/determine-rhs-expression-types.csv"
+            ]
+        },
         "java/rq-rhs-types.py": {
             "input": [
                 "java/determine-rhs-expression-types.csv"
+            ]
+        },
+        "kotlin/rq-rhs-methodcalls.py": {
+            "input": [
+                "kotlin/method-calls-maybe-local.csv",
+                "kotlin/dupes.csv"
             ]
         },
         "java/rq-rhs-methodcalls.py": {
