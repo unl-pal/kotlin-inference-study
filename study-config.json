@@ -267,7 +267,7 @@
                 "drop": [
                     0
                 ],
-                "header": "project,file,class,isinferred,expkind",
+                "header": "project,isinferred,expkind",
                 "test": [
                     "2,\\.kts?$"
                 ]
