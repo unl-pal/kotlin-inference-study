@@ -67,12 +67,14 @@ visit(input, visitor {
         stop;
     }
     before node: Variable -> {
-        file := current(ChangedFile).name;
-        place := peek(location);
-        isval := false;
-        exists (i: int; def(node.modifiers[i]) && node.modifiers[i].kind == ModifierKind.FINAL)
-            isval = true;
-        isinferred := !def(node.variable_type);
-        o[input.id][escape(file)]{@time-part@}[place][isval][isinferred] << 1;
+        if (!has_modifier(node, ModifierKind.IMPLICIT)) {
+            file := current(ChangedFile).name;
+            place := peek(location);
+            isval := false;
+            exists (i: int; def(node.modifiers[i]) && node.modifiers[i].kind == ModifierKind.FINAL)
+                isval = true;
+            isinferred := !def(node.variable_type);
+            o[input.id][escape(file)]{@time-part@}[place][isval][isinferred] << 1;
+        }
     }
 });

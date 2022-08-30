@@ -208,22 +208,24 @@ process_locs := function(locs: array of string, reason: ChangeType, curr_time: t
                 stop;
             }
             before node: Variable -> {
-                push(name_parts, node.name);
-                file := current(ChangedFile).name;
-                place := peek(location);
-                loc := get_loc_name(file);
-                add(seen_items, loc);
-                name := join(".", name_parts);
-                isinferred := !def(node.variable_type);                    
-                if (!contains(file_items[file], loc) && !contains(has_changed, loc)) {
-                    add(file_items[file], loc);
-                    status[loc] = { escape(name), escape(file), isinferred, current(Revision).commit_date, peek(location) };
-                } else if (!contains(has_changed, loc) && isinferred != status[loc].is_inferred) {
-                    item_status := status[loc];
-                    o[input.id][item_status.file][item_status.name][item_status.location][item_status.is_inferred][ChangeType.STATE_SWITCHED][true] << current(Revision).commit_date - item_status.creation_time;
-                    add(has_changed, loc);
-                    remove(file_items[file], loc);
-                    remove(status, loc);
+                if (!has_modifier(node, ModifierKind.IMPLICIT)) {
+                    push(name_parts, node.name);
+                    file := current(ChangedFile).name;
+                    place := peek(location);
+                    loc := get_loc_name(file);
+                    add(seen_items, loc);
+                    name := join(".", name_parts);
+                    isinferred := !def(node.variable_type);
+                    if (!contains(file_items[file], loc) && !contains(has_changed, loc)) {
+                        add(file_items[file], loc);
+                        status[loc] = { escape(name), escape(file), isinferred, current(Revision).commit_date, peek(location) };
+                    } else if (!contains(has_changed, loc) && isinferred != status[loc].is_inferred) {
+                        item_status := status[loc];
+                        o[input.id][item_status.file][item_status.name][item_status.location][item_status.is_inferred][ChangeType.STATE_SWITCHED][true] << current(Revision).commit_date - item_status.creation_time;
+                        add(has_changed, loc);
+                        remove(file_items[file], loc);
+                        remove(status, loc);
+                    }
                 }
             }
             after node: Variable -> pop(name_parts);
