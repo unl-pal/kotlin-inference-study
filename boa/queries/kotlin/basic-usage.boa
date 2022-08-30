@@ -9,7 +9,8 @@ kinds := {
     "module",
     "body",
     "loop_variable",
-    "lambda_arg"
+    "lambda_arg",
+    "field"
 };
 
 {@project-filter@}
@@ -20,6 +21,10 @@ visit(input, visitor {
     before node: Declaration -> {
         foreach (i: int; def(node.methods[i]))
             visit(node.methods[i]);
+        push(location, "field");
+        foreach(i: int; def(node.fields[i]))
+            visit(node.fields[i]);
+        pop(location);
         foreach (i: int; def(node.nested_declarations[i]))
             visit(node.nested_declarations[i]);
         stop;
