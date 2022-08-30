@@ -30,14 +30,13 @@ visit(input, visitor {
         stop;
     }
     before node: Method -> {
+        push(location, "body");
         if (def(node.expression)) {
             file := current(ChangedFile).name;
             isinferred := !def(node.return_type);
             o[input.id][escape(file)]{@time-part@}["return_val"][false][isinferred] << 1;
-        }
-        push(location, "body");
-        if (def(node.expression))
             visit(node.expression);
+        }
         foreach (i: int; def(node.statements[i]))
             visit(node.statements[i]);
         pop(location);
