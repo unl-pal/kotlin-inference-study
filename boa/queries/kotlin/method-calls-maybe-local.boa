@@ -9,6 +9,7 @@ type VarMethod = {
 
 name_stack: stack of string;
 
+declarations: set of string;
 methodNames: map[string] of set of string;
 missing_file_items: map[string] of set of VarMethod;
 
@@ -36,6 +37,7 @@ missing_file_items: map[string] of set of VarMethod;
         after Namespace, Method, Variable -> pop(name_stack);
 
         before node: Declaration -> {
+            add(declarations, node.name);
             push(name_stack, node.name);
             foreach (i: int; def(node.methods[i]))
                 visit(node.methods[i]);
@@ -78,6 +80,9 @@ foreach (i: int; def(files[i])) {
     file := files[i];
 
     items := values(missing_file_items[file]);
-    foreach (j: int; def(items[j]))
-        o[input.id][escape(file)][escape(items[j].var)] << contains(methodNames[file], items[j].method);
+    foreach (j: int; def(items[j])) {
+        item := items[j];
+        if (!contains(declarations, item.method))
+        o[input.id][escape(file)][escape(item.var)] << contains(methodNames[file], item.method);
+    }
 }
