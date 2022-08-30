@@ -61,6 +61,7 @@ def location_map(name):
             'body': 'Local Variable',
             'module': 'Global Variable',
             'lambda_arg': 'Lambda Args',
+            'field': 'Class/Object Field',
             'loop_variable': 'Loop Var'}[name]
 
 
