@@ -51,5 +51,9 @@
   "java/survival.txt": {
     "job": 101097,
     "sha256": "5c90412fb3c773fd8989ff752fe822364f931efd0e05367edd46b528d1f746aa"
+  },
+  "java/jdk10-projects.txt": {
+    "job": 101105,
+    "sha256": "7cec88cec7dab942ce15d2ca6871bf8eb884432c3227b9323931700b6b8f5e95"
   }
 }
