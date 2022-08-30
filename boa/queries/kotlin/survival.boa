@@ -33,17 +33,17 @@ seen_items: set of string;
 
 head_time: time;
 
-get_loc_name := function(file: string): string{
+get_loc_name := function(file: string): string {
     return format("%s#%s#%s", file, join(".", name_parts), peek(location));
 };
 
-myabs := function(x: int): int{
+myabs := function(x: int): int {
     if (x < 0)
         return -x;
     return x;
 };
 
-process_locs := function(locs: array of string, reason: ChangeType, curr_time: time){
+process_locs := function(locs: array of string, reason: ChangeType, curr_time: time) {
     foreach (i: int; def(locs[i])) {
         loc := locs[i];
         item_status := status[loc];
@@ -74,8 +74,10 @@ process_locs := function(locs: array of string, reason: ChangeType, curr_time: t
             stop;
         }
     });
+
     while (len(order_stack) > 0) {
         current_commit_number := pop(order_stack);
+
         visit(input, visitor {
             before repository: CodeRepository -> {
                 visit(getrevision(repository, current_commit_number));
@@ -130,9 +132,8 @@ process_locs := function(locs: array of string, reason: ChangeType, curr_time: t
                     remove(file_items, node.name);
                     stop;
                 }
-                if (node.change == ChangeKind.RENAMED || node.change == ChangeKind.MOVED) {
+                if (node.change == ChangeKind.RENAMED || node.change == ChangeKind.MOVED)
                     file_copy = true;
-                }
             }
             after node: ChangedFile -> {
                 file_copy = false;
@@ -192,7 +193,7 @@ process_locs := function(locs: array of string, reason: ChangeType, curr_time: t
                 pop(name_parts);
                 stop;
             }
-            before node: Statement -> {
+            before node: Statement ->
                 if (node.kind == StatementKind.FOREACH) {
                     push(location, "LOOP_VAR");
                     foreach (i: int; def(node.variable_declarations[i]))
@@ -204,7 +205,6 @@ process_locs := function(locs: array of string, reason: ChangeType, curr_time: t
                         visit(node.statements[i]);
                     stop;
                 }
-            }
             before node: Expression -> {
                 if (node.kind == ExpressionKind.LAMBDA) {
                     push(location, "LAMBDA_ARG");
@@ -218,7 +218,7 @@ process_locs := function(locs: array of string, reason: ChangeType, curr_time: t
                     visit(node.statements[i]);
                 stop;
             }
-            before node: Variable -> {
+            before node: Variable ->
                 if (!has_modifier(node, ModifierKind.IMPLICIT)) {
                     push(name_parts, node.name);
                     file := current(ChangedFile).name;
@@ -238,7 +238,6 @@ process_locs := function(locs: array of string, reason: ChangeType, curr_time: t
                         remove(status, loc);
                     }
                 }
-            }
             after node: Variable -> pop(name_parts);
         });
     }

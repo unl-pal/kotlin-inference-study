@@ -33,17 +33,17 @@ seen_items: set of string;
 
 head_time: time;
 
-get_loc_name := function(file: string): string{
+get_loc_name := function(file: string): string {
     return format("%s#%s#%s", file, join(".", name_parts), peek(location));
 };
 
-myabs := function(x: int): int{
+myabs := function(x: int): int {
     if (x < 0)
         return -x;
     return x;
 };
 
-process_locs := function(locs: array of string, reason: ChangeType, curr_time: time){
+process_locs := function(locs: array of string, reason: ChangeType, curr_time: time) {
     foreach (i: int; def(locs[i])) {
         loc := locs[i];
         item_status := status[loc];
@@ -74,8 +74,10 @@ process_locs := function(locs: array of string, reason: ChangeType, curr_time: t
             stop;
         }
     });
+
     while (len(order_stack) > 0) {
         current_commit_number := pop(order_stack);
+
         visit(input, visitor {
             before repository: CodeRepository -> {
                 visit(getrevision(repository, current_commit_number));
@@ -130,9 +132,8 @@ process_locs := function(locs: array of string, reason: ChangeType, curr_time: t
                     remove(file_items, node.name);
                     stop;
                 }
-                if (node.change == ChangeKind.RENAMED || node.change == ChangeKind.MOVED) {
+                if (node.change == ChangeKind.RENAMED || node.change == ChangeKind.MOVED)
                     file_copy = true;
-                }
             }
             after node: ChangedFile -> {
                 file_copy = false;
@@ -149,7 +150,7 @@ process_locs := function(locs: array of string, reason: ChangeType, curr_time: t
                 clear(seen_items);
             }
             before node: Declaration -> push(name_parts, node.name);
-            after node: Declaration -> pop(name_parts);
+            after Declaration -> pop(name_parts);
             before node: Method -> {
                 method_signature := getMethodSignature("", "", node);
                 push(name_parts, method_signature);
@@ -182,7 +183,7 @@ process_locs := function(locs: array of string, reason: ChangeType, curr_time: t
                 loc := get_loc_name(file);
                 add(seen_items, loc);
                 name := join(".", name_parts);
-                isinferred := !def(node.variable_type);                    
+                isinferred := !def(node.variable_type);
                 if (!contains(file_items[file], loc) && !contains(has_changed, loc)) {
                     add(file_items[file], loc);
                     status[loc] = { escape(name), escape(file), isinferred, current(Revision).commit_date, peek(location) };
