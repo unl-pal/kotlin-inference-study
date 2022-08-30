@@ -295,6 +295,10 @@
                     "2,\\.java?$"
                 ]
             }
+        },
+        "java/jdk10-projects.txt": {
+            "query": "queries/java/jdk10-projects.boa",
+            "dataset": "java"
         }
     },
     "analyses": {
