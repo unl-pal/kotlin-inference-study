@@ -25,8 +25,8 @@
     "sha256": "268ba825273dcc4e7397efc92cfaf01720f784364a37f4ba6c2f45f155da17ff"
   },
   "kotlin/method-calls-maybe-local.txt": {
-    "job": 101121,
-    "sha256": "00f5f4246d032e114599f74489edac10a4dcac2af4f12a528e2b282ccbc81bbe"
+    "job": 101130,
+    "sha256": "218ee41d067958c0be3850d2bc9d4a79ed21881360ce7b959f1fd2a4a4a79d3a"
   },
   "java/counts.txt": {
     "job": 101112,
