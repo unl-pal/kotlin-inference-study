@@ -17,7 +17,7 @@ if (!contains(exclude_set, input.id)) {
                 if (!match(`build\.gradle\.kts`, node.name))
                     keep = true;
         });
-    } else if (lowercase(input.programming_languages[0]) == "java") {
+    } else {
         jdk10projects: set of string;
         {@jdk10-filter@}
         keep = contains(jdk10projects, input.id);
