@@ -6,7 +6,7 @@ before node: Revision -> {
         o[input.id]["{@dummy-name@}"]{@time-part@}[kinds[i]][true][false] << 0;
         o[input.id]["{@dummy-name@}"]{@time-part@}[kinds[i]][true][true] << 0;
     }
-    foreach (i: int; match(`{@file-selector@}`, string(node.files[i].kind)))
+    foreach (i: int; iskind(`{@file-selector@}`, string(node.files[i].kind)))
         visit(node.files[i]);
     stop;
 }
