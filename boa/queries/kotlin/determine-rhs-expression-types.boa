@@ -1,5 +1,9 @@
 m: output collection[project: string][is_inferred: bool] of string;
 
+declarations: set of string;
+method_names: queue of string;
+inferred_queue: queue of bool;
+
 {@project-filter@}
 {
     visit(input, visitor {
@@ -11,6 +15,7 @@ m: output collection[project: string][is_inferred: bool] of string;
         }
 
         before node: Declaration -> {
+            add(declarations, node.name);
             foreach (i: int; def(node.methods[i]))
                 visit(node.methods[i]);
             foreach (i: int; def(node.fields[i]))
@@ -26,9 +31,23 @@ m: output collection[project: string][is_inferred: bool] of string;
                 rhskind := "??";
                 if (def(node.initializer))
                     rhskind = string(node.initializer.kind);
-
-                m[input.id][isinferred] << rhskind;
+                if (rhskind == "METHODCALL") {
+                    offer(method_names, node.initializer.method);
+                    offer(inferred_queue, isinferred);
+                } else {
+                    m[input.id][isinferred] << rhskind;
+                }
             }
         }
     });
+}
+
+while(len(method_names) > 0) {
+    method := poll(method_names);
+    isinferred := poll(inferred_queue);
+    if(contains(declarations, method)) {
+        m[input.id][isinferred] << "NEW";
+    } else {
+        m[input.id][isinferred] << "METHODCALL";
+    }
 }
