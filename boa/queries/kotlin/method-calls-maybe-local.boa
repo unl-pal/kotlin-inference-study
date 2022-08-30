@@ -39,6 +39,8 @@ missing_file_items: map[string] of set of VarMethod;
             push(name_stack, node.name);
             foreach (i: int; def(node.methods[i]))
                 visit(node.methods[i]);
+            foreach (i: int; def(node.fields[i]))
+                visit(node.fields[i]);
             foreach (i: int; def(node.nested_declarations[i]))
                 visit(node.nested_declarations[i]);
             pop(name_stack);
