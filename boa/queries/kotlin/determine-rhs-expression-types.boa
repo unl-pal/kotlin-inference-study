@@ -13,6 +13,8 @@ m: output collection[project: string][is_inferred: bool] of string;
         before node: Declaration -> {
             foreach (i: int; def(node.methods[i]))
                 visit(node.methods[i]);
+            foreach (i: int; def(node.fields[i]))
+                visit(node.fields[i]);
             foreach (i: int; def(node.nested_declarations[i]))
                 visit(node.nested_declarations[i]);
             stop;
