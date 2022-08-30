@@ -19,12 +19,12 @@ visit(input, visitor {
     before node: Namespace -> push(location, "module");
     after node: Namespace -> pop(location);
     before node: Declaration -> {
-        foreach (i: int; def(node.methods[i]))
-            visit(node.methods[i]);
         push(location, "field");
         foreach(i: int; def(node.fields[i]))
             visit(node.fields[i]);
         pop(location);
+        foreach (i: int; def(node.methods[i]))
+            visit(node.methods[i]);
         foreach (i: int; def(node.nested_declarations[i]))
             visit(node.nested_declarations[i]);
         stop;
@@ -49,12 +49,14 @@ visit(input, visitor {
             foreach (i: int; def(node.variable_declarations[i]))
                 visit(node.variable_declarations[i]);
             pop(location);
-            foreach (i: int; def(node.expressions[i]))
-                visit(node.expressions[i]);
-            foreach (i: int; def(node.statements[i]))
-                visit(node.statements[i]);
-            stop;
         }
+        push(location, "body");
+        foreach (i: int; def(node.expressions[i]))
+            visit(node.expressions[i]);
+        foreach (i: int; def(node.statements[i]))
+            visit(node.statements[i]);
+        pop(location);
+        stop;
     }
     before node: Expression -> {
         if (node.kind == ExpressionKind.LAMBDA) {
