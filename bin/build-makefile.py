@@ -104,6 +104,15 @@ if __name__ == '__main__':
                 print(f'\t@$(RM) {PQ_ROOT}$**/dupes.parquet')
                 print(f'\t@$(RM) {PQ_ROOT}$**/*-deduped.parquet')
 
+        if 'processors' in query_info:
+            for postproc in query_info['processors']:
+                output = escape(query_info['processors'][postproc])
+
+                print('')
+                print(f'{output}: {target} bin/{postproc}')
+                print(f'\t@$(MKDIR) "$(dir {output})"')
+                print(f'\t$(PYTHON) bin/{postproc} {target} > {output}')
+
         print('')
         string = escape(f'boa/{query_info["query"]}')
         string += ' ' + ' '.join(substitution_files)

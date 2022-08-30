@@ -1,5 +1,5 @@
 {
-    "$schema": "schemas/0.1.1/study-config.schema.json",
+    "$schema": "schemas/0.1.2/study-config.schema.json",
     "datasets": {
         "kotlin": "2021 Aug/Kotlin",
         "java": "2022 Jan/Java"
@@ -298,7 +298,10 @@
         },
         "java/jdk10-projects.txt": {
             "query": "queries/java/jdk10-projects.boa",
-            "dataset": "java"
+            "dataset": "java",
+            "processors": {
+                "filter-jdk10.py": "boa/snippets/jdk-filter.boa"
+            }
         }
     },
     "analyses": {
@@ -429,6 +432,10 @@
         {
             "target": "{@file-selector@}",
             "replacement": ""
+        },
+        {
+            "target": "{@jdk10-filter@}",
+            "file": "jdk-filter.boa"
         }
     ]
 }
