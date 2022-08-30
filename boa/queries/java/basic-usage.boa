@@ -17,6 +17,10 @@ visit(input, visitor {
             visit(node.methods[i]);
         foreach (i: int; def(node.nested_declarations[i]))
             visit(node.nested_declarations[i]);
+        push(location, "");
+        foreach (i: int; def(node.fields[i]))
+            visit(node.fields[i]);
+        pop(location);
         stop;
     }
     before node: Method -> {
@@ -27,25 +31,21 @@ visit(input, visitor {
         pop(location);
         stop;
     }
-    before node: Expression -> {
+    before node: Expression ->
         if (node.kind == ExpressionKind.LAMBDA) {
             push(location, "lambda_arg");
             foreach (i: int; def(node.variable_decls[i]))
                 visit(node.variable_decls[i]);
             pop(location);
+            stop;
         }
-        push(location, "body");
-        foreach (i: int; def(node.expressions[i]))
-            visit(node.expressions[i]);
-        foreach (i: int; def(node.statements[i]))
-            visit(node.statements[i]);
-        pop(location);
-        stop;
-    }
-    before node: Variable -> {
-        file := current(ChangedFile).name;
-        place := peek(location);
-        isinferred := node.variable_type.name == "var";
-        o[input.id][escape(file)]{@time-part@}[place][has_modifier(node, ModifierKind.FINAL)][isinferred] << 1;
-    }
+    before node: Variable ->
+        if (len(location) > 0) {
+            place := peek(location);
+            if (place != "") {
+                file := current(ChangedFile).name;
+                isinferred := node.variable_type.name == "var";
+                o[input.id][escape(file)]{@time-part@}[place][has_modifier(node, ModifierKind.FINAL)][isinferred] << 1;
+            }
+        }
 });
