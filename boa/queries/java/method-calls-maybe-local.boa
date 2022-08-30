@@ -7,13 +7,13 @@ type VarMethod = {
     method: string
 };
 
-name_stack: stack of string;
-
-methodNames: map[string] of set of string;
-missing_file_items: map[string] of set of VarMethod;
-
 {@project-filter@}
 {
+    name_stack: stack of string;
+
+    methodNames: map[string] of set of string;
+    missing_file_items: map[string] of set of VarMethod;
+
     visit(input, visitor {
         before node: CodeRepository -> {
             snapshot := getsnapshot(node, "SOURCE_JAVA_JLS");
@@ -70,13 +70,13 @@ missing_file_items: map[string] of set of VarMethod;
             }
         }
     });
-}
 
-files := keys(missing_file_items);
-foreach (i: int; def(files[i])) {
-    file := files[i];
+    files := keys(missing_file_items);
+    foreach (i: int; def(files[i])) {
+        file := files[i];
 
-    items := values(missing_file_items[file]);
-    foreach (j: int; def(items[j]))
-        o[input.id][escape(file)][escape(items[j].var)] << contains(methodNames[file], items[j].method);
+        items := values(missing_file_items[file]);
+        foreach (j: int; def(items[j]))
+            o[input.id][escape(file)][escape(items[j].var)] << contains(methodNames[file], items[j].method);
+    }
 }

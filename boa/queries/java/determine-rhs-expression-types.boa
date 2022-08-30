@@ -1,38 +1,36 @@
 m: output collection[project: string] of string;
 
 {@project-filter@}
-{
-    visit(input, visitor {
-        before node: CodeRepository -> {
-            snapshot := getsnapshot(node, "SOURCE_JAVA_JLS");
-            foreach (i: int; def(snapshot[i]))
-                visit(snapshot[i]);
-            stop;
-        }
+visit(input, visitor {
+    before node: CodeRepository -> {
+        snapshot := getsnapshot(node, "SOURCE_JAVA_JLS");
+        foreach (i: int; def(snapshot[i]))
+            visit(snapshot[i]);
+        stop;
+    }
 
-        before node: Declaration -> {
-            foreach (i: int; def(node.methods[i]))
-                visit(node.methods[i]);
-            foreach (i: int; def(node.nested_declarations[i]))
-                visit(node.nested_declarations[i]);
-            stop;
-        }
+    before node: Declaration -> {
+        foreach (i: int; def(node.methods[i]))
+            visit(node.methods[i]);
+        foreach (i: int; def(node.nested_declarations[i]))
+            visit(node.nested_declarations[i]);
+        stop;
+    }
 
-        before node: Method -> {
-            foreach (i: int; def(node.statements[i]))
-                visit(node.statements[i]);
-            stop;
-        }
+    before node: Method -> {
+        foreach (i: int; def(node.statements[i]))
+            visit(node.statements[i]);
+        stop;
+    }
 
-        before node: Variable -> {
-            isinferred := node.variable_type.name == "var";
-            if (isinferred) {
-                rhskind := "??";
-                if (def(node.initializer))
-                    rhskind = string(node.initializer.kind);
+    before node: Variable -> {
+        isinferred := node.variable_type.name == "var";
+        if (isinferred) {
+            rhskind := "??";
+            if (def(node.initializer))
+                rhskind = string(node.initializer.kind);
 
-                m[input.id] << rhskind;
-            }
+            m[input.id] << rhskind;
         }
-    });
-}
+    }
+});
