@@ -10,37 +10,21 @@ if (keep)
 
 visit(input, visitor {
     before node: CodeRepository -> {
-        snapshot := getsnapshot(node);
-        foreach (i: int; def(snapshot[i]))
-            visit(snapshot[i]);
+        snapshot := getsnapshot(node, "{@file-selector@}");
+        foreach (i: int; def(snapshot[i])) {
+            o["total_files_head"][false] << 1;
+            if (keep)
+                o["total_files_head"][true] << 1;
+        }
         stop;
     }
-    before node: ChangedFile -> {
-        o["total_files_head"][false] << 1;
-        if (keep)
-            o["total_files_head"][true] << 1;
-        if (iskind("{@file-selector@}", node.kind)) {
-            o["analyzed_files_head"][false] << 1;
-            if (keep)
-                o["analyzed_files_head"][true] << 1;
-        }
-    }
 });
-
-all_hist_files: set of string;
-all_analyzed_files: set of string;
 
 visit(input, visitor {
-    before node: ChangedFile -> {
-        add(all_hist_files, node.name);
-        if (iskind("SOURCE_KOTLIN_1_", node.kind))
-            add(all_analyzed_files, node.name);
-    }
+    before node: ChangedFile ->
+        if (iskind("{@file-selector@}", node.kind)) {
+            o["total_files_hist"][false] << 1;
+            if (keep)
+                o["total_files_hist"][true] << 1;
+        }
 });
-
-o["total_files_hist"][false] << len(values(all_hist_files));
-o["analyzed_files_hist"][false] << len(values(all_analyzed_files));
-if (keep) {
-    o["total_files_hist"][true] << len(values(all_hist_files));
-    o["analyzed_files_hist"][true] << len(values(all_analyzed_files));
-}

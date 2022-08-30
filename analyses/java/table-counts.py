@@ -6,7 +6,6 @@ from pathlib import Path
 import sys
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 
-import pandas as pd
 from common.tables import *
 from common.df import *
 
@@ -14,18 +13,14 @@ df = get_df('counts', 'java', header='infer')
 
 df['filtered'] = df['filtered'].apply(lambda x: 'Post-Filtering' if x else 'Pre-Filtering')
 df['type'] = df['type'].apply(lambda x: {'projects': 'Projects',
-                                         'total_files_head': 'Total Files (HEAD)',
-                                         'analyzed_files_head': 'Analyzed Files (HEAD)',
-                                         'total_files_hist': 'Total Files (HIST)',
-                                         'analyzed_files_hist': 'Analyzed Files (HIST)'}[x])
+                                         'total_files_head': 'Source Files (HEAD)',
+                                         'total_files_hist': 'Source File Snapshots (HIST)'}[x])
 
 df_pivot = df.pivot(index=['type'], columns=['filtered'])
 
 df_pivot = df_pivot.reindex(['Projects',
-                             'Total Files (HEAD)',
-                             'Analyzed Files (HEAD)',
-                             'Total Files (HIST)',
-                             'Analyzed Files (HIST)'])
+                             'Source Files (HEAD)',
+                             'Source File Snapshots (HIST)'])
 
 df_pivot = df_pivot.sort_index(axis='columns',
                                level='filtered',
