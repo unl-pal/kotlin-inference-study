@@ -436,6 +436,10 @@
         {
             "target": "{@jdk10-filter@}",
             "file": "jdk-filter.boa"
+        },
+        {
+            "target": "{@kotlin-default-imports@}",
+            "file": "kotlin-default-imports.boa"
         }
     ]
 }
