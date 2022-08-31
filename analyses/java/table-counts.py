@@ -14,13 +14,13 @@ df = get_df('counts', 'java', header='infer')
 df['filtered'] = df['filtered'].apply(lambda x: 'Post-Filtering' if x else 'Pre-Filtering')
 df['type'] = df['type'].apply(lambda x: {'projects': 'Projects',
                                          'total_files_head': 'Source Files (HEAD)',
-                                         'total_files_hist': 'Source File Snapshots (HIST)'}[x])
+                                         'total_files_hist': 'Snapshots (HIST)'}[x])
 
 df_pivot = df.pivot(index=['type'], columns=['filtered'])
 
 df_pivot = df_pivot.reindex(['Projects',
                              'Source Files (HEAD)',
-                             'Source File Snapshots (HIST)'])
+                             'Snapshots (HIST)'])
 
 df_pivot = df_pivot.sort_index(axis='columns',
                                level='filtered',
