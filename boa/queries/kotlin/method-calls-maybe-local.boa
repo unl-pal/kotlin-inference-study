@@ -39,8 +39,19 @@ missing_file_items: map[string] of set of VarMethod;
             }
         }
 
-        before node: Namespace -> push(name_stack, node.name);
-        after Namespace, Method, Variable -> pop(name_stack);
+        before node: Namespace -> {
+            push(name_stack, node.name);
+            foreach(i: int; def(node.imports[i])) {
+                parts := split(node.imports[i], `\.`);
+                last_item := parts[len(parts) - 1];
+                if (last_item != "*")
+                    add(imported_classes, last_item);
+            }
+        }
+        after Namespace, Method, Variable -> {
+            pop(name_stack);
+            clear(imported_classes);
+        }
 
         before node: Declaration -> {
             push(name_stack, node.name);
@@ -87,7 +98,7 @@ foreach (i: int; def(files[i])) {
     items := values(missing_file_items[file]);
     foreach (j: int; def(items[j])) {
         item := items[j];
-        if (!contains(declarations, item.method))
+        if (!contains(project_classes, item.method))
             o[input.id][escape(file)][escape(item.var)] << contains(methodNames[file], item.method);
     }
 }
