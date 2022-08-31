@@ -1,24 +1,14 @@
 m: output collection[project: string][is_inferred: bool] of string;
 
-project_methods: set of string;
-imported_classes: set of string;
-project_classes: set of string;
-
+{@project-method-defns@}
 {@kotlin-default-imports@}
+
+{@project-or-new@}
 
 {@project-filter@}
 {
-    visit(input, visitor {
-        before node: CodeRepository -> {
-            snapshot := getsnapshot(node, "SOURCE_KOTLIN_1_");
-            foreach (i: int; def(snapshot[i]))
-                visit(snapshot[i]);
-            stop;
-        }
-
-        before node: Declaration -> add(project_classes, node.name);
-        before node: Method -> add(project_methods, node.name);
-    });
+    {@collect-project-class-methods@}
+    
     visit(input, visitor {
         before node: CodeRepository -> {
             snapshot := getsnapshot(node, "SOURCE_KOTLIN_1_");
@@ -57,15 +47,7 @@ project_classes: set of string;
                 if (def(node.initializer))
                     rhskind = string(node.initializer.kind);
                 if (rhskind == "METHODCALL") {
-                    method_name := node.initializer.method;
-                    if (contains(project_methods, method_name) || contains(default_functions, method_name))
-                        m[input.id][isinferred] << "METHODCALL";
-                    else if (contains(project_classes, method_name) || contains(imported_classes, method_name) || contains(default_imports, method_name))
-                        m[input.id][isinferred] << "NEW";
-                    else if (match(`^[A-Z]`, method_name))
-                        m[input.id][isinferred] << "NEW";
-                    else
-                        m[input.id][isinferred] << "METHODCALL";
+                    m[input.id][isinferred] << project_or_new(node.initializer.method);
                 } else {
                     m[input.id][isinferred] << rhskind;
                 }

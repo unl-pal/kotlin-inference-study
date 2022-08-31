@@ -1,0 +1,3 @@
+project_methods: set of string;
+imported_classes: set of string;
+project_classes: set of string;

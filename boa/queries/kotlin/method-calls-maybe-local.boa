@@ -1,5 +1,10 @@
 o: output collection[project: string][file: string][item: string] of maybelocal: bool;
 
+{@project-method-defns@}
+{@kotlin-default-imports@}
+
+{@project-or-new@}
+
 {@escape@}
 
 type VarMethod = {
@@ -9,12 +14,13 @@ type VarMethod = {
 
 name_stack: stack of string;
 
-declarations: set of string;
 methodNames: map[string] of set of string;
 missing_file_items: map[string] of set of VarMethod;
 
 {@project-filter@}
 {
+    {@collect-project-class-methods@}
+    
     visit(input, visitor {
         before node: CodeRepository -> {
             snapshot := getsnapshot(node, "SOURCE_KOTLIN_1_");
@@ -37,7 +43,6 @@ missing_file_items: map[string] of set of VarMethod;
         after Namespace, Method, Variable -> pop(name_stack);
 
         before node: Declaration -> {
-            add(declarations, node.name);
             push(name_stack, node.name);
             foreach (i: int; def(node.methods[i]))
                 visit(node.methods[i]);
@@ -57,7 +62,7 @@ missing_file_items: map[string] of set of VarMethod;
         before node: Variable -> {
             push(name_stack, node.name);
             if (!has_modifier(node, ModifierKind.IMPLICIT)) {
-                if (!def(node.variable_type) && def(node.initializer) && node.initializer.kind == ExpressionKind.METHODCALL) {
+                if (!def(node.variable_type) && def(node.initializer) && node.initializer.kind == ExpressionKind.METHODCALL && project_or_new(node.initializer.method) == "METHODCALL") {
                     variableName := join(".", name_stack);
                     calledName := node.initializer.method;
                     if (contains(methodNames[current(ChangedFile).name], calledName)) {
@@ -83,6 +88,6 @@ foreach (i: int; def(files[i])) {
     foreach (j: int; def(items[j])) {
         item := items[j];
         if (!contains(declarations, item.method))
-        o[input.id][escape(file)][escape(item.var)] << contains(methodNames[file], item.method);
+            o[input.id][escape(file)][escape(item.var)] << contains(methodNames[file], item.method);
     }
 }

@@ -440,6 +440,18 @@
         {
             "target": "{@kotlin-default-imports@}",
             "file": "kotlin-default-imports.boa"
+        },
+        {
+            "target": "{@project-method-defns@}",
+            "file": "project-method-defns.boa"
+        },
+        {
+            "target": "{@project-or-new@}",
+            "file": "project-or-new.boa"
+        },
+        {
+            "target": "{@collect-project-class-methods@}",
+            "file": "collect-project-class-methods.boa"
         }
     ]
 }
