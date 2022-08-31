@@ -1,48 +1,48 @@
 {
   "$schema": "schemas/0.1.0/jobs.schema.json",
   "kotlin/hashes.txt": {
-    "job": 101114,
-    "sha256": "7320f49eef0f05a866d414d39cd9f53e717ce7b6695c33b4df9c3ea90a2a1bbb"
+    "job": 101141,
+    "sha256": "03fbad75e12e4cfab8762bde30b772ca64652d5e2ab6e1494d64a98ccc95f7bb"
   },
   "kotlin/basic-usage.txt": {
-    "job": 101135,
-    "sha256": "14162037049bf299f6ca3d1d8943e5612209e8273ea231a1fdb0006f8b364c7d"
+    "job": 101140,
+    "sha256": "157398e3b6e526d54145cc19bed7fb6b2bafb74c118e689419e26b7460fe0469"
   },
   "kotlin/over-time.txt": {
     "job": 101093,
     "sha256": "a712929ea3b36e5ba0becef0e038b91fe06f1ae175f9021fbc1a4b865229d250"
   },
   "kotlin/counts.txt": {
-    "job": 101110,
-    "sha256": "8dfb84b30e2ec9254a0b07572071e2a1e5810d52ef9345553f04d8eef95869b5"
+    "job": 101136,
+    "sha256": "9b6a0ef23e3352df56cc09eea76bd3fff77dab9c33738734539f5944c1d88771"
   },
   "kotlin/survival.txt": {
-    "job": 101128,
-    "sha256": "21da1898b21a837b0f60c49bad9934566be39cbc0cdb4c34c4a07f8df715ea4d"
+    "job": 101144,
+    "sha256": "32abb9996ee979520c6985fba6343bee163e15848c5c33072710d67cfd1bfd03"
   },
   "kotlin/determine-rhs-expression-types.txt": {
-    "job": 101119,
-    "sha256": "268ba825273dcc4e7397efc92cfaf01720f784364a37f4ba6c2f45f155da17ff"
+    "job": 101149,
+    "sha256": "732f94bdf369b04762fe766ece1b02ee0d5782d44871a6ab371109d49568dc2e"
   },
   "kotlin/method-calls-maybe-local.txt": {
     "job": 101130,
     "sha256": "218ee41d067958c0be3850d2bc9d4a79ed21881360ce7b959f1fd2a4a4a79d3a"
   },
   "java/counts.txt": {
-    "job": 101112,
-    "sha256": "93e4c4956f1058cb263f7b7662bb86a4f9e9732b73c3661b7f451a9fec538df9"
+    "job": 101137,
+    "sha256": "2253af15f5297dc880eee1c69298849cbe2e42de12f06cf911ef96ce53e6a879"
   },
   "java/determine-rhs-expression-types.txt": {
     "job": 101120,
     "sha256": "573bfc217167162a867d2cb1d3b1d4487e4f00e1d5a0356d7242585819e5514b"
   },
   "java/basic-usage.txt": {
-    "job": 101115,
-    "sha256": "fc6f4bbc071288d4c4fae86cdfdebb0e650a347c1b4e623e4bfb138fe415bfab"
+    "job": 101150,
+    "sha256": "4d4bd3d075e8fb1da651f504f9e252bb751960a355ef7e69942f0eaa0dc2b1e6"
   },
   "java/hashes.txt": {
-    "job": 101116,
-    "sha256": "8aac7b884c8a135ec217d20166009b6bcf50c663cad21302288b6a527c5010ca"
+    "job": 101151,
+    "sha256": "03426cf09fb487f7f9c5fa889892a5c51a54c710de556c54688665eaf7b11de9"
   },
   "java/method-calls-maybe-local.txt": {
     "job": 101122,

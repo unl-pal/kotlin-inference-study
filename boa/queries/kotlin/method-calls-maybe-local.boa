@@ -1,5 +1,10 @@
 o: output collection[project: string][file: string][item: string] of maybelocal: bool;
 
+{@project-method-defns@}
+{@kotlin-default-imports@}
+
+{@project-or-new@}
+
 {@escape@}
 
 type VarMethod = {
@@ -7,13 +12,15 @@ type VarMethod = {
     method: string
 };
 
+name_stack: stack of string;
+
+methodNames: map[string] of set of string;
+missing_file_items: map[string] of set of VarMethod;
+
 {@project-filter@}
 {
-    name_stack: stack of string;
-
-    methodNames: map[string] of set of string;
-    missing_file_items: map[string] of set of VarMethod;
-
+    {@collect-project-class-methods@}
+    
     visit(input, visitor {
         before node: CodeRepository -> {
             snapshot := getsnapshot(node, "SOURCE_KOTLIN_1_");
@@ -39,10 +46,10 @@ type VarMethod = {
             push(name_stack, node.name);
             foreach (i: int; def(node.methods[i]))
                 visit(node.methods[i]);
-            foreach (i: int; def(node.nested_declarations[i]))
-                visit(node.nested_declarations[i]);
             foreach (i: int; def(node.fields[i]))
                 visit(node.fields[i]);
+            foreach (i: int; def(node.nested_declarations[i]))
+                visit(node.nested_declarations[i]);
             pop(name_stack);
             stop;
         }
@@ -55,7 +62,7 @@ type VarMethod = {
         before node: Variable -> {
             push(name_stack, node.name);
             if (!has_modifier(node, ModifierKind.IMPLICIT)) {
-                if (!def(node.variable_type) && def(node.initializer) && node.initializer.kind == ExpressionKind.METHODCALL) {
+                if (!def(node.variable_type) && def(node.initializer) && node.initializer.kind == ExpressionKind.METHODCALL && project_or_new(node.initializer.method) == "METHODCALL") {
                     variableName := join(".", name_stack);
                     calledName := node.initializer.method;
                     if (contains(methodNames[current(ChangedFile).name], calledName)) {
@@ -71,13 +78,16 @@ type VarMethod = {
             }
         }
     });
+}
 
-    files := keys(missing_file_items);
-    foreach (i: int; def(files[i])) {
-        file := files[i];
+files := keys(missing_file_items);
+foreach (i: int; def(files[i])) {
+    file := files[i];
 
-        items := values(missing_file_items[file]);
-        foreach (j: int; def(items[j]))
-            o[input.id][escape(file)][escape(items[j].var)] << contains(methodNames[file], items[j].method);
+    items := values(missing_file_items[file]);
+    foreach (j: int; def(items[j])) {
+        item := items[j];
+        if (!contains(declarations, item.method))
+            o[input.id][escape(file)][escape(item.var)] << contains(methodNames[file], item.method);
     }
 }

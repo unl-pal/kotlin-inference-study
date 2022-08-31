@@ -1,0 +1,9 @@
+project_or_new := function(name: string): string {
+    if (contains(project_methods, name) || contains(default_functions, name))
+        return "METHODCALL";
+    else if (contains(project_classes, name) || contains(imported_classes, name) || contains(default_imports, name))
+        return "NEW";
+    else if (match(`^[A-Z]`, name))
+        return "NEW";
+    return "METHODCALL";
+};

@@ -1,32 +1,57 @@
 m: output collection[project: string][is_inferred: bool] of string;
 
+{@project-method-defns@}
+{@kotlin-default-imports@}
+
+{@project-or-new@}
+
 {@project-filter@}
-visit(input, visitor {
-    before node: CodeRepository -> {
-        snapshot := getsnapshot(node, "SOURCE_KOTLIN_1_");
-        foreach (i: int; def(snapshot[i]))
-            visit(snapshot[i]);
-        stop;
-    }
-
-    before node: Declaration -> {
-        foreach (i: int; def(node.methods[i]))
-            visit(node.methods[i]);
-        foreach (i: int; def(node.nested_declarations[i]))
-            visit(node.nested_declarations[i]);
-        foreach (i: int; def(node.fields[i]))
-            visit(node.fields[i]);
-        stop;
-    }
-
-    before node: Variable -> {
-        if (!has_modifier(node, ModifierKind.IMPLICIT)) {
-            isinferred := !def(node.variable_type);
-            rhskind := "??";
-            if (def(node.initializer))
-                rhskind = string(node.initializer.kind);
-
-            m[input.id][isinferred] << rhskind;
+{
+    {@collect-project-class-methods@}
+    
+    visit(input, visitor {
+        before node: CodeRepository -> {
+            snapshot := getsnapshot(node, "SOURCE_KOTLIN_1_");
+            foreach (i: int; def(snapshot[i]))
+                visit(snapshot[i]);
+            stop;
         }
-    }
-});
+
+        before node: Namespace -> {
+            foreach(i: int; def(node.imports[i])) {
+                parts := split(node.imports[i], `\.`);
+                last_item := parts[len(parts) - 1];
+                if (last_item != "*")
+                    add(imported_classes, last_item);
+            }
+        }
+
+        after node: Namespace -> {
+            clear(imported_classes);
+        }
+
+        before node: Declaration -> {
+            foreach (i: int; def(node.methods[i]))
+                visit(node.methods[i]);
+            foreach (i: int; def(node.fields[i]))
+                visit(node.fields[i]);
+            foreach (i: int; def(node.nested_declarations[i]))
+                visit(node.nested_declarations[i]);
+            stop;
+        }
+
+        before node: Variable -> {
+            if (!has_modifier(node, ModifierKind.IMPLICIT)) {
+                isinferred := !def(node.variable_type);
+                rhskind := "??";
+                if (def(node.initializer))
+                    rhskind = string(node.initializer.kind);
+                if (rhskind == "METHODCALL") {
+                    m[input.id][isinferred] << project_or_new(node.initializer.method);
+                } else {
+                    m[input.id][isinferred] << rhskind;
+                }
+            }
+        }
+    });
+}
