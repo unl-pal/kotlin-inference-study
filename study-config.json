@@ -107,7 +107,7 @@
                 },
                 {
                     "target": "{@random-sample@}",
-                    "replacement": "20"
+                    "replacement": "5"
                 },
                 {
                     "target": "{@dummy-name@}",
