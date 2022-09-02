@@ -23,7 +23,32 @@
  - `{@get-method-signature@}`
 : Provides function `getMethodSignature(string, string, Method): string`, which takes a package name, a class name, and a method returning a JVM Bytecode formatted method signature.
 
-## Output Files
+ - `{@random-sample@}`
+: Set sampling rate.  This should be set to an integer between 0 and 100.
+
+ - `{@dummy-name@}`
+: Name of dummy files used for zeros.
+
+ - `{@file-selector@}`
+: Name of Boa file selector.
+
+ - `{@jdk10-filter@}`
+: Filter for projects which use JDK10 features.
+
+ - `{@kotlin-default-imports@}`
+: A list of default imports in Kotlin.
+
+ - `{@project-method-defns@}`
+: Definitions for collecting project methods and definitions.
+
+ - `{@project-or-new@}`
+: Determine if a name is a method call or an instantiation.
+
+ - `{@collect-project-class-methods@}`
+: Visitor to collect names of project classes and methods for method call/instantiation resolution.
+
+
+## Output Files (available as both `kotlin` and `java` variants)
 
 ### `dupes.csv`
 
@@ -50,6 +75,7 @@
    - `lambda_arg`
    - `body`
    - `module`
+   - `field`
 
 4. `isval` (`boolean`)
 : Whether or not location is declared as `val` (`true` if `val`, `false` if `var`).
@@ -129,7 +155,7 @@
 8. `timetochange` (`long`)
 : How long (in microseconds) before a change or end of history (see `observed`).
 
-### `count-unfiltered.csv`, `count-filtered.csv`
+### `counts.csv`
 
 1. `type` (`string`, *restricted*)
 : The type of `count`.  Possible values are
@@ -144,3 +170,17 @@
 
 3. `count` (`long`)
 : Count of items described by `type`.
+
+### `method-calls-maybe-local.csv`
+
+1. `project` (`string`/`long`)
+: Project ID.
+
+2. `file` (`string`)
+: File Name.
+
+3. `item` (`string`)
+: Variable FQN.
+
+4. `maybelocal` (`boolean`)
+: Is the method maybe local (`true`), or not file-local (`false`)?
