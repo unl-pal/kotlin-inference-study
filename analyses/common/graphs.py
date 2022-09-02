@@ -35,6 +35,7 @@ def setup_plots(rcParams=None, constrained_layout=True, **subplotkw):
     plt.rcParams['figure.figsize'] = [7.0, 4.0]
     plt.rcParams['figure.dpi'] = 600.0
     plt.rcParams['font.size'] = 24
+    plt.rcParams['legend.loc'] = 'upper right'
     if rcParams:
         for (k, v) in rcParams.items():
             plt.rcParams[k] = v
