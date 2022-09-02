@@ -47,8 +47,8 @@ def load_pre_summarized(language, group_cols):
         axis=1)
     if 'isinferred' in group_cols:
         df_summarized['isinferred'] = df_summarized['isinferred'].apply(inferred_name)
-    if 'isval' in group_cols:
-        df_summarized['isval'] = df_summarized['isval'].apply(val_or_var)
+    # if 'isval' in group_cols:
+    #     df_summarized['isval'] = df_summarized['isval'].apply(val_or_var)
     if 'location' in group_cols:
         df_summarized['location'] = df_summarized['location'].apply(location_map)
     df_summarized.to_parquet(path)
