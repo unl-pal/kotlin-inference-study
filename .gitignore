@@ -18,6 +18,8 @@ Makefile.study
 /figures/**/*.png
 /tables/**/*.tex
 replication-pkg.zip
+data.zip
+data-cache.zip
 
 # temp files
 .DS_Store
