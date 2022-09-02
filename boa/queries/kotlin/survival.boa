@@ -219,7 +219,7 @@ process_locs := function(locs: array of string, reason: ChangeType, curr_time: t
                 stop;
             }
             before node: Variable ->
-                if (!has_modifier(node, ModifierKind.IMPLICIT)) {
+                if (!has_modifier(node, ModifierKind.IMPLICIT) || peek(location) == "LAMBDA_ARG") {
                     push(name_parts, node.name);
                     file := current(ChangedFile).name;
                     place := peek(location);

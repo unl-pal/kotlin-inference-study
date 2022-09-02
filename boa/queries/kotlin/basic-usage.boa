@@ -71,7 +71,7 @@ visit(input, visitor {
     }
     after Expression -> pop(location);
     before node: Variable -> {
-        if (!has_modifier(node, ModifierKind.IMPLICIT)) {
+        if (!has_modifier(node, ModifierKind.IMPLICIT) || peek(location) == "lambda_arg") {
             file := current(ChangedFile).name;
             place := peek(location);
             isval := false;

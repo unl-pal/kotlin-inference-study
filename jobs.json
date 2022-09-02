@@ -5,8 +5,8 @@
     "sha256": "a1b42d8e0179fe101ecd3042f0ad588be2c2ab18ff6393a233b5f80d41074431"
   },
   "kotlin/basic-usage.txt": {
-    "job": 101158,
-    "sha256": "f0bb840ae277b0cefd44e29271b063437ab7d89f1366a40d20a21502ac677995"
+    "job": 101178,
+    "sha256": "e607ff2791a16a18aad24d77a4e11233a4476997754ed56a4020a520b5690bcd"
   },
   "kotlin/over-time.txt": {
     "job": 101176,
@@ -17,8 +17,8 @@
     "sha256": "ef6b975d9078ac4ad103e80938c6e5ee22d800481e67d3c57205d5a89ed4c2db"
   },
   "kotlin/survival.txt": {
-    "job": 101160,
-    "sha256": "c1b335618223860c5d56a5fb48069442fdc57f326b3bebb015258d6339896f7d"
+    "job": 101179,
+    "sha256": "f9bb47210fcf96fd9b766229b0a3ef411ed72d5085be4bdb6960d193d82200cf"
   },
   "kotlin/determine-rhs-expression-types.txt": {
     "job": 101163,
