@@ -14,8 +14,10 @@ from matplotlib.ticker import PercentFormatter
 summarized = load_pre_summarized('kotlin',
                                  ['project', 'location', 'isval', 'isinferred'])
 summarized = summarized[summarized['location'] != 'Return Type']
-summarized = summarized[summarized['location'] != 'Lambda Args']
-summarized = summarized[summarized['location'] != 'Loop Var']
+summarized = summarized[summarized['location'] != 'Lambda Arg']
+summarized = summarized[summarized['location'] != 'Loop Arg']
+summarized = summarized[summarized['location'] != 'Global Variable']
+summarized = summarized.rename(columns = {'isval': 'Is Mutable'})
 
 # %% generate the plot
 setup_plots()
@@ -23,7 +25,7 @@ setup_plots()
 figure = sns.catplot(x='location',
                      y='percent',
                      hue='isinferred',
-                     col='isval',
+                     col='Is Mutable',
                      data=summarized,
                      sharey=True,
                      showfliers=False,
@@ -37,8 +39,8 @@ save_figure(figure.figure, 'rq-mutability-summary.pdf', subdir='kotlin')
 figure.figure
 
 # %% generate the table
-data = summarized[['location', 'isinferred', 'isval', 'percent']] \
-    .groupby(['location', 'isinferred', 'isval']) \
+data = summarized[['location', 'isinferred', 'Is Mutable', 'percent']] \
+    .groupby(['location', 'isinferred', 'Is Mutable']) \
     .describe()
 styler = highlight_rows(highlight_cols(get_styler(data)))
 
