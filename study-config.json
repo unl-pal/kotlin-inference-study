@@ -351,6 +351,12 @@
                 "java/counts.csv"
             ]
         },
+        "project-size.py": {
+            "input": [
+                "java/project-size.csv",
+                "kotlin/project-size.csv"
+            ]
+        },
         "kotlin/rq-mutability.py": {
             "input": [
                 "kotlin/basic-usage.csv",
