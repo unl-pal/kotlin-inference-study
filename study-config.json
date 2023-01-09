@@ -237,7 +237,7 @@
                 "drop": [
                     0
                 ],
-                "header": "project,file,item,location,startinferred,changekind,observed,timetochange",
+                "header": "project,file,item,location,afterjdk8,startinferred,changekind,observed,timetochange",
                 "test": [
                     "2,\\.java?$"
                 ]
