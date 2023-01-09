@@ -1,0 +1,51 @@
+files: output sum[project: string] of int; # count
+statements: output sum[project: string] of int; # count
+analyzed_commits: output sum[project: string] of int; # number of analyzed commits
+project_age: output sum[project: string] of int; # date of earliest commit
+
+{@project-filter@}
+{
+    visit(input, visitor {
+        before node: CodeRepository -> {
+            snapshot := getsnapshot(node, "{@file-selector@}");
+            foreach (i: int; def(snapshot[i]))
+                visit(snapshot[i]);
+            stop;
+        }
+        before node: ChangedFile -> {
+            files[input.id] << 1;
+        }
+        before node: Statement -> {
+            statements[input.id] << 1;
+        }
+    });
+    commit_stack: stack of int;
+    repo: CodeRepository;
+    visit(input, visitor {
+        before repository: CodeRepository -> {
+            repo = repository;
+            head_revision := getrevision(repository, repository.head);
+            head_rev := repository.head;
+            push(commit_stack, head_rev);
+            visit(head_revision);
+            stop;
+        }
+        before rev: Revision -> {
+            if (len(rev.parents) > 0) {
+                next_commit := rev.parents[0];
+                push(commit_stack, next_commit);
+                visit(getrevision(current(CodeRepository), next_commit));
+            }
+            stop;
+        }
+    });
+    analyzed_commits[input.id] << len(commit_stack);
+    if (len(commit_stack) > 0) {
+        earliest_commit_number := pop(commit_stack);
+        earliest_commit := getrevision(repo, earliest_commit_number);
+        date := earliest_commit.commit_date;
+        project_age[input.id] << T"{@release-date@}" - date;
+
+    }
+}
+
