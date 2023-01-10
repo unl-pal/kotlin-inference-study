@@ -28,6 +28,8 @@ sns.boxplot(x='location',
             data=summarized,
             ax=ax,
             showfliers=False)
+
+ax.yaxis.set_major_formatter(mtick.PercentFormatter())
 ax.set_ylabel('Percent per Project')
 ax.set_xlabel('')
 ax.get_legend().set_title('')
