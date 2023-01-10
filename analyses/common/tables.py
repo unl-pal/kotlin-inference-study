@@ -12,11 +12,15 @@ __all__ = [
     "highlight_cols",
     "highlight_rows",
     "save_table",
+    "drop_outer_column_index"
 ]
 
 pd.set_option('styler.latex.hrules', True)
 pd.set_option('styler.latex.multicol_align', 'c')
 
+
+def drop_outer_column_index(df):
+    return df.droplevel(0, axis='columns')
 
 def get_styler(df):
     if isinstance(df, pd.Series):
