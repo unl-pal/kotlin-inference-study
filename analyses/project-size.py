@@ -19,21 +19,14 @@ df = pd.concat([df_java, df_kotlin]).reset_index()
 df_counts = df.loc[df.count_type != 'project_age'].copy(deep=True)
 df_age = df.loc[df.count_type == 'project_age'].copy(deep=True)
 
-df_summarized = df_counts.groupby(['language', 'count_type'])[['count']].describe()
-summarized_styler = highlight_cols(highlight_rows(get_styler(df_summarized)))
-save_table(summarized_styler, 'project-size-summary.tex')
-
-df_age['age'] = pd.to_timedelta(df['count'], unit='us').apply(lambda x: x.days)
-df_summarized_age = df_age.groupby(['language'])[['age']].describe()
-summarized_age_styler = highlight_cols(highlight_rows(get_styler(df_summarized_age)))
-save_table(summarized_age_styler, 'project-age-summary.tex')
-
 fig, ax = setup_plots()
 sns.boxplot(x='count',
             y='language',
             data=df_counts.loc[df_counts.count_type=='files'],
             ax=ax,
             showfliers=False)
+ax.set_xlabel('')
+ax.set_ylabel('Number of Files')
 save_figure(fig, 'project-files-summary.pdf')
 
 fig, ax = setup_plots()
@@ -42,6 +35,8 @@ sns.boxplot(x='count',
             data=df_counts.loc[df_counts.count_type=='statements'],
             ax=ax,
             showfliers=False)
+ax.set_xlabel('')
+ax.set_ylabel('Number of Statements')
 save_figure(fig, 'project-statements-summary.pdf')
 
 fig, ax = setup_plots()
@@ -50,7 +45,16 @@ sns.boxplot(x='count',
             data=df_counts.loc[df_counts.count_type=='analyzed_commits'],
             ax=ax,
             showfliers=False)
+ax.set_xlabel('')
+ax.set_ylabel('Number of Analyzed Commits')
 save_figure(fig, 'project-commits-summary.pdf')
+
+df_summarized.count_type = df_summarized.count_type.apply(lambda x: {'analyzed_commits': "Analyzed Commits",
+                                                                     'files': "# of Files",
+                                                                     'statements': "# of Statements"}[x])
+df_summarized = df_counts.groupby(['language', 'count_type'])[['count']].describe()
+summarized_styler = highlight_cols(highlight_rows(get_styler(df_summarized)))
+save_table(summarized_styler, 'project-size-summary.tex')
 
 fig, ax = setup_plots()
 sns.boxplot(x='age',
@@ -59,3 +63,8 @@ sns.boxplot(x='age',
             ax=ax,
             showfliers=False)
 save_figure(fig, 'project-age-summary.pdf')
+
+df_age['age'] = pd.to_timedelta(df['count'], unit='us').apply(lambda x: x.days)
+df_summarized_age = df_age.groupby(['language'])[['age']].describe()
+summarized_age_styler = highlight_cols(highlight_rows(get_styler(df_summarized_age)))
+save_table(summarized_age_styler, 'project-age-summary.tex')
