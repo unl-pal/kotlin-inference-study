@@ -1,0 +1,3 @@
+developers: output sum[string] of int;
+
+developers[input.id] << len(input.developers);

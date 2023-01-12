@@ -69,6 +69,50 @@
                 "header": "count_type,project,count"
             }
         },
+        "java/stars.txt": {
+            "query": "queries/common/stars.boa",
+            "dataset": "java",
+            "csv": {
+                "output": "java/stars.csv",
+                "drop": [
+                    0
+                ],
+                "header": "project,stars"
+            }
+        },
+        "kotlin/stars.txt": {
+            "query": "queries/common/stars.boa",
+            "dataset": "kotlin",
+            "csv": {
+                "output": "kotlin/stars.csv",
+                "drop": [
+                    0
+                ],
+                "header": "project,stars"
+            }
+        },
+        "java/developer-count.txt": {
+            "query": "queries/common/developer-count.boa",
+            "dataset": "java",
+            "csv": {
+                "output": "java/developer-count.csv",
+                "drop": [
+                    0
+                ],
+                "header": "project,developers"
+            }
+        },
+        "kotlin/developer-count.txt": {
+            "query": "queries/common/developer-count.boa",
+            "dataset": "kotlin",
+            "csv": {
+                "output": "kotlin/developer-count.csv",
+                "drop": [
+                    0
+                ],
+                "header": "project,developers"
+            }
+        },
         "kotlin/basic-usage.txt": {
             "query": "queries/kotlin/basic-usage.boa",
             "dataset": "kotlin",

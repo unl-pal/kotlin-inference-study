@@ -1,0 +1,3 @@
+stars: output sum[string] of int;
+
+stars[input.id] << input.stars;
