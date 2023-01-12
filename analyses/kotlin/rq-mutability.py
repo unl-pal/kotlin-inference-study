@@ -38,6 +38,8 @@ for ax in figure.axes.flat:
 save_figure(figure.figure, 'rq-mutability-summary.pdf', subdir='kotlin')
 figure.figure
 
+summarized['Is Mutable'] = summarized['Is Mutable'].apply(lambda x: 'Mutable' if x else 'Not Mutable')
+
 # %% generate the table
 data = summarized[['location', 'isinferred', 'Is Mutable', 'percent']] \
     .groupby(['location', 'isinferred', 'Is Mutable']) \
