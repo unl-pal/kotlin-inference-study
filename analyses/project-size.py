@@ -56,7 +56,7 @@ df_summarized = df_counts.groupby(['language', 'count_type'])[['count']].describ
 summarized_styler = highlight_cols(highlight_rows(get_styler(df_summarized)))
 save_table(summarized_styler, 'project-size-summary.tex')
 
-df_age['age'] = pd.to_timedelta(df['count'], unit='us').apply(lambda x: x.days)
+df_age['age'] = pd.to_timedelta(df['count'], unit='us').apply(lambda x: x.days/365.254)
 
 fig, ax = setup_plots()
 sns.boxplot(x='age',
@@ -65,7 +65,7 @@ sns.boxplot(x='age',
             ax=ax,
             showfliers=False)
 ax.set_ylabel('')
-ax.set_xlabel('Project Age in Days')
+ax.set_xlabel('Project Age in Years')
 save_figure(fig, 'project-age-summary.pdf')
 
 df_summarized_age = df_age.groupby(['language'])[['age']].describe()
