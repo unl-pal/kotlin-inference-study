@@ -5,7 +5,7 @@ type ChangeType = enum {
     STATE_SWITCHED = "STATE_SWITCHED"
 };
 
-o: output collection[project: string][file: string][item: string][location: string][startinferred: bool][changekind: ChangeType][changeobserved: bool] of int; # length_of_time
+o: output collection[project: string][file: string][item: string][location: string][after_jdk8: bool][startinferred: bool][changekind: ChangeType][changeobserved: bool] of int; # length_of_time
 
 {@escape@}
 
@@ -18,6 +18,8 @@ type Status = {
     creation_time: time,
     location: string
 };
+
+jdk8_release_date: time = T"March 18, 2014, 12:00:00 AM UTC";
 
 status: map[string] of Status;
 file_items: map[string] of set of string;
@@ -49,7 +51,7 @@ process_locs := function(locs: array of string, reason: ChangeType, curr_time: t
         item_status := status[loc];
         add(has_changed, loc);
         remove(status, loc);
-        o[input.id][item_status.file][item_status.name][item_status.location][item_status.is_inferred][reason][false] << curr_time - item_status.creation_time;
+        o[input.id][item_status.file][item_status.name][item_status.location][item_status.creation_time >= jdk8_release_date][item_status.is_inferred][reason][false] << curr_time - item_status.creation_time;
     }
 };
 
@@ -142,7 +144,7 @@ process_locs := function(locs: array of string, reason: ChangeType, curr_time: t
                 foreach (i: int; def(locs[i])) {
                     loc := locs[i];
                     item_status := status[loc];
-                    o[input.id][item_status.file][item_status.name][item_status.location][item_status.is_inferred][ChangeType.ITEM_DISAPPEARED][false] << current(Revision).commit_date - item_status.creation_time;
+                    o[input.id][item_status.file][item_status.name][item_status.location][item_status.is_inferred][item_status.creation_time >= jdk8_release_date][ChangeType.ITEM_DISAPPEARED][false] << current(Revision).commit_date - item_status.creation_time;
                     add(has_changed, loc);
                     remove(status, loc);
                     remove(file_items[node.name], loc);
@@ -189,7 +191,7 @@ process_locs := function(locs: array of string, reason: ChangeType, curr_time: t
                     status[loc] = { escape(name), escape(file), isinferred, current(Revision).commit_date, peek(location) };
                 } else if (!contains(has_changed, loc) && isinferred != status[loc].is_inferred) {
                     item_status := status[loc];
-                    o[input.id][item_status.file][item_status.name][item_status.location][item_status.is_inferred][ChangeType.STATE_SWITCHED][true] << current(Revision).commit_date - item_status.creation_time;
+                    o[input.id][item_status.file][item_status.name][item_status.location][item_status.creation_time >= jdk8_release_date][item_status.is_inferred][ChangeType.STATE_SWITCHED][true] << current(Revision).commit_date - item_status.creation_time;
                     add(has_changed, loc);
                     remove(file_items[file], loc);
                     remove(status, loc);
