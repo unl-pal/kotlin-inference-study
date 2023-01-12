@@ -15,9 +15,8 @@ import seaborn as sns
 
 from scipy.stats import pearsonr
 
-df_size = get_df('project-size', 'kotlin', header='infer') \
-    .pivot(index=['project'], columns=['count_type'], values='count') \
-    .droplevel(0, axis=columns).reset_index()
+df_size = pd.pivot_table(get_df('project-size', 'kotlin', header='infer'),
+                         index='project', columns='count_type', values='count')
 
 df_stars = get_df('stars', 'kotlin', header='infer')
 df_num_devs = get_df('developer-count', 'kotlin', header='infer')
@@ -26,10 +25,13 @@ df_usage = get_deduped_df('basic-usage', 'kotlin', header='infer')
 
 total_declarations = df_usage.groupby('project')['count'].sum()
 inferred_declarations = df_usage[df_usage.isinferred].groupby('project')['count'].sum()
-percent_annotated = inferred_declarations.div(total_declarations).mul(100)
+percent_annotated = inferred_declarations.div(total_declarations).mul(100).reset_index().rename(columns={'count': 'percent_annotated'})
 
-df = df_size.join(df_stars, how='inner').join(df_stars, how='inner').join(df_num_devs, how='inner')
-df['percent_annotated'] = percent_annotated
+df = pd.merge(df_size, df_stars, on='project', how='inner')
+df = pd.merge(df, df_num_devs, on='project', how='inner')
+df = pd.merge(df, percent_annotated, on='project', how='inner')
+
+df = df.dropna()
 
 for factor in ['files', 'statements', 'stars', 'developers']:
     fig, ax = setup_plots()
