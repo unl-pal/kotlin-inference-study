@@ -55,5 +55,13 @@
   "java/jdk10-projects.txt": {
     "job": 101105,
     "sha256": "7cec88cec7dab942ce15d2ca6871bf8eb884432c3227b9323931700b6b8f5e95"
+  },
+  "java/project-size.txt": {
+    "job": 102262,
+    "sha256": "ac3d04e416d5fa0ffd6bc739f5e9ebbbf08e0d60c95f063f156c7d5fddf05fc3"
+  },
+  "kotlin/project-size.txt": {
+    "job": 102263,
+    "sha256": "8e8775c7d3d03e04e510e0d4693ebc84330882897e5683fd6098c1c5a5018ef3"
   }
 }

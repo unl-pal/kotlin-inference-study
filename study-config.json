@@ -33,6 +33,42 @@
                 "csv": "java/dupes.csv"
             }
         },
+        "java/project-size.txt": {
+            "query": "queries/common/project-size.boa",
+            "dataset": "java",
+            "substitutions": [
+                {
+                    "target": "{@file-selector@}",
+                    "replacement": "SOURCE_JAVA_JLS"
+                },
+                {
+                    "target": "{@release-date@}",
+                    "replacement": "January 31, 2022, 12:00:00 AM UTC"
+                }
+            ],
+            "csv": {
+                "output": "java/project-size.csv",
+                "header": "count_type,project,count"
+            }
+        },
+        "kotlin/project-size.txt": {
+            "query": "queries/common/project-size.boa",
+            "dataset": "kotlin",
+            "substitutions": [
+                {
+                    "target": "{@file-selector@}",
+                    "replacement": "SOURCE_KOTLIN_1_"
+                },
+                {
+                    "target": "{@release-date@}",
+                    "replacement": "August 31, 2021, 12:00:00 AM UTC"
+                }
+            ],
+            "csv": {
+                "output": "kotlin/project-size.csv",
+                "header": "count_type,project,count"
+            }
+        },
         "kotlin/basic-usage.txt": {
             "query": "queries/kotlin/basic-usage.boa",
             "dataset": "kotlin",
@@ -313,6 +349,12 @@
         "java/table-counts.py": {
             "input": [
                 "java/counts.csv"
+            ]
+        },
+        "project-size.py": {
+            "input": [
+                "java/project-size.csv",
+                "kotlin/project-size.csv"
             ]
         },
         "kotlin/rq-mutability.py": {
