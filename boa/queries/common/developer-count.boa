@@ -1,3 +1,14 @@
 developers: output sum[string] of int;
 
-developers[input.id] << len(input.developers);
+dev_set: set of Person;
+
+visit(input, visitor {
+    before revision: Revision -> {
+        if (def(revision.author))
+            add(dev_set, revision.author);
+        if (def(revision.committer))
+            add(dev_set, revision.committer);
+    }
+});
+
+developers[input.id] << len(dev_set);
