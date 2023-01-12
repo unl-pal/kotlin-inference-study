@@ -12,11 +12,21 @@ __all__ = [
     "highlight_cols",
     "highlight_rows",
     "save_table",
+    "drop_outer_column_index",
+    "drop_count_if_same"
 ]
 
 pd.set_option('styler.latex.hrules', True)
 pd.set_option('styler.latex.multicol_align', 'c')
 
+
+def drop_outer_column_index(df):
+    return df.droplevel(0, axis='columns')
+
+def drop_count_if_same(df):
+    if "count" in df.columns and len(df['count'].unique()) == 1:
+        return df.drop(columns=['count'])
+    return df
 
 def get_styler(df):
     if isinstance(df, pd.Series):

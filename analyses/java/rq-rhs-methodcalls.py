@@ -9,7 +9,7 @@ sys.path.append(str(Path(__file__).resolve().parent.parent))
 import pandas as pd
 
 from common.df import get_deduped_df
-from common.tables import get_styler, highlight_cols, highlight_rows, save_table
+from common.tables import *
 
 
 pd.set_option('display.max_colwidth', None)

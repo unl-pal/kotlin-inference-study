@@ -41,7 +41,7 @@ figure.figure
 data = summarized[['location', 'isinferred', 'Is Mutable', 'percent']] \
     .groupby(['location', 'isinferred', 'Is Mutable']) \
     .describe()
-styler = highlight_rows(highlight_cols(get_styler(data)))
+styler = highlight_rows(highlight_cols(get_styler(drop_count_if_same(drop_outer_column_index(data)))))
 
 save_table(styler, 'rq-mutability-summary.tex', subdir='java')
 

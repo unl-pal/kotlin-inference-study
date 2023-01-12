@@ -28,6 +28,8 @@ sns.boxplot(x='location',
             data=summarized,
             ax=ax,
             showfliers=False)
+
+ax.yaxis.set_major_formatter(mtick.PercentFormatter())
 ax.set_ylabel('Percent per Project')
 ax.set_xlabel('')
 ax.get_legend().set_title('')
@@ -37,6 +39,6 @@ fig
 
 # %% generate the table
 data = summarized[['location', 'isinferred', 'percent']].groupby(['location', 'isinferred']).describe()
-styler = highlight_cols(highlight_rows(get_styler(data)))
+styler = highlight_cols(highlight_rows(get_styler(drop_count_if_same(drop_outer_column_index(data)))))
 
 save_table(styler, 'rq-usage-summary-2.tex', subdir='kotlin')

@@ -35,7 +35,7 @@ fig
 
 # %% generate the table
 data = summarized[['location', 'isinferred', 'percent']].groupby(['location', 'isinferred']).describe()
-styler = highlight_cols(highlight_rows(get_styler(data)))
+styler = highlight_cols(highlight_rows(get_styler(drop_count_if_same(drop_outer_column_index(data)))))
 
 save_table(styler, 'rq-usage-summary.tex', subdir='java')
 
