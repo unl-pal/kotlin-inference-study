@@ -25,7 +25,7 @@ sns.boxplot(x='count',
             data=df_counts.loc[df_counts.count_type=='files'],
             ax=ax,
             showfliers=False)
-ax.xscale('log')
+ax.set_xscale('log')
 ax.set_ylabel('')
 ax.set_xlabel('Number of Files')
 save_figure(fig, 'project-files-summary.pdf')
@@ -36,7 +36,7 @@ sns.boxplot(x='count',
             data=df_counts.loc[df_counts.count_type=='statements'],
             ax=ax,
             showfliers=False)
-ax.xscale('log')
+ax.set_xscale('log')
 ax.set_ylabel('')
 ax.set_xlabel('Number of Statements')
 save_figure(fig, 'project-statements-summary.pdf')
@@ -47,7 +47,7 @@ sns.boxplot(x='count',
             data=df_counts.loc[df_counts.count_type=='analyzed_commits'],
             ax=ax,
             showfliers=False)
-ax.xscale('log')
+ax.set_xscale('log')
 ax.set_ylabel('')
 ax.set_xlabel('Number of Analyzed Commits')
 save_figure(fig, 'project-commits-summary.pdf')
