@@ -42,4 +42,4 @@ for factor in ['files', 'statements', 'stars', 'developers']:
     r, p = pearsonr(df['percent_annotated'],
                     df[factor])
     ax.set_title(f'Correlation between Percent Inferred and {factor}\n$r = {r}$ ($p = {p}$)')
-    save_figure(fig, 'name', 6, 6, 'java')
+    save_figure(fig, f'correlation-{factor}.pdf', 6, 6, 'java')
