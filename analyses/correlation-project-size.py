@@ -13,13 +13,15 @@ from scipy.stats import pearsonr
 
 for language in ['java', 'kotlin']:
     df_usage = get_deduped_df('basic-usage', language, header='infer')
-    df = get_df('project-size', language, header='infer').pivot(index=['project'], columns=['count_type'], values=['count'])
+    df = get_df('project-size', language, header='infer').pivot(index=['project'], columns=['count_type'], values=['count']).droplevel(0, axis='columns').reset_index()
 
-    java_project_spots = df_usage.groupby('project')['count'].sum()
-    java_used_spots = df_usage[df_usage.isinferred].groupby('project')['count'].sum()
-    java_project_percent = java_used_spots.div(java_project_spots).mul(100)
+    project_spots = df_usage.groupby('project')['count'].sum()
+    used_spots = df_usage[df_usage.isinferred].groupby('project')['count'].sum()
+    project_percent = used_spots.div(project_spots).mul(100).to_frame()
 
-    df['usage_percent'] = java_project_percent
+    df = df.join(project_percent)
+
+    print(df.describe())
 
     for factor in ['files', 'statements']:
         fig, ax = setup_plots()
