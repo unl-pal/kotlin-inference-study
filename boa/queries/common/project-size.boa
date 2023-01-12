@@ -8,12 +8,10 @@ project_age: output sum[project: string] of int; # date of earliest commit
     visit(input, visitor {
         before node: CodeRepository -> {
             snapshot := getsnapshot(node, "{@file-selector@}");
+            files[input.id] << len(snapshot);
             foreach (i: int; def(snapshot[i]))
                 visit(snapshot[i]);
             stop;
-        }
-        before node: ChangedFile -> {
-            files[input.id] << 1;
         }
         before node: Statement -> {
             statements[input.id] << 1;
@@ -22,7 +20,8 @@ project_age: output sum[project: string] of int; # date of earliest commit
     commit_stack: stack of int;
     visit(input, visitor {
         before repository: CodeRepository -> {
-            push(commit_stack, repository.head);
+            commit_num := repository.head;
+            push(commit_stack, commit_num);
             visit(getrevision(repository, repository.head));
             stop;
         }
@@ -36,8 +35,9 @@ project_age: output sum[project: string] of int; # date of earliest commit
         }
         before rev: Revision -> {
             if (len(rev.parents) > 0) {
-                push(commit_stack, rev.parents[0]);
-                visit(getrevision(current(CodeRepository), rev.parents[0]));
+                commit_num := rev.parents[0];
+                push(commit_stack, commit_num);
+                visit(getrevision(current(CodeRepository), commit_num));
             }
             stop;
         }
