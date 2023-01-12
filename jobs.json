@@ -69,15 +69,15 @@
     "sha256": "31a3dc7d4e5e8e24d1d40c7d58c7f443b1f25140be0e7ee0624a7179e21eb05d"
   },
   "kotlin/developer-count.txt": {
-    "job": 102273,
-    "sha256": "680460b14c17a1add78641b6fca444dc420c665911e74f27456fc70d39959d53"
+    "job": 102277,
+    "sha256": "163edd8c5f3a356e739e25cf6900ec205413f96f56161781dcacebf11a9a16b1"
   },
   "java/stars.txt": {
     "job": 102275,
     "sha256": "2630b78a36f7be4a49ccee8ff932e06833c88fddac289bdf1476639305709527"
   },
   "java/developer-count.txt": {
-    "job": 102276,
-    "sha256": "affa283ea8dea53c387549f94cc30a1ce1b08219fb274b33f60e0f93cc1d0c5c"
+    "job": 102278,
+    "sha256": "e45b501afee854098302946a2e3bb7f145da46e24f0f5963aebd737e917a10a5"
   }
 }
