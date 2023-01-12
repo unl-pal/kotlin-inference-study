@@ -24,13 +24,9 @@ def drop_outer_column_index(df):
     return df.droplevel(0, axis='columns')
 
 def drop_count_if_same(df):
-    if "count" in df.columns:
-        if len(df['count'].unique()) == 1:
-            return df.drop(columns=['count'])
-        else:
-            return df
-    else:
-        return df
+    if "count" in df.columns and len(df['count'].unique()) == 1:
+        return df.drop(columns=['count'])
+    return df
 
 def get_styler(df):
     if isinstance(df, pd.Series):
