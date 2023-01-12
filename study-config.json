@@ -401,14 +401,13 @@
                 "kotlin/project-size.csv"
             ]
         },
-        "correlation-project-size.py": {
+        "kotlin/rq-correlation.py": {
             "input": [
-                "java/project-size.csv",
                 "kotlin/project-size.csv",
-                "java/basic-usage.csv",
-                "java/dupes.csv",
                 "kotlin/basic-usage.csv",
-                "kotlin/dupes.csv"
+                "kotlin/dupes.csv",
+                "kotlin/stars.csv",
+                "kotlin/developer-count.csv"
             ]
         },
         "kotlin/rq-mutability.py": {
