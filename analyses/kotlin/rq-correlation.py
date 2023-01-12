@@ -38,8 +38,10 @@ for factor in ['files', 'statements', 'stars', 'developers']:
     sns.regplot(y='percent_annotated',
                 x=factor,
                 data=df,
+                ci=None,
+                truncate=True,
                 fit_reg=True)
     r, p = pearsonr(df['percent_annotated'],
                     df[factor])
     ax.set_title(f'Correlation between Percent Inferred and {factor}\n$r = {r}$ ($p = {p}$)')
-    save_figure(fig, f'correlation-{factor}.pdf', 6, 6, 'kotlin')
+    save_figure(fig, f'correlation-{factor}.png', 6, 6, 'kotlin')
