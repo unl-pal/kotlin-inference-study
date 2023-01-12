@@ -410,6 +410,15 @@
                 "kotlin/developer-count.csv"
             ]
         },
+        "java/rq-correlation.py": {
+            "input": [
+                "java/project-size.csv",
+                "java/basic-usage.csv",
+                "java/dupes.csv",
+                "java/stars.csv",
+                "java/developer-count.csv"
+            ]
+        },
         "kotlin/rq-mutability.py": {
             "input": [
                 "kotlin/basic-usage.csv",
