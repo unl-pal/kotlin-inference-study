@@ -27,6 +27,7 @@ figure = sns.catplot(x='location',
                      hue='isinferred',
                      col='Is Mutable',
                      data=summarized,
+                     order=['Field', 'Local Variable', 'Loop Var'],
                      sharey=True,
                      showfliers=False,
                      kind='box')

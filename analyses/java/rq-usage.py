@@ -23,6 +23,7 @@ sns.boxplot(x='location',
             hue='isinferred',
             data=summarized,
             ax=ax,
+            order=['Field', 'Global Variable', 'Lambda Arg', 'Local Variable', 'Loop Var', 'Return Type'],
             showfliers=False)
 
 ax.yaxis.set_major_formatter(mtick.PercentFormatter())
