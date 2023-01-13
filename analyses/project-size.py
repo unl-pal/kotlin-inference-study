@@ -49,7 +49,7 @@ sns.boxplot(x='count',
             showfliers=False)
 ax.set_xscale('log')
 ax.set_ylabel('')
-# ax.set_xlabel('Number of Analyzed Commits')
+ax.set_xlabel('')
 save_figure(fig, 'project-commits-summary.pdf', y=2)
 
 df_counts.count_type = df_counts.count_type.apply(lambda x: {'analyzed_commits': "Analyzed Commits",
@@ -69,7 +69,7 @@ sns.boxplot(x='age',
             ax=ax,
             showfliers=False)
 ax.set_ylabel('')
-# ax.set_xlabel('Project Age in Years')
+ax.set_xlabel('')
 save_figure(fig, 'project-age-summary.pdf', y=2)
 
 df_summarized_age = df_age.groupby(['language'])[['age']].describe()
