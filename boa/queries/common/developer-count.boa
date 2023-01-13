@@ -1,0 +1,12 @@
+developers: output collection[string] of int;
+
+dev_set: set of Person;
+
+visit(input, visitor {
+    before revision: Revision -> {
+        if (def(revision.author))
+            add(dev_set, revision.author);
+    }
+});
+
+developers[input.id] << len(dev_set);
