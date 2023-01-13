@@ -27,7 +27,7 @@ sns.boxplot(x='location',
             hue='isinferred',
             data=summarized,
             ax=ax,
-            order=['Field', 'Global Variable', 'Lambda Arg', 'Local Variable', 'Loop Var', 'Return Type'],
+            order=['Lambda Arg', 'Local Variable'],
             showfliers=False)
 
 ax.yaxis.set_major_formatter(mtick.PercentFormatter())
@@ -36,7 +36,7 @@ ax.set_xlabel('')
 ax.get_legend().set_title('')
 ax.legend(loc='upper right')
 
-save_figure(fig, 'rq-usage-summary-2.pdf', subdir='java', x=4.6, y=8)
+save_figure(fig, 'rq-usage-summary-2.pdf', subdir='java', x=4.6)
 fig
 
 # %% generate the table
