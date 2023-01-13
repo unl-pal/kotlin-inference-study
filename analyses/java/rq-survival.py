@@ -43,22 +43,22 @@ fig, ax = setup_plots()
 df['timetochange'] = df['timetochange'].apply(lambda x: x.days)
 
 starts_inferred = df['startinferred']
-after_jdk8 = df['afterjdk8']
+after_jdk10 = df['afterjdk10']
 
 
 T = df['timetochange']
 E = df['observed']
 
-print('Fitting starting annotated (before JDK8)')
-fitter.fit(T[~starts_inferred & ~after_jdk8], E[~starts_inferred & ~after_jdk8], label='Starts Not Inferred (pre-JDK8)')
+print('Fitting starting annotated (before JDK10)')
+fitter.fit(T[~starts_inferred & ~after_jdk10], E[~starts_inferred & ~after_jdk10], label='Starts Not Inferred (pre-JDK10)')
 fitter.plot_survival_function(ax=ax)
 
 print('Fitting starting inferred')
 fitter.fit(T[starts_inferred], E[starts_inferred], label='Starts Inferred')
 fitter.plot_survival_function(ax=ax)
 
-print('Fitting starting annotated (after JDK8)')
-fitter.fit(T[~starts_inferred & after_jdk8], E[~starts_inferred & after_jdk8], label='Starts Not Inferred (post-JDK8)')
+print('Fitting starting annotated (after JDK10)')
+fitter.fit(T[~starts_inferred & after_jdk10], E[~starts_inferred & after_jdk10], label='Starts Not Inferred (post-JDK10)')
 fitter.plot_survival_function(ax=ax)
 
 ax.set_ylabel('Estimated probability of staying in state ($\hat{S}(t)$)')
