@@ -14,10 +14,10 @@ from scipy.stats import pearsonr
 language_pretty = {'kotlin': 'Kotlin',
                    'java': 'Java'}
 
-factor_pretty = {'files': '# files',
-                 'statements': '# statements',
-                 'stars': '# stars',
-                 'developers': '# developers'}
+factor_pretty = {'files': 'Number of Files',
+                 'statements': 'Number of Statements',
+                 'stars': 'Number of Stars',
+                 'developers': 'Number of Developers'}
 
 out_frames = []
 

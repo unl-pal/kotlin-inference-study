@@ -53,8 +53,8 @@ ax.set_xlabel('')
 save_figure(fig, 'project-commits-summary.pdf', y=1.4)
 
 df_counts.count_type = df_counts.count_type.apply(lambda x: {'analyzed_commits': "Analyzed Commits",
-                                                             'files': "# of Files",
-                                                             'statements': "# of Statements"}[x])
+                                                             'files': "Number of Files",
+                                                             'statements': "Number of Statements"}[x])
 df_summarized = df_counts.groupby(['language', 'count_type'])[['count']].describe()
 df_summarized = drop_outer_column_index(df_summarized).drop(columns=['count'])
 summarized_styler = highlight_cols(highlight_rows(get_styler(df_summarized)))
