@@ -65,19 +65,19 @@
     "sha256": "8e8775c7d3d03e04e510e0d4693ebc84330882897e5683fd6098c1c5a5018ef3"
   },
   "kotlin/stars.txt": {
-    "job": 102272,
-    "sha256": "31a3dc7d4e5e8e24d1d40c7d58c7f443b1f25140be0e7ee0624a7179e21eb05d"
+    "job": 102282,
+    "sha256": "482960c46b4e669929436d16cd9a1d4370e1a7687a1d419f8e15ab8cbf6793f3"
   },
   "kotlin/developer-count.txt": {
-    "job": 102277,
-    "sha256": "163edd8c5f3a356e739e25cf6900ec205413f96f56161781dcacebf11a9a16b1"
+    "job": 102283,
+    "sha256": "0f18ca55d3b60036517f8728c27281a54356b79f74f245c7b61ec362dd025de8"
   },
   "java/stars.txt": {
-    "job": 102275,
-    "sha256": "2630b78a36f7be4a49ccee8ff932e06833c88fddac289bdf1476639305709527"
+    "job": 102284,
+    "sha256": "01a61c1dc80b9b65cd334cd3d303aa8ebc9e49ef76e7b7d64120da0c575be160"
   },
   "java/developer-count.txt": {
-    "job": 102278,
-    "sha256": "e45b501afee854098302946a2e3bb7f145da46e24f0f5963aebd737e917a10a5"
+    "job": 102285,
+    "sha256": "ed18403e005ee827208e29ae3ff9d5c5aded03b338ab636e5d710a4cfd32f37a"
   }
 }
