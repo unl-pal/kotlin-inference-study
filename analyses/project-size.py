@@ -10,22 +10,23 @@ import numpy as np
 import seaborn as sns
 
 df_java = get_df('project-size', 'java', header='infer')
-df_java['language'] = 'Java'
 df_java_stars = get_df('stars', 'java', header='infer').rename(columns={'stars': 'count'})
 df_java_stars['count_type'] = 'stars'
 df_java_devs = get_df('developer-count', 'java', header='infer').rename(columns={'developers': 'count'})
 df_java_devs['count_type'] = 'devs'
 df_java = pd.concat([df_java, df_java_stars, df_java_devs])
+df_java['language'] = 'Java'
 
 df_kotlin = get_df('project-size', 'kotlin', header='infer')
-df_kotlin['language'] = 'Kotlin'
 df_kotlin_stars = get_df('stars', 'kotlin', header='infer').rename(columns={'stars': 'count'})
 df_kotlin_stars['count_type'] = 'stars'
 df_kotlin_devs = get_df('developer-count', 'kotlin', header='infer').rename(columns={'developers': 'count'})
 df_kotlin_devs['count_type'] = 'devs'
 df_kotlin = pd.concat([df_kotlin, df_kotlin_stars, df_kotlin_devs])
+df_kotlin['language'] = 'Kotlin'
 
 df = pd.concat([df_java, df_kotlin]).reset_index()
+
 df_counts = df.loc[df.count_type != 'project_age'].copy(deep=True)
 df_age = df.loc[df.count_type == 'project_age'].copy(deep=True)
 
