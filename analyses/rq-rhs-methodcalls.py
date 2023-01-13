@@ -27,4 +27,4 @@ df_out['Kotlin'] = df_kotlin.formatted
 df_out['Java'] = df_java.formatted
 
 styler = highlight_rows(highlight_cols(get_styler(df_out)))
-save_table(styler, 'rq-rhs-methodcalls.tex')
+save_table(styler, 'rq-rhs-methodcalls.tex', column_format='lrr')
