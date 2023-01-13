@@ -429,6 +429,14 @@
                 "java/determine-rhs-expression-types.csv"
             ]
         },
+        "rq-rhs-methodcalls.py": {
+            "input": [
+                "kotlin/method-calls-maybe-local.csv",
+                "kotlin/dupes.csv",
+                "java/method-calls-maybe-local.csv",
+                "java/dupes.csv"
+            ]
+        },
         "kotlin/rq-rhs-methodcalls.py": {
             "input": [
                 "kotlin/method-calls-maybe-local.csv",
