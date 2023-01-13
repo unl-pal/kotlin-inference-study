@@ -30,8 +30,8 @@ def drop_count_if_same(df):
 
 def get_styler(df):
     if isinstance(df, pd.Series):
-        return df.to_frame().style
-    return df.style
+        return df.to_frame().convert_dtypes().style
+    return df.convert_dtypes().style
 
 
 def highlight_cols(styler):
