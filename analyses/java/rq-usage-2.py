@@ -34,6 +34,7 @@ ax.yaxis.set_major_formatter(mtick.PercentFormatter())
 ax.set_ylabel('Percent per Project')
 ax.set_xlabel('')
 ax.get_legend().set_title('')
+ax.legend(loc='upper right')
 
 save_figure(fig, 'rq-usage-summary-2.pdf', subdir='java', x=4.6, y=8)
 fig
