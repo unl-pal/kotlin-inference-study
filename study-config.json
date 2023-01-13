@@ -398,7 +398,11 @@
         "project-size.py": {
             "input": [
                 "java/project-size.csv",
-                "kotlin/project-size.csv"
+                "java/developer-count.csv",
+                "java/stars.csv",
+                "kotlin/project-size.csv",
+                "kotlin/developer-count.csv",
+                "kotlin/stars.csv"
             ]
         },
         "rq-correlation.py": {
