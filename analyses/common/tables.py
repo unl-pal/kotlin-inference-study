@@ -18,6 +18,7 @@ __all__ = [
 
 pd.set_option('styler.latex.hrules', True)
 pd.set_option('styler.latex.multicol_align', 'c')
+pd.set_option('styler.latex.multirow_align', 't')
 
 
 def drop_outer_column_index(df):
