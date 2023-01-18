@@ -13,6 +13,7 @@ import matplotlib.ticker as mtick
 
 summarized = load_pre_summarized('kotlin',
                                  ['project', 'location', 'isinferred'])
+summarized = summarized[summarized.total > 0]
 
 # %% generate the plot
 fig, ax = setup_plots()
