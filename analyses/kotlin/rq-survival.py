@@ -14,7 +14,6 @@ from common.df import *
 import pandas as pd
 import numpy as np
 from lifelines import KaplanMeierFitter
-from matplotlib import pyplot as plt
 
 print('Loading survival data', flush=True)
 df = get_deduped_df('survival', 'kotlin', header='infer')

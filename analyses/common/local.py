@@ -5,7 +5,7 @@ import os.path as osp
 import pandas as pd
 import seaborn as sns
 
-from .df import get_df, get_deduped_df
+from .df import get_df
 from .utils import _resolve_dir, _get_dir
 
 __all__ = [

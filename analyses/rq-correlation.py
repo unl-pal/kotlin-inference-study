@@ -2,12 +2,9 @@
 # coding: utf-8
 
 from common.tables import *
-from common.graphs import setup_plots, save_figure
 from common.df import *
 
 import pandas as pd
-import numpy as np
-import seaborn as sns
 
 from scipy.stats import pearsonr
 

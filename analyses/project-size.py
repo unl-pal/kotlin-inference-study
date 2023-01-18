@@ -6,7 +6,6 @@ from common.graphs import setup_plots, save_figure
 from common.df import *
 
 import pandas as pd
-import numpy as np
 import seaborn as sns
 
 df_java = get_df('project-size', 'java', header='infer')
