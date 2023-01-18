@@ -13,6 +13,7 @@ from matplotlib.ticker import PercentFormatter
 
 summarized = load_pre_summarized('kotlin',
                                  ['project', 'location', 'isval', 'isinferred'])
+summarized = summarized[summarized.total > 0]
 summarized = summarized[summarized['location'] != 'Return Type']
 summarized = summarized[summarized['location'] != 'Lambda Arg']
 summarized = summarized[summarized['location'] != 'Loop Arg']
