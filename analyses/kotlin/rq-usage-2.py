@@ -16,6 +16,7 @@ summarized = load_pre_summarized('kotlin',
 
 summarized_sum = summarized.groupby(['project'])[['count']].sum().rename(columns={'count': 'total'})
 summarized = summarized.drop(columns={'total'}).merge(summarized_sum, on=['project'], how='left')
+summarized = summarized[summarized.total > 0]
 summarized['percent'] = summarized.apply(
     lambda x: 0 if x['total'] == 0 else (x['count'] / x['total']) * 100,
     axis=1)
