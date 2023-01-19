@@ -66,7 +66,7 @@ df_counts.count_type = df_counts.count_type.apply(lambda x: {'analyzed_commits':
                                                              'files': "Number of Files",
                                                              'statements': "Number of Statements",
                                                              'stars': "Number of Stars",
-                                                             'devs': "Number of Developers"}[x])
+                                                             'devs': "Number of Committers"}[x])
 df_summarized = df_counts.groupby(['language', 'count_type'])[['count']].describe()
 df_summarized = drop_outer_column_index(df_summarized).drop(columns=['count'])
 summarized_styler = highlight_cols(highlight_rows(get_styler(df_summarized)))
