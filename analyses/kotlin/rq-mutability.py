@@ -16,7 +16,7 @@ summarized = load_pre_summarized('kotlin',
 summarized = summarized[summarized.total > 0]
 summarized = summarized[summarized['location'] != 'Return Type']
 summarized = summarized[summarized['location'] != 'Lambda Arg']
-summarized = summarized[summarized['location'] != 'Loop Arg']
+summarized = summarized[summarized['location'] != 'Loop Var']
 summarized = summarized[summarized['location'] != 'Global Variable']
 summarized = summarized.rename(columns = {'isval': 'Is Mutable'})
 
@@ -28,7 +28,7 @@ figure = sns.catplot(x='location',
                      hue='isinferred',
                      col='Is Mutable',
                      data=summarized,
-                     order=['Field', 'Local Variable', 'Loop Var'],
+                     order=['Field', 'Local Variable'],
                      sharey=True,
                      showfliers=False,
                      kind='box')
@@ -46,7 +46,7 @@ summarized['Is Mutable'] = summarized['Is Mutable'].apply(lambda x: 'Mutable' if
 data = summarized[['location', 'isinferred', 'Is Mutable', 'percent']] \
     .groupby(['location', 'isinferred', 'Is Mutable']) \
     .describe()
-styler = highlight_rows(highlight_cols(get_styler(drop_count_if_same(drop_outer_column_index(data)))))
+styler = highlight_rows(highlight_cols(get_styler(drop_count_if_same(drop_outer_column_index(data).rename(columns={'count': 'projects'})))))
 
 save_table(styler, 'rq-mutability-summary.tex', subdir='kotlin')
 
