@@ -44,12 +44,13 @@ m: output collection[project: string][is_inferred: bool] of string;
             if (!has_modifier(node, ModifierKind.IMPLICIT)) {
                 isinferred := !def(node.variable_type);
                 rhskind := "??";
-                if (def(node.initializer))
+                if (def(node.initializer)) {
                     rhskind = string(node.initializer.kind);
-                if (rhskind == "METHODCALL") {
-                    m[input.id][isinferred] << project_or_new(node.initializer.method);
-                } else {
-                    m[input.id][isinferred] << rhskind;
+                    if (rhskind == "METHODCALL") {
+                        m[input.id][isinferred] << project_or_new(node.initializer.method);
+                    } else {
+                        m[input.id][isinferred] << rhskind;
+                    }
                 }
             }
         }

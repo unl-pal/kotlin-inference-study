@@ -27,10 +27,10 @@ visit(input, visitor {
         isinferred := node.variable_type.name == "var";
         if (isinferred) {
             rhskind := "??";
-            if (def(node.initializer))
+            if (def(node.initializer)) {
                 rhskind = string(node.initializer.kind);
-
-            m[input.id] << rhskind;
+                m[input.id] << rhskind;
+            }
         }
     }
 });
