@@ -169,86 +169,6 @@
                 ]
             }
         },
-        "kotlin/over-time.txt": {
-            "query": "queries/kotlin/basic-usage.boa",
-            "dataset": "kotlin",
-            "substitutions": [
-                {
-                    "target": "{@time-out@}",
-                    "replacement": "[revision: string][outtime: time]"
-                },
-                {
-                    "target": "{@time-part@}",
-                    "replacement": "[current(Revision).id][current(Revision).commit_date]"
-                },
-                {
-                    "target": "{@time-or-snapshot@}",
-                    "file": "zeros.boa"
-                },
-                {
-                    "target": "{@random-sample@}",
-                    "replacement": "5"
-                },
-                {
-                    "target": "{@dummy-name@}",
-                    "replacement": "DUMMYDUMMYDUMMY.kt"
-                },
-                {
-                    "target": "{@file-selector@}",
-                    "replacement": "SOURCE_KOTLIN_1_"
-                }
-            ],
-            "csv": {
-                "output": "kotlin/over-time.csv",
-                "drop": [
-                    0
-                ],
-                "header": "project,file,revision,time,location,isval,isinferred,count",
-                "test": [
-                    "2,\\.kts?$"
-                ]
-            }
-        },
-        "java/over-time.txt": {
-            "query": "queries/java/basic-usage.boa",
-            "dataset": "java",
-            "substitutions": [
-                {
-                    "target": "{@time-out@}",
-                    "replacement": "[revision: string][outtime: time]"
-                },
-                {
-                    "target": "{@time-part@}",
-                    "replacement": "[current(Revision).id][current(Revision).commit_date]"
-                },
-                {
-                    "target": "{@time-or-snapshot@}",
-                    "file": "zeros.boa"
-                },
-                {
-                    "target": "{@random-sample@}",
-                    "replacement": "5"
-                },
-                {
-                    "target": "{@dummy-name@}",
-                    "replacement": "DUMMYDUMMYDUMMY.java"
-                },
-                {
-                    "target": "{@file-selector@}",
-                    "replacement": "SOURCE_JAVA_JLS"
-                }
-            ],
-            "csv": {
-                "output": "java/over-time.csv",
-                "drop": [
-                    0
-                ],
-                "header": "project,file,revision,time,location,isval,isinferred,count",
-                "test": [
-                    "2,\\.java?$"
-                ]
-            }
-        },
         "kotlin/counts.txt": {
             "query": "queries/common/count-projects.boa",
             "dataset": "kotlin",
@@ -470,20 +390,6 @@
         "java/rq-usage-2.py": {
             "input": [
                 "java/basic-usage.csv",
-                "java/dupes.csv"
-            ]
-        },
-        "kotlin/rq-over-time.py": {
-            "disabled": true,
-            "input": [
-                "kotlin/over-time.csv",
-                "kotlin/dupes.csv"
-            ]
-        },
-        "java/rq-over-time.py": {
-            "disabled": true,
-            "input": [
-                "java/over-time.csv",
                 "java/dupes.csv"
             ]
         },

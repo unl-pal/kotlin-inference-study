@@ -8,10 +8,6 @@
     "job": 101188,
     "sha256": "98ba4434d7c428f9f073affdf7627d047b6b76e51c40fffe815637088fcf0fb8"
   },
-  "kotlin/over-time.txt": {
-    "job": 102436,
-    "sha256": "8746262140719505fd3b79348162f6eba8bab5a92c9240dc51da94cc674cd288"
-  },
   "kotlin/counts.txt": {
     "job": 101156,
     "sha256": "ef6b975d9078ac4ad103e80938c6e5ee22d800481e67d3c57205d5a89ed4c2db"
