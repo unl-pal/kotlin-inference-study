@@ -25,7 +25,7 @@ RUN set -e \
 # install Python modules
 #
 COPY requirements.txt /
-RUN pip3 install -r requirements.txt ; rm -f /requirements.txt ; mkdir /study
+RUN pip3 install -r /requirements.txt ; rm -f /requirements.txt ; mkdir /study
 WORKDIR /study
 
 CMD ["/bin/bash"]
