@@ -44,6 +44,14 @@ package:
 	-$(ZIP) data.zip $(ZIPOPTIONS) data/txt/ $(ZIPIGNORES)
 	-$(ZIP) data-cache.zip $(ZIPOPTIONS) data/parquet/ $(ZIPIGNORES)
 
+.PHONY: docker
+docker:
+	@cp -f requirements.txt requirements.txt.save
+	@sed 's/>=/==/g' requirements.txt.save > requirements.txt
+	docker build -t kotlin-inference:latest .
+	@cp -f requirements.txt.save requirements.txt
+	@$(RM) requirements.txt.save
+
 
 ################
 # clean targets
