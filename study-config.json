@@ -186,6 +186,23 @@
                 "header": "type,filtered,count"
             }
         },
+        "kotlin/tests.txt": {
+            "query": "queries/common/detect-tests.boa",
+            "dataset": "kotlin",
+            "substitutions": [
+                {
+                    "target": "{@file-selector@}",
+                    "replacement": "SOURCE_KOTLIN_1_"
+                }
+            ],
+            "csv": {
+                "output": "kotlin/tests.csv",
+                "drop": [
+                    0
+                ],
+                "header": "project,file"
+            }
+        },
         "java/counts.txt": {
             "query": "queries/common/count-projects.boa",
             "dataset": "java",
@@ -433,6 +450,13 @@
             "input": [
                 "java/method-calls-maybe-local.csv",
                 "java/dupes.csv"
+            ]
+        },
+        "kotlin/rq-tests.py": {
+            "input": [
+                "kotlin/basic-usage.csv",
+                "kotlin/dupes.csv",
+                "kotlin/tests.csv"
             ]
         }
     },
