@@ -75,5 +75,13 @@
   "java/developer-count.txt": {
     "job": 102285,
     "sha256": "ed18403e005ee827208e29ae3ff9d5c5aded03b338ab636e5d710a4cfd32f37a"
+  },
+  "kotlin/tests.txt": {
+    "job": 103767,
+    "sha256": "30ba3a06e286dd8bc5a93a5665205357bfa33b70aaaca8e20d5b4b8c04ced75e"
+  },
+  "kotlin/mixed-projects.txt": {
+    "job": 103775,
+    "sha256": "d29b0590453a732e4b42394f6038789d1516aa6a776ed35972545119e7d2c044"
   }
 }

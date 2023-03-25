@@ -203,6 +203,17 @@
                 "header": "project,file"
             }
         },
+        "kotlin/mixed-projects.txt": {
+            "query": "queries/kotlin/mixed-projects.boa",
+            "dataset": "kotlin",
+            "csv": {
+                "output": "kotlin/mixed-projects.csv",
+                "drop": [
+                    0
+                ],
+                "header": "project,java_count"
+            }
+        },
         "java/counts.txt": {
             "query": "queries/common/count-projects.boa",
             "dataset": "java",
@@ -457,6 +468,13 @@
                 "kotlin/basic-usage.csv",
                 "kotlin/dupes.csv",
                 "kotlin/tests.csv"
+            ]
+        },
+        "kotlin/rq-mixed-projects.py": {
+            "input": [
+                "kotlin/basic-usage.csv",
+                "kotlin/dupes.csv",
+                "kotlin/mixed-projects.csv"
             ]
         }
     },

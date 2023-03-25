@@ -1,0 +1,10 @@
+o: output sum[project: string] of int;
+
+{@project-filter@}
+visit(input, visitor {
+        before node: CodeRepository -> {
+            snapshot := getsnapshot(node, "SOURCE_JAVA_JLS");
+            o[input.id] << len(snapshot);
+            stop;
+        }
+    });
