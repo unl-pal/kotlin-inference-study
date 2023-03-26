@@ -32,6 +32,13 @@ df = pd.merge(df, percent_annotated, on='project', how='inner')
 
 df = df.dropna()
 
+factor_pretty = {'files': 'Number of Files',
+                 'statements': 'Number of Statements',
+                 'stars': 'Number of Stars',
+                 'developers': 'Number of Developers'}
+
+out_frames = []
+
 for factor in ['files', 'statements', 'stars', 'developers']:
     fig, ax = setup_plots()
     sns.regplot(y='percent_annotated',
@@ -44,3 +51,11 @@ for factor in ['files', 'statements', 'stars', 'developers']:
                     df[factor])
     ax.set_title(f'Correlation between Percent Inferred and {factor}\n$r = {r}$ ($p = {p}$)')
     save_figure(fig, f'correlation-{factor}.png', 6, 6, 'kotlin')
+    out_frames.append(pd.DataFrame({'factor': [factor_pretty[factor]],
+                                    'r': [r],
+                                    'p': [p]}))
+
+df_out = pd.concat(out_frames).set_index('factor')
+styler = highlight_cols(highlight_rows(get_styler(df_out)))
+
+save_table(styler, 'rq-correlations.tex', 'kotlin')

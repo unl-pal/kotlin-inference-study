@@ -17,9 +17,7 @@ summarized = load_pre_summarized('kotlin',
 summarized = summarized[summarized.total > 0]
 
 df_mixed = get_df('mixed-projects', 'kotlin', header='infer')
-print(df_mixed.head())
 df_mixed = df_mixed[df_mixed.java_count > 0]
-print(df_mixed.head())
 
 summarized = df_mixed.merge(summarized, on=['project'], how='left')
 

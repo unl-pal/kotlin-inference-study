@@ -46,12 +46,12 @@ starts_inferred = df['startinferred']
 T = df['timetochange']
 E = df['observed']
 
-print('Fitting starting annotated')
-fitter.fit(T[~starts_inferred], E[~starts_inferred], label='Starts Not Inferred')
-fitter.plot_survival_function(ax=ax)
-
 print('Fitting starting inferred')
 fitter.fit(T[starts_inferred], E[starts_inferred], label='Starts Inferred')
+fitter.plot_survival_function(ax=ax)
+
+print('Fitting starting annotated')
+fitter.fit(T[~starts_inferred], E[~starts_inferred], label='Starts Not Inferred')
 fitter.plot_survival_function(ax=ax)
 
 ax.set_ylabel('Estimated probability of staying in state ($\hat{S}(t)$)')

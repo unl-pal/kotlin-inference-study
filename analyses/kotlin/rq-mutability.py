@@ -26,6 +26,7 @@ setup_plots()
 figure = sns.catplot(x='location',
                      y='percent',
                      hue='isinferred',
+                     hue_order=['Inferred', 'Not Inferred'],
                      col='Is Mutable',
                      data=summarized,
                      order=['Field', 'Local Variable'],

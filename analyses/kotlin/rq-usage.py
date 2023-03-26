@@ -21,6 +21,7 @@ fig, ax = setup_plots()
 sns.boxplot(x='location',
             y='percent',
             hue='isinferred',
+            hue_order=['Inferred', 'Not Inferred'],
             data=summarized,
             ax=ax,
             order=['Field', 'Global Variable', 'Lambda Arg', 'Local Variable', 'Loop Var', 'Return Type'],
