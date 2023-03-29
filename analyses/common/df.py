@@ -8,6 +8,7 @@ from .utils import _resolve_dir, _get_dir
 
 __all__ = [
     "get_df",
+    "get_dupes",
     "get_deduped_df",
 ]
 
@@ -67,6 +68,18 @@ def get_deduped_df(filename: str, subdir: Optional[str] = None, ts: bool=False, 
                     True)
         df.to_parquet(_resolve_dir(f'data/parquet/{_get_dir(subdir)}{filename}-deduped.parquet'),
                       compression='gzip')
+    return df
+
+def get_dupes(subdir: Optional[str], names=['var', 'hash', 'project', 'file']):
+    path = _resolve_dir(f'data/parquet/{_get_dir(subdir)}deduped-dupes.parquet')
+    dirs = _resolve_dir(f'data/parquet/{_get_dir(subdir)}')
+    try:
+        df = pd.read_parquet(path)
+    except:
+        df = get_df('dupes', subdir, names=names).drop(columns=['var'])
+        df = df[df.duplicated(subset=['hash'])]
+        os.makedirs(dirs, 0o755, True)
+        df.to_parquet(path, compression='gzip')
     return df
 
 
