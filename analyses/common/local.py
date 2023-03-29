@@ -12,6 +12,7 @@ __all__ = [
     'load_total_counts',
     'load_pre_summarized',
     'location_map',
+    'location_order',
     'inferred_name',
     'val_or_var',
     'plt',
@@ -56,13 +57,15 @@ def load_pre_summarized(language, group_cols):
 
 
 def location_map(name):
-    return {'return_val': 'Return Type',
-            'body': 'Local Variable',
-            'module': 'Global Variable',
-            'lambda_arg': 'Lambda Arg',
+    return {'return_val': 'Return\nType',
+            'body': 'Local\nVariable',
+            'module': 'Global\nVariable',
+            'lambda_arg': 'Lambda\nArgument',
             'field': 'Field',
-            'loop_variable': 'Loop Var'}[name]
+            'loop_variable': 'Loop\nVariable'}[name]
 
+
+location_order = ['Field', 'Global\nVariable', 'Lambda\nArgument', 'Local\nVariable', 'Loop\nVariable', 'Return\nType']
 
 def inferred_name(isinferred):
     return 'Inferred' if isinferred else 'Not Inferred'
