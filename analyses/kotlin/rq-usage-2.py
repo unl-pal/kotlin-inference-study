@@ -29,13 +29,14 @@ sns.boxplot(x='location',
             hue_order=['Inferred', 'Not Inferred'],
             data=summarized,
             ax=ax,
-            order=['Field', 'Global Variable', 'Lambda Arg', 'Local Variable', 'Loop Var', 'Return Type'],
+            order=location_order,
             showfliers=False)
 
 ax.yaxis.set_major_formatter(mtick.PercentFormatter())
 ax.set_ylabel('Percent per Project')
 ax.set_xlabel('')
 ax.get_legend().set_title('')
+ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15), ncol=2)
 
 save_figure(fig, 'rq-usage-summary-2.pdf', subdir='kotlin')
 fig

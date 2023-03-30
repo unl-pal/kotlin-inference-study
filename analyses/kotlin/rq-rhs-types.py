@@ -72,4 +72,7 @@ ax.xaxis.set_major_formatter(PercentFormatter())
 save_figure(fig, 'rq-rhs-types.pdf', subdir='kotlin')
 fig
 
+styler = highlight_rows(highlight_cols(get_styler(drop_count_if_same(drop_outer_column_index(df_sorted.groupby(['expkind'])[['percent']].describe())))))
+save_table(styler, 'rq-rhs-types.tex', subdir='kotlin')
+
 # %%

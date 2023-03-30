@@ -14,32 +14,67 @@ from matplotlib.ticker import PercentFormatter
 summarized = load_pre_summarized('kotlin',
                                  ['project', 'location', 'isval', 'isinferred'])
 summarized = summarized[summarized.total > 0]
-summarized = summarized[summarized['location'] != 'Return Type']
-summarized = summarized[summarized['location'] != 'Lambda Arg']
-summarized = summarized[summarized['location'] != 'Loop Var']
-summarized = summarized[summarized['location'] != 'Global Variable']
+summarized = summarized[summarized['location'] != 'Return\nType']
+summarized = summarized[summarized['location'] != 'Lambda\nArgument']
+summarized = summarized[summarized['location'] != 'Loop\nVariable']
+# summarized = summarized[summarized['location'] != 'Global Variable']
 summarized = summarized.rename(columns = {'isval': 'Is Mutable'})
 
 # %% generate the plot
-setup_plots()
 
-figure = sns.catplot(x='location',
-                     y='percent',
-                     hue='isinferred',
-                     hue_order=['Inferred', 'Not Inferred'],
-                     col='Is Mutable',
-                     data=summarized,
-                     order=['Field', 'Local Variable'],
-                     sharey=True,
-                     showfliers=False,
-                     kind='box')
-figure.set_axis_labels('', 'Percent per Project')
-figure.legend.set_title('')
-for ax in figure.axes.flat:
-    ax.yaxis.set_major_formatter(PercentFormatter())
+# figure = sns.catplot(x='location',
+#                      y='percent',
+#                      hue='isinferred',
+#                      hue_order=['Inferred', 'Not Inferred'],
+#                      col='Is Mutable',
+#                      data=summarized,
+#                      order=['Field', 'Local Variable'],
+#                      sharey=True,
+#                      showfliers=False,
+#                      kind='box')
+# figure.set_axis_labels('', 'Percent per Project')
+# figure.legend.set_title('')
+# for ax in figure.axes.flat:
+#     ax.yaxis.set_major_formatter(PercentFormatter())
 
-save_figure(figure.figure, 'rq-mutability-summary.pdf', subdir='kotlin')
-figure.figure
+# save_figure(figure.figure, 'rq-mutability-summary.pdf', subdir='kotlin')
+# figure.figure
+
+fig, ax = setup_plots()
+sns.boxplot(x='location',
+            y='percent',
+            hue='isinferred',
+            ax=ax,
+            hue_order=['Inferred', 'Not Inferred'],
+            width=0.6,
+            order=['Field', 'Global\nVariable', 'Local\nVariable'],
+            data=summarized[summarized['Is Mutable']],
+            showfliers=False)
+ax.set_ylabel('Percent per Project')
+ax.set_xlabel('')
+ax.get_legend().set_title('')
+ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15), ncol=2)
+ax.yaxis.set_major_formatter(PercentFormatter())
+
+save_figure(fig, 'rq-mutability-mutable.pdf', subdir='kotlin', x=6, y=5)
+
+fig, ax = setup_plots()
+sns.boxplot(x='location',
+            y='percent',
+            hue='isinferred',
+            ax=ax,
+            hue_order=['Inferred', 'Not Inferred'],
+            width=0.6,
+            order=['Field', 'Global\nVariable', 'Local\nVariable'],
+            data=summarized[~summarized['Is Mutable']],
+            showfliers=False)
+ax.set_ylabel('Percent per Project')
+ax.set_xlabel('')
+ax.get_legend().set_title('')
+ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15), ncol=2)
+ax.yaxis.set_major_formatter(PercentFormatter())
+
+save_figure(fig, 'rq-mutability-immutable.pdf', subdir='kotlin', x=6, y=5)
 
 summarized['Is Mutable'] = summarized['Is Mutable'].apply(lambda x: 'Mutable' if x else 'Not Mutable')
 
@@ -47,7 +82,7 @@ summarized['Is Mutable'] = summarized['Is Mutable'].apply(lambda x: 'Mutable' if
 data = summarized[['location', 'isinferred', 'Is Mutable', 'percent']] \
     .groupby(['location', 'isinferred', 'Is Mutable']) \
     .describe()
-styler = highlight_rows(highlight_cols(get_styler(drop_count_if_same(drop_outer_column_index(data).rename(columns={'count': 'projects'})))))
+styler = highlight_rows(highlight_cols(get_styler(drop_count_if_same(drop_outer_column_index(data)))))
 
 save_table(styler, 'rq-mutability-summary.tex', subdir='kotlin')
 

@@ -18,12 +18,30 @@ df_tests = get_df('tests', 'kotlin', header='infer')
 df_orig = get_df('basic-usage', 'kotlin', header='infer')
 df = df_tests.merge(df_orig, how='left', on=['project', 'file'])
 
-df_totals = load_total_counts('kotlin')
+df_totals = df.groupby(['project', 'location'])[['count']].sum().rename(columns={'count':'total'}).reset_index()
+
 df_counted = df.groupby(['project', 'location', 'isinferred'], as_index=False).sum()[['project', 'location', 'isinferred', 'count']]
+
+df_temp = pd.merge(pd.merge(pd.Series(df_counted.project.unique(), name='project'),
+                            pd.Series(df_counted.location.unique(), name='location'), how='cross'),
+                   pd.Series(df_counted.isinferred.unique(),name='isinferred'), how='cross')
+
+df_counted = df_counted.merge(df_temp,
+                              on=['project', 'location', 'isinferred'],
+                              how='right') \
+                       .fillna(0)
+
+print(df_counted.head())
+                              
+
 df_summarized = df_counted.merge(
     df_totals,
     on=['project', 'location'],
-    how='left')
+    how='outer')
+
+print(df_summarized.head())
+df_summarized = df_summarized[df_summarized.total > 0]
+
 df_summarized['percent'] = df_summarized.apply(
     lambda x: 0 if x['total'] == 0 else (x['count'] / x['total']) * 100,
     axis=1)
@@ -41,15 +59,14 @@ sns.boxplot(x='location',
             hue_order=['Inferred', 'Not Inferred'],
             data=summarized,
             ax=ax,
-            order=['Field', 'Global Variable', 'Lambda Arg', 'Local Variable', 'Loop Var', 'Return Type'],
+            order=location_order,
             showfliers=False)
 
 ax.yaxis.set_major_formatter(mtick.PercentFormatter())
 ax.set_ylabel('Percent per Project')
 ax.set_xlabel('')
 ax.get_legend().set_title('')
-ax.legend(loc='upper right')
-
+ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15), ncol=2)
 save_figure(fig, 'rq-usage-tests.pdf', subdir='kotlin')
 fig
 

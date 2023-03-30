@@ -18,7 +18,7 @@ def setup_plots(rcParams=None, constrained_layout=True, **subplotkw):
             palette='colorblind',
             font_scale=1.2)
 
-    plt.rcParams['figure.figsize'] = [7.0, 4.0]
+    plt.rcParams['figure.figsize'] = [6.5, 3.75]
     plt.rcParams['figure.dpi'] = 600.0
     plt.rcParams['font.size'] = 24
     plt.rcParams['legend.loc'] = 'upper right'

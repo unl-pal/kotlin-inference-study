@@ -11,16 +11,16 @@ from common.df import *
 
 df = get_df('counts', 'kotlin', header='infer')
 
-df['filtered'] = df['filtered'].apply(lambda x: 'Post-Filtering' if x else 'Pre-Filtering')
+df['filtered'] = df['filtered'].apply(lambda x: 'Filtered' if x else 'Raw Dataset')
 df['type'] = df['type'].apply(lambda x: {'projects': 'Projects',
                                          'total_files_head': 'Source Files (HEAD)',
-                                         'total_files_hist': 'Snapshots (HIST)'}[x])
+                                         'total_files_hist': 'Snapshots'}[x])
 
 df_pivot = df.pivot(index=['type'], columns=['filtered'])
 
 df_pivot = df_pivot.reindex(['Projects',
                              'Source Files (HEAD)',
-                             'Snapshots (HIST)'])
+                             'Snapshots'])
 
 df_pivot = df_pivot.sort_index(axis='columns',
                                level='filtered',

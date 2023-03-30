@@ -11,6 +11,7 @@ from common.local import *
 from common.tables import *
 from common.df import *
 
+from matplotlib.ticker import FuncFormatter
 import pandas as pd
 import numpy as np
 from lifelines import KaplanMeierFitter
@@ -54,9 +55,11 @@ print('Fitting starting annotated')
 fitter.fit(T[~starts_inferred], E[~starts_inferred], label='Starts Not Inferred')
 fitter.plot_survival_function(ax=ax)
 
-ax.set_ylabel('Estimated probability of staying in state ($\hat{S}(t)$)')
+ax.set_ylabel('Estimated probability of\nstaying in state ($\hat{S}(t)$)')
 ax.set_xlabel('time $t$ (days)')
 ax.set_xscale('log')
+ax.xaxis.set_major_formatter(FuncFormatter(lambda y, _: '{:,.0f}'.format(y)))
+ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15), ncol=2)
 
 # plt.title('Lifespans of items')
 save_figure(fig, 'lifespans.pdf', subdir='kotlin')
