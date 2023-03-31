@@ -5,10 +5,9 @@ keep := false;
 exclude_set: set of string;
 
 if (!contains(exclude_set, input.id)) {
-    if (lowercase(input.programming_languages[0]) == "kotlin") {
-        visit(input, visitor {
+    visit(input, visitor {
             before node: CodeRepository -> {
-                snapshot := getsnapshot(node, "SOURCE_KOTLIN_1");
+            snapshot := getsnapshot(node, "SOURCE_KOTLIN_1");
                 foreach (i: int; !keep && def(snapshot[i]))
                     visit(snapshot[i]);
                 stop;
@@ -17,11 +16,6 @@ if (!contains(exclude_set, input.id)) {
                 if (!match(`build\.gradle\.kts`, node.name))
                     keep = true;
         });
-    } else {
-        jdk10projects: set of string;
-        {@jdk10-filter@}
-        keep = contains(jdk10projects, input.id);
-    }
 }
 
 if (nrand(100) >= {@random-sample@})

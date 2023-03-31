@@ -19,38 +19,6 @@
                 "csv": "kotlin/dupes.csv"
             }
         },
-        "java/hashes.txt": {
-            "query": "queries/common/hashes.boa",
-            "dataset": "java",
-            "substitutions": [
-                {
-                    "target": "{@file-selector@}",
-                    "replacement": "SOURCE_JAVA_JLS"
-                }
-            ],
-            "gendupes": {
-                "output": "java/dupes.txt",
-                "csv": "java/dupes.csv"
-            }
-        },
-        "java/project-size.txt": {
-            "query": "queries/common/project-size.boa",
-            "dataset": "java",
-            "substitutions": [
-                {
-                    "target": "{@file-selector@}",
-                    "replacement": "SOURCE_JAVA_JLS"
-                },
-                {
-                    "target": "{@release-date@}",
-                    "replacement": "January 31, 2022, 12:00:00 AM UTC"
-                }
-            ],
-            "csv": {
-                "output": "java/project-size.csv",
-                "header": "count_type,project,count"
-            }
-        },
         "kotlin/project-size.txt": {
             "query": "queries/common/project-size.boa",
             "dataset": "kotlin",
@@ -69,17 +37,6 @@
                 "header": "count_type,project,count"
             }
         },
-        "java/stars.txt": {
-            "query": "queries/common/stars.boa",
-            "dataset": "java",
-            "csv": {
-                "output": "java/stars.csv",
-                "drop": [
-                    0
-                ],
-                "header": "project,stars"
-            }
-        },
         "kotlin/stars.txt": {
             "query": "queries/common/stars.boa",
             "dataset": "kotlin",
@@ -89,17 +46,6 @@
                     0
                 ],
                 "header": "project,stars"
-            }
-        },
-        "java/developer-count.txt": {
-            "query": "queries/common/developer-count.boa",
-            "dataset": "java",
-            "csv": {
-                "output": "java/developer-count.csv",
-                "drop": [
-                    0
-                ],
-                "header": "project,developers"
             }
         },
         "kotlin/developer-count.txt": {
@@ -138,34 +84,6 @@
                 "header": "project,file,location,isval,isinferred,count",
                 "test": [
                     "2,\\.kts?$"
-                ]
-            }
-        },
-        "java/basic-usage.txt": {
-            "query": "queries/java/basic-usage.boa",
-            "dataset": "java",
-            "substitutions": [
-                {
-                    "target": "{@time-or-snapshot@}",
-                    "file": "snapshot-with-zeros.boa"
-                },
-                {
-                    "target": "{@dummy-name@}",
-                    "replacement": "DUMMYDUMMYDUMMY.java"
-                },
-                {
-                    "target": "{@file-selector@}",
-                    "replacement": "SOURCE_JAVA_JLS"
-                }
-            ],
-            "csv": {
-                "output": "java/basic-usage.csv",
-                "drop": [
-                    0
-                ],
-                "header": "project,file,location,isval,isinferred,count",
-                "test": [
-                    "2,\\.java?$"
                 ]
             }
         },
@@ -214,23 +132,6 @@
                 "header": "project,java_count"
             }
         },
-        "java/counts.txt": {
-            "query": "queries/common/count-projects.boa",
-            "dataset": "java",
-            "substitutions": [
-                {
-                    "target": "{@file-selector@}",
-                    "replacement": "SOURCE_JAVA_JLS"
-                }
-            ],
-            "csv": {
-                "output": "java/counts.csv",
-                "drop": [
-                    0
-                ],
-                "header": "type,filtered,count"
-            }
-        },
         "kotlin/survival.txt": {
             "query": "queries/kotlin/survival.boa",
             "dataset": "kotlin",
@@ -251,26 +152,6 @@
                 ]
             }
         },
-        "java/survival.txt": {
-            "query": "queries/java/survival.boa",
-            "dataset": "java",
-            "substitutions": [
-                {
-                    "target": "{@random-sample@}",
-                    "replacement": "5"
-                }
-            ],
-            "csv": {
-                "output": "java/survival.csv",
-                "drop": [
-                    0
-                ],
-                "header": "project,file,item,location,afterjdk10,startinferred,changekind,observed,timetochange",
-                "test": [
-                    "2,\\.java?$"
-                ]
-            }
-        },
         "kotlin/determine-rhs-expression-types.txt": {
             "query": "queries/kotlin/determine-rhs-expression-types.boa",
             "dataset": "kotlin",
@@ -280,20 +161,6 @@
                     0
                 ],
                 "header": "project,isinferred,expkind"
-            }
-        },
-        "java/determine-rhs-expression-types.txt": {
-            "query": "queries/java/determine-rhs-expression-types.boa",
-            "dataset": "java",
-            "csv": {
-                "output": "java/determine-rhs-expression-types.csv",
-                "drop": [
-                    0
-                ],
-                "header": "project,expkind",
-                "test": [
-                    "2,\\.java?$"
-                ]
             }
         },
         "kotlin/method-calls-maybe-local.txt": {
@@ -309,27 +176,6 @@
                     "2,\\.kts?$"
                 ]
             }
-        },
-        "java/method-calls-maybe-local.txt": {
-            "query": "queries/java/method-calls-maybe-local.boa",
-            "dataset": "java",
-            "csv": {
-                "output": "java/method-calls-maybe-local.csv",
-                "drop": [
-                    0
-                ],
-                "header": "project,file,item,maybelocal",
-                "test": [
-                    "2,\\.java?$"
-                ]
-            }
-        },
-        "java/jdk10-projects.txt": {
-            "query": "queries/java/jdk10-projects.boa",
-            "dataset": "java",
-            "processors": {
-                "filter-jdk10.py": "boa/snippets/jdk-filter.boa"
-            }
         }
     },
     "analyses": {
@@ -338,33 +184,12 @@
                 "kotlin/counts.csv"
             ]
         },
-        "java/table-counts.py": {
-            "input": [
-                "java/counts.csv"
-            ]
-        },
         "project-size.py": {
             "input": [
-                "java/project-size.csv",
-                "java/developer-count.csv",
-                "java/stars.csv",
                 "kotlin/project-size.csv",
                 "kotlin/developer-count.csv",
-                "kotlin/stars.csv"
-            ]
-        },
-        "rq-correlation.py": {
-            "input": [
-                "kotlin/project-size.csv",
-                "kotlin/basic-usage.csv",
-                "kotlin/dupes.csv",
                 "kotlin/stars.csv",
-                "kotlin/developer-count.csv",
-                "java/project-size.csv",
-                "java/basic-usage.csv",
-                "java/dupes.csv",
-                "java/stars.csv",
-                "java/developer-count.csv"
+                "kotlin/dupes.csv"
             ]
         },
         "kotlin/rq-correlation.py": {
@@ -376,25 +201,10 @@
                 "kotlin/developer-count.csv"
             ]
         },
-        "java/rq-correlation.py": {
-            "input": [
-                "java/project-size.csv",
-                "java/basic-usage.csv",
-                "java/dupes.csv",
-                "java/stars.csv",
-                "java/developer-count.csv"
-            ]
-        },
         "kotlin/rq-mutability.py": {
             "input": [
                 "kotlin/basic-usage.csv",
                 "kotlin/dupes.csv"
-            ]
-        },
-        "java/rq-mutability.py": {
-            "input": [
-                "java/basic-usage.csv",
-                "java/dupes.csv"
             ]
         },
         "kotlin/rq-usage.py": {
@@ -403,22 +213,10 @@
                 "kotlin/dupes.csv"
             ]
         },
-        "java/rq-usage.py": {
-            "input": [
-                "java/basic-usage.csv",
-                "java/dupes.csv"
-            ]
-        },
         "kotlin/rq-usage-2.py": {
             "input": [
                 "kotlin/basic-usage.csv",
                 "kotlin/dupes.csv"
-            ]
-        },
-        "java/rq-usage-2.py": {
-            "input": [
-                "java/basic-usage.csv",
-                "java/dupes.csv"
             ]
         },
         "kotlin/rq-survival.py": {
@@ -427,40 +225,15 @@
                 "kotlin/dupes.csv"
             ]
         },
-        "java/rq-survival.py": {
-            "input": [
-                "java/survival.csv",
-                "java/dupes.csv"
-            ]
-        },
         "kotlin/rq-rhs-types.py": {
             "input": [
                 "kotlin/determine-rhs-expression-types.csv"
-            ]
-        },
-        "java/rq-rhs-types.py": {
-            "input": [
-                "java/determine-rhs-expression-types.csv"
-            ]
-        },
-        "rq-rhs-methodcalls.py": {
-            "input": [
-                "kotlin/method-calls-maybe-local.csv",
-                "kotlin/dupes.csv",
-                "java/method-calls-maybe-local.csv",
-                "java/dupes.csv"
             ]
         },
         "kotlin/rq-rhs-methodcalls.py": {
             "input": [
                 "kotlin/method-calls-maybe-local.csv",
                 "kotlin/dupes.csv"
-            ]
-        },
-        "java/rq-rhs-methodcalls.py": {
-            "input": [
-                "java/method-calls-maybe-local.csv",
-                "java/dupes.csv"
             ]
         },
         "kotlin/rq-tests.py": {
@@ -510,10 +283,6 @@
         {
             "target": "{@file-selector@}",
             "replacement": ""
-        },
-        {
-            "target": "{@jdk10-filter@}",
-            "file": "jdk-filter.boa"
         },
         {
             "target": "{@kotlin-default-imports@}",
