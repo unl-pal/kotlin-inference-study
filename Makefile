@@ -40,7 +40,7 @@ update-figures:
 .PHONY: package zip
 zip: package
 package:
-	-$(ZIP) replication-pkg.zip $(ZIPOPTIONS) .vscode/*.json analyses/**/*.py analyses/*.py bin/**/*.py bin/*.py data/*.py boa/ figures/ schemas/ tables/ jobs.json LICENSE Makefile README.md requirements.txt CODEBOOK.md study-config.json $(ZIPIGNORES)
+	-$(ZIP) replication-pkg.zip $(ZIPOPTIONS) .vscode/*.json analyses/**/*.py analyses/*.py bin/**/*.py bin/*.py data/*.py boa/ figures/ schemas/ tables/ jobs.json LICENSE Makefile Dockerfile README.md requirements.txt CODEBOOK.md study-config.json $(ZIPIGNORES)
 	-$(ZIP) data.zip $(ZIPOPTIONS) data/txt/ $(ZIPIGNORES)
 	-$(ZIP) data-cache.zip $(ZIPOPTIONS) data/parquet/ $(ZIPIGNORES)
 
