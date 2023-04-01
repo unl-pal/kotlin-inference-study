@@ -17,9 +17,6 @@
  - `{@time-or-snapshot@}`
 : Either snapshot or at each revision, output base files.
 
-- `{@locations-enum@}`
-: An enum describing possible locations.
-
  - `{@get-method-signature@}`
 : Provides function `getMethodSignature(string, string, Method): string`, which takes a package name, a class name, and a method returning a JVM Bytecode formatted method signature.
 
@@ -31,9 +28,6 @@
 
  - `{@file-selector@}`
 : Name of Boa file selector.
-
- - `{@jdk10-filter@}`
-: Filter for projects which use JDK10 features.
 
  - `{@kotlin-default-imports@}`
 : A list of default imports in Kotlin.
@@ -86,31 +80,51 @@
 6. `count` (`long`)
 : Number of declarations fitting items 1--5.
 
-### `over-time.txt`
+### `project-size.csv`
+
+1. `count-type` (`string`, *restricted*)
+: The kind of count.
+   - `projects` (Number of projects)
+   - `total_files_head` (number of files in the head of all projects matching `{@file-selector@}`)
+   - `total_files_hist` (number of files in all projects, across history matching `{@file-selector@}`)
+
+2. `is_filtered` (`bool`)
+: Is this count from the filtered dataset?
+
+3. `count`
+: The count of `count-type`
+
+### `stars.csv`
 
 1. `project` (`string`/`integer`)
 : Project ID.
 
-2. `revision` (`string`)
-: SHA of revision collected.
+2. `stars`
+: The number of stars the project had when it was collected.
 
-3. `time` (`long`)
-: Time of revision as microseconds since Unix epoch.
+### `developer-count.csv`
 
-4. `file` (`string`)
-: Filename relative to repository root.
+1. `project` (`string`/`integer`)
+: Project ID.
 
-5. `location` (`string`, *restricted*)
-: Overall location of declaration, *see `basic-usage.csv`/`location`*.
+2. `developers` (`integer`)
+: A count of the commit authors in the project.
 
-6. `isval` (`boolean`)
-: Whether or not location is declared as `val` (`true` if `val`, `false` if `var`).
+### `tests.csv`
 
-7. `isinferred` (`boolean`)
-: Whether or not the location uses type inference.
+1. `project` (`string`/`integer`)
+: Project ID.
 
-8. `count` (`long`)
-: Number of declarations fitting items 1--7.
+2. `file` (`string`)
+: The path of a file within the project determined to be a test.
+
+### `mixed-projects.csv`
+
+1. `project` (`string`/`integer`)
+: Project ID.
+
+2. `java_count`
+: The number of valid Java files in the head commit of the project.
 
 ### `determine-rhs-expression-types.csv`
 
