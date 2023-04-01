@@ -42,10 +42,14 @@ Files are organized in the following layout:
 
 The following `make` targets are available:
 
- - `kotlin/table-counts`: This produces Tables Ia and Ib, respectively.
- - `kotlin/rq-usage-2`: This produces Figures 4a and 4b, respectively
- - `kotlin/rq-usage`: This produces Figures 5 and 6, respectively
- - `kotlin/rq-mutability`: This produces Figure 8.
- - `kotlin/rq-rhs-types`: This produces Figures 7a and 7b, respectively.
- - `kotlin/rq-rhs-methodcalls`: This produces Tables IIa and IIb, respectively
- - `kotlin/rq-survival`: This produces Figures 9a and 9b, respectively
+ - `kotlin/table-counts`: This produces Table 1.
+ - `project-size`: This produces Table 2.
+ - `kotlin/rq-usage`: This produces Table 3 and Figure 2a.
+ - `kotlin/rq-usage-2`: This produces Figure 2b.
+ - `kotlin/rq-correlation`: This produces Table 4.
+ - `kotlin/rq-rhs-types`: This produces Figure 3.
+ - `kotlin/rq-rhs-methodcalls`: This produces Table 5.
+ - `kotlin/rq-mutability`: This produces Table 6 and Figures 4a and 4b.
+ - `kotlin/rq-tests`: This produces Table 7 and Figure 5a.
+ - `kotlin/rq-mixed-projects`: This produces Table 8 and Figure 5b.
+ - `kotlin/rq-survival`: This produces Figure 6.
