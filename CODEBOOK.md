@@ -48,7 +48,7 @@
 : Visitor to collect names of project classes and methods for method call/instantiation resolution.
 
 
-## Output Files (available as both `kotlin` and `java` variants)
+## Output Files
 
 ### `dupes.csv`
 

@@ -35,23 +35,17 @@ Files are organized in the following layout:
    and the snippets is available in CODEBOOK.md
  - `analyses` contains code used to produce figures, tables and other analyses.
    This is organized in a `common` directory which contains common utilities,
-   and directories for both `java` and `kotlin`.
+   and a directory for `kotlin`.
  - `figures` and `tables` contains generated tables/figures.
  
 ### Building figures/tables
 
 The following `make` targets are available:
 
- - `kotlin/table-counts` or `java/table-counts`: These produce Tables Ia and
-   Ib, respectively.
- - `kotlin/rq-usage-2` or `java/rq-usage-2`: These produce Figures 4a and 4b,
-   respectively
- - `kotlin/rq-usage` or `java/rq-usage`: These produce Figures 5 and 6,
-   respectively
+ - `kotlin/table-counts`: This produces Tables Ia and Ib, respectively.
+ - `kotlin/rq-usage-2`: This produces Figures 4a and 4b, respectively
+ - `kotlin/rq-usage`: This produces Figures 5 and 6, respectively
  - `kotlin/rq-mutability`: This produces Figure 8.
- - `kotlin/rq-rhs-types` or `java/rq-rhs-types`: These produce Figures 7a and
-   7b, respectively.
- - `kotlin/rq-rhs-methodcalls` or `java/rq-rhs-methodcalls`: These produce
-   Tables IIa and IIb, respectively
- - `kotlin/rq-survival` or `java/rq-survival`: These produce Figures 9a and 9b,
-   respectively
+ - `kotlin/rq-rhs-types`: This produces Figures 7a and 7b, respectively.
+ - `kotlin/rq-rhs-methodcalls`: This produces Tables IIa and IIb, respectively
+ - `kotlin/rq-survival`: This produces Figures 9a and 9b, respectively
