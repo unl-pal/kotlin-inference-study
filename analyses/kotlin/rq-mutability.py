@@ -56,7 +56,7 @@ ax.get_legend().set_title('')
 ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15), ncol=2)
 ax.yaxis.set_major_formatter(PercentFormatter())
 
-save_figure(fig, 'rq-mutability-mutable.pdf', subdir='kotlin', x=6, y=5)
+save_figure(fig, 'rq-mutability-mutable.pdf', subdir='kotlin')
 
 fig, ax = setup_plots()
 sns.boxplot(x='location',
@@ -74,7 +74,7 @@ ax.get_legend().set_title('')
 ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15), ncol=2)
 ax.yaxis.set_major_formatter(PercentFormatter())
 
-save_figure(fig, 'rq-mutability-immutable.pdf', subdir='kotlin', x=6, y=5)
+save_figure(fig, 'rq-mutability-immutable.pdf', subdir='kotlin')
 
 summarized['Is Mutable'] = summarized['Is Mutable'].apply(lambda x: 'Mutable' if x else 'Not Mutable')
 
