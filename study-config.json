@@ -339,6 +339,7 @@
             ]
         },
         "java/table-counts.py": {
+            "disabled": true,
             "input": [
                 "java/counts.csv"
             ]
@@ -377,6 +378,7 @@
             ]
         },
         "java/rq-correlation.py": {
+            "disabled": true,
             "input": [
                 "java/project-size.csv",
                 "java/basic-usage.csv",
@@ -392,6 +394,7 @@
             ]
         },
         "java/rq-mutability.py": {
+            "disabled": true,
             "input": [
                 "java/basic-usage.csv",
                 "java/dupes.csv"
@@ -404,6 +407,7 @@
             ]
         },
         "java/rq-usage.py": {
+            "disabled": true,
             "input": [
                 "java/basic-usage.csv",
                 "java/dupes.csv"
@@ -416,6 +420,7 @@
             ]
         },
         "java/rq-usage-2.py": {
+            "disabled": true,
             "input": [
                 "java/basic-usage.csv",
                 "java/dupes.csv"
@@ -428,6 +433,7 @@
             ]
         },
         "java/rq-survival.py": {
+            "disabled": true,
             "input": [
                 "java/survival.csv",
                 "java/dupes.csv"
@@ -439,6 +445,7 @@
             ]
         },
         "java/rq-rhs-types.py": {
+            "disabled": true,
             "input": [
                 "java/determine-rhs-expression-types.csv"
             ]
@@ -458,6 +465,7 @@
             ]
         },
         "java/rq-rhs-methodcalls.py": {
+            "disabled": true,
             "input": [
                 "java/method-calls-maybe-local.csv",
                 "java/dupes.csv"
